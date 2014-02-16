@@ -1,4 +1,4 @@
-frontend_game
+prettyGame
 =============
 
 this game is for my mom
