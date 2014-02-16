@@ -1,0 +1,21 @@
+{
+  "name": "prettyGame",
+  "version": "0.0.0",
+  "description": "game ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "game",
+    "game"
+  ],
+  "author": "myself",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-fest": "~0.1.4",
+    "grunt-contrib-watch": "~0.5.3"
+  }
+}
