@@ -1,17 +1,10 @@
 {
-  "name": "prettyGame",
-  "version": "0.0.0",
-  "description": "game ",
+  "name": "epicgame",
+  "version": "0.2.0",
+  "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "game",
-    "game"
-  ],
-  "author": "myself",
-  "license": "ISC",
+  "author": "a.eprev@gmail.com",
+  "license": "MIT",
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "~0.6.0",

@@ -1,15 +1,2 @@
-<fest:template xmlns:fest="http://fest.mail.ru"
-    context_name="json">
-    <div>
-        <h1><center>Scoreboard</center></h1>
-    </div>
-    <div class="js-back">
-        <h2><center><a href="#">Back</a></center></h2>
-    </div>
-    <script>
-        $("h1").css({
-        'color':'red',
-        'font-size':'100px'});
-    </script>
-
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
 </fest:template>
