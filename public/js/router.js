@@ -1,4 +1,5 @@
 define([
+       'backbone'
 ], function(
 ){
 
@@ -9,10 +10,10 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
-            // TODO
+                                        alert('kokok');
         },
         scoreboardAction: function () {
-            // TODO
+                                        alert("test");
         },
         gameAction: function () {
             // TODO
