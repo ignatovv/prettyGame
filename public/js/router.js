@@ -1,13 +1,16 @@
 define([
-       'backbone',
-       'underscore',
-       'views_main'
+	'backbone',
+	'underscore',
+	'views/main',
+	'views/game',
+	'views/scoreboard'
 ], function(
-       Backbone,
-       underscore,
-       mainView
+	Backbone,
+	underscore,
+	mainView,
+	gameView,
+	scoreboardView
 ){
-
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
@@ -15,16 +18,13 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
-               //var mainWindow = new MainView();
-               $('body').html(mainView.render().el);
-           
-            
-        },
-        scoreboardAction: function () {
-           //todo
+			$('#page').html(mainView.render().el);
         },
         gameAction: function () {
-            // TODO
+            $('#page').html(gameView.render().el);
+        },
+		scoreboardAction: function () {
+      		$('#page').html(scoreboardView.render().el);
         }
     });
 

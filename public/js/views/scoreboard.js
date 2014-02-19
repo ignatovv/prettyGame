@@ -5,7 +5,6 @@ define([
     Backbone,
     tmpl
 ){
-
     var View = Backbone.View.extend({
 
         template: tmpl,
@@ -13,7 +12,8 @@ define([
             // TODO
         },
         render: function () {
-            // TODO
+            $(this.el).html(this.template());
+            return this;
         },
         show: function () {
             // TODO

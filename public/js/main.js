@@ -5,9 +5,7 @@ require.config({
         jquery: "lib/jquery",
         underscore: "lib/underscore",
         backbone: "lib/backbone",
-        views_main: "views/main",
-               tmpl_main:         "tmpl/main"
-        
+		gyro: "lib/gyro.min"
     },
     shim: {
         'backbone': {
@@ -16,6 +14,9 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+		'gyro': {
+            exports: 'gyro'
         }
     }
 });

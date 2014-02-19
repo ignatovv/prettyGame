@@ -11,6 +11,7 @@ module.exports = function (grunt) {
             },
             server: {
                 files: [
+					'public/index.html',
                     'public/js/**/*.js',
                     'public/css/**/*.css'
                 ],
@@ -24,6 +25,7 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     livereload: true,
+					hostname: '*',
                     port: 8000,
                     base: 'public'
                 }

@@ -3,7 +3,11 @@
     <div>
         <h1><center>Game</center></h1>
     </div>
-    <div class="js-back">
+	<div align="center">
+		<div id="debug">no accelerometer!</div>
+		<canvas id="canvas" width="320" height="640" style="border: 1px solid #000000;"></canvas>
+	</div>
+    <div>
         <h2><center><a href="#">Back</a></center></h2>
     </div>
     <script>
