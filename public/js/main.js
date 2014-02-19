@@ -4,7 +4,10 @@ require.config({
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        views_main: "views/main",
+               tmpl_main:         "tmpl/main"
+        
     },
     shim: {
         'backbone': {

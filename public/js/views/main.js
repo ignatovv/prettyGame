@@ -1,19 +1,21 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl_main'
 ], function(
     Backbone,
     tmpl
 ){
 
-    var View = Backbone.View.extend({
-
+    var MainView = Backbone.View.extend({
+        
+        className: "main_view",
         template: tmpl,
         initialize: function () {
-            // TODO
+      //     this.listenTo(this.model, "change", this.render);
         },
         render: function () {
-            // TODO
+            this.$el.html(this.template());
+            return this;
         },
         show: function () {
             // TODO
@@ -24,5 +26,5 @@ define([
 
     });
 
-    return new View();
+    return new MainView();
 });

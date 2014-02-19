@@ -1,6 +1,11 @@
 define([
-       'backbone'
+       'backbone',
+       'underscore',
+       'views_main'
 ], function(
+       Backbone,
+       underscore,
+       mainView
 ){
 
     var Router = Backbone.Router.extend({
@@ -10,10 +15,13 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
-                                        alert('kokok');
+               //var mainWindow = new MainView();
+               $('body').html(mainView.render().el);
+           
+            
         },
         scoreboardAction: function () {
-                                        alert("test");
+           //todo
         },
         gameAction: function () {
             // TODO
