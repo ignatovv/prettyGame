@@ -1,26 +1,22 @@
 define([
     'backbone',
     'tmpl/scoreboard',
-    'models/score'
+    'models/score',
+    'collections/scores'
 ], function(
     Backbone,
     tmpl,
-    Score
+    Score,
+    scores
 ){
-    var View = Backbone.View.extend({
 
+    var View = Backbone.View.extend({
         template: tmpl,
         initialize: function () {
             // TODO
         },
         render: function () {
             $(this.el).html(this.template());
-            
-            var Scores = Backbone.Collection.extend({
-                model: Score
-            });
-            
-            var scores = new Scores();
             
             scores.add(new Score({ name: 'player1', score: 30}));
             scores.add(new Score({ name: 'mamku', score: 55}));
@@ -32,12 +28,6 @@ define([
             scores.add(new Score({ name: 'swag', score: 66}));
             scores.add(new Score({ name: '666kg', score: 3}));
             scores.add(new Score({ name: 'lehi4', score: 78}));
-
-            scores.comparator = function(obj) {
-                return -obj.get("score");
-            };
-            
-            scores.sort();
 
             scores.forEach(function(obj) {
                 var scoreContents = '<b>' + obj.get('name') + '</b> ' + obj.get('score');
