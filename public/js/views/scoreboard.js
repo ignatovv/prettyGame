@@ -34,14 +34,7 @@ define([
             }, this);
             
             return this;
-        },
-        show: function () {
-            // TODO
-        },
-        hide: function () {
-            // TODO
         }
-
     });
 
     return new View();

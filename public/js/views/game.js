@@ -60,6 +60,7 @@ define([
 			var game = this;
 			
 			gyro.frequency = 10;
+			gyro.stopTracking();
            	gyro.startTracking(function(o) {
 				if (!o.x) {
 					gyro.stopTracking();
@@ -92,13 +93,9 @@ define([
 		
             return this;
         },
-        show: function () {
-            // TODO
-        },
-        hide: function () {
-            // TODO
+        remove: function() {
+            alert(1);
         }
-
     });
 
     return new View();

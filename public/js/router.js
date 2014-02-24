@@ -11,6 +11,7 @@ define([
 	gameView,
 	scoreboardView
 ){
+
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
