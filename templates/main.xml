@@ -1,17 +1,17 @@
-<fest:template xmlns:fest="http://fest.mail.ru"
-    context_name="json">
-    <div>
-        <h2><center><a href="#scoreboard">scoreboard</a></center></h2>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="menu">
+        <div class="menu__title">
+            SPACECRAFT
+        </div>
+        <a href="#game" class="menu__button">
+            <span class="menu__button__span">
+                НАЧАТЬ ИГРУ         
+            </span>
+        </a>
+        <a href="#scoreboard" class="menu__button">
+            <span class="menu__button__span">
+                РЕКОРДЫ        
+            </span>
+        </a>
     </div>
-    <div>
-        <h2><center><a href="#game">game</a></center></h2>
-    </div>
-    <div >
-        <h1><center>Epic Game</center></h1>
-    </div>
-    <script>
-        $("h1").css({
-        'color':'red',
-        'font-size':'100px'});
-    </script>
 </fest:template>

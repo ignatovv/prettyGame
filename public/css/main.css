@@ -1,1 +1,41 @@
-/* TODO */
+.menu {
+    width: 320px;
+    height: 640px;
+    background-image: url("/images/main_background.png");
+    text-align: center;
+}
+
+.menu__title {
+    color: #ddfefd;
+    font: 36px 'Courier New';
+    font-weight: bold;
+    padding-top: 40px;
+    padding-bottom: 130px;
+}
+
+.menu__button {
+    width: 100%;
+    height: 107px;
+    color: #ddfefd;
+    font: 20px 'Courier New';
+    font-weight: bold;
+    background: url("/images/main_button_background.png") center center;
+    display: block;
+    position: relative;
+}
+
+.menu__button:hover {
+    background-image: url("/images/main_button_hover_background.png");
+}
+
+.menu__button__span {
+    width: 100%;
+    position: absolute;
+    top: 44px;
+    left: 0px;
+}
+
+.scoreboard__item {
+    color: #ddfefd;
+    font: 20px 'Courier New';
+}

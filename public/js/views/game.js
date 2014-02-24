@@ -1,17 +1,43 @@
 define([
     'backbone',
 	'gyro',
-    'tmpl/game'
+    'tmpl/game',
 ], function(
     Backbone,
 	gyro,
     tmpl
 ){
-    var View = Backbone.View.extend({
-	
+
+    var View = Backbone.View.extend({	
         template: tmpl,
+        spaceshipImage: new Image(),
+		backgroundImage: new Image(),
+		bossImage: new Image(),
+		stoneImage: new Image(),
+        playerX: 0,
+        playerY: 0,
+        bossX: 0,
+        bossRight: true,
         initialize: function () {
-            // TODO
+			this.spaceshipImage.src = "/images/spaceship.gif";
+			this.backgroundImage.src = "/images/background.jpg";
+			this.bossImage.src = "/images/boss.png";
+			this.stoneImage.src = "/images/stone.gif";
+        },
+        updateCanvas: function () {
+            var ctx = $(this.el).find(".game__canvas").get(0).getContext("2d");
+
+			var canvasWidth = 320;
+			var canvasHeight = 640;
+			var rectWidth = 60;
+			var rectHeight = 112;
+			        
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+			ctx.drawImage(this.backgroundImage, 0, 0);
+			ctx.drawImage(this.spaceshipImage, this.playerX, this.playerY);
+			ctx.drawImage(this.bossImage, this.bossX, 20);
+			ctx.drawImage(this.stoneImage, 50, 200);
         },
         render: function () {
 			$(this.el).html(this.template());
@@ -23,34 +49,25 @@ define([
 			var canvasHeight = 640;
 			var rectWidth = 60;
 			var rectHeight = 112;
-			var ctx = $(this.el).find("#canvas").get(0).getContext("2d");
-			var debug = $(this.el).find("#debug");
+			var debug = $(this.el).find(".game__debug");
 			
-			var x = (canvasWidth - rectWidth) / 2;
-			var y = canvasHeight - rectHeight - 20;
+			this.playerX = (canvasWidth - rectWidth) / 2;
+			this.playerY = canvasHeight - rectHeight - 20;
 			
-			var spaceshipImage = new Image();
-			var backgroundImage = new Image();
-			var bossImage = new Image();
-			var stoneImage = new Image();
+			this.bossX = 50;
+			this.bossRight = true;
 			
-			spaceshipImage.src = "/images/spaceship.gif";
-			backgroundImage.src = "/images/background.jpg";
-			bossImage.src = "/images/boss.png";
-			stoneImage.src = "/images/stone.gif";
-			
-			var bossX = 50;
-			var bossRight = true;
+			var game = this;
 			
 			gyro.frequency = 10;
            	gyro.startTracking(function(o) {
-				if (o.x == null) {
+				if (!o.x) {
 					gyro.stopTracking();
 					return;
 				}
 	
 				debug.html("x=" + o.x.toFixed(1) + " y=" + o.y.toFixed(1) + " z=" + o.z.toFixed(1) + " alpha=" + o.alpha.toFixed(1) + " beta=" + o.beta.toFixed(1) + " gamma=" + o.gamma.toFixed(1) + " orientation=" + window.orientation);
-		
+        		
 				var tilt;
 				
 				if (window.orientation == -90) tilt = (-1) * o.beta;
@@ -61,26 +78,18 @@ define([
 				if (tilt > max_angle) tilt = max_angle;
 				else if (tilt < min_angle) tilt = min_angle;
 				
-				x += (tilt / max_angle) * max_accelerate;
+				game.playerX += (tilt / max_angle) * max_accelerate;
 				
-				if (x < 0) x = 0;
-				else if (x > canvasWidth - rectWidth) x = canvasWidth - rectWidth;
-				
-				ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-				
-				//ctx.fillStyle = "#FF0000";
-				//ctx.fillRect(x, y, rectWidth, rectHeight);
-				
-				ctx.drawImage(backgroundImage, 0, 0);
-				ctx.drawImage(spaceshipImage, x, y);
-				ctx.drawImage(bossImage, bossX, 20);
-				ctx.drawImage(stoneImage, 50, 200);
-				
-				bossX = (bossRight) ? bossX + 1 : bossX - 1;
-				
-				if (bossX > canvasWidth - 111 || bossX < 0) bossRight = !bossRight;
-			});
+				if (game.playerX < 0) game.playerX = 0;
+				else if (game.playerX > canvasWidth - rectWidth) game.playerX = canvasWidth - rectWidth;
 			
+				game.bossX = (game.bossRight) ? game.bossX + 1 : game.bossX - 1;
+			
+        		if (game.bossX > canvasWidth - 111 || game.bossX < 0) game.bossRight = !game.bossRight;
+        		
+                game.updateCanvas();
+			});
+		
             return this;
         },
         show: function () {

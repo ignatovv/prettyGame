@@ -1,10 +1,15 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <div class="viewTitle">
-        Scoreboard
-    </div>
-    <div class="scoreboard">
-    </div>
-    <div class="viewControls">
-        <a href="#">Back</a>
+    <div class="menu">
+        <div class="menu__title">
+            РЕКОРДЫ
+        </div>
+        <div class="scoreboard">
+        </div>
+        <a href="#" class="menu__button">
+            <span class="menu__button__span">
+                НАЗАД
+            </span>
+        </a>
     </div>
 </fest:template>
+

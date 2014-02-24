@@ -1,19 +1,12 @@
-<fest:template xmlns:fest="http://fest.mail.ru"
-    context_name="json">
-    <div>
-        <h1><center>Game</center></h1>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="game">
+	    <div class="game__debug">
+	        no accelerometer!
+        </div>
+	    <canvas class="game__canvas" width="320" height="620">
+	    </canvas>
+        <div class="game__controls">
+            <a href="#">Back</a>
+        </div>
     </div>
-	<div align="center">
-		<div id="debug">no accelerometer!</div>
-		<canvas id="canvas" width="320" height="640" style="border: 1px solid #000000;"></canvas>
-	</div>
-    <div>
-        <h2><center><a href="#">Back</a></center></h2>
-    </div>
-    <script>
-        $("h1").css({
-        'color':'red',
-        'font-size':'100px'});
-    </script>
-    
 </fest:template>
