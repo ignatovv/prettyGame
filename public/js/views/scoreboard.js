@@ -25,13 +25,7 @@ define([
             scores.add(new Score({ name: 'lehi4', score: 78}));
         },
         render: function () {
-            $(this.el).html(this.template());
-            
-            scores.forEach(function(obj) {
-                var scoreContents = '<b>' + obj.get('name') + '</b> ' + obj.get('score');
-                var scoreElement = $('<div>').addClass('scoreboard__item').html(scoreContents);
-                $(this.el).find(".scoreboard").append(scoreElement);
-            }, this);
+            $(this.el).html(this.template({scores: scores.toJSON()}));
             
             return this;
         }

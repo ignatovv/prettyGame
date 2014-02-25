@@ -4,6 +4,11 @@
             РЕКОРДЫ
         </div>
         <div class="scoreboard">
+        <fest:each iterate="json.scores" index="i">
+            <div class="scoreboard__item">
+                <b><fest:value>json.scores[i].name</fest:value></b> <fest:value>json.scores[i].score</fest:value>
+            </div>
+        </fest:each>
         </div>
         <a href="#" class="menu__button">
             <span class="menu__button__span">
