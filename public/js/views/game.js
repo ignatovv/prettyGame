@@ -39,6 +39,9 @@ define([
 			ctx.drawImage(this.bossImage, this.bossX, 20);
 			ctx.drawImage(this.stoneImage, 50, 200);
         },
+        show: function () {
+        	$('#page').html(this.render().el);
+        }
         render: function () {
 			$(this.el).html(this.template());
 

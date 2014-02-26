@@ -19,13 +19,13 @@ define([
             '*default': 'defaultActions'
         },
         defaultActions: function () {
-			$('#page').html(mainView.render().el);
+			mainView.show();
         },
         gameAction: function () {
-            $('#page').html(gameView.render().el);
+            gameView.show();
         },
 		scoreboardAction: function () {
-      		$('#page').html(scoreboardView.render().el);
+      		scoreboardView.show();
         }
     });
 
