@@ -1,8 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="game">
-	    <div class="game__debug">
-	        no accelerometer!
-        </div>
 	    <canvas class="game__canvas" width="320" height="620">
 	    </canvas>
         <div class="game__controls">

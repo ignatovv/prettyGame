@@ -14,9 +14,15 @@ define([
 
     var View = Backbone.View.extend({	
         template: tmpl,
+        render: function () {
+            $(this.el).html(this.template());
+            return this;
+        },
         show: function () {
+            $('#page').html(this.render().el);
+
             gamelogic.start();
-        	$('#page').html(gamecanvas.updateCanvas().el);
+        	gamecanvas.updateCanvas();
         }
     });
 

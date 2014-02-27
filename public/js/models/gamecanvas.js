@@ -18,14 +18,9 @@ define([
 			this.backgroundImage.src = "/images/background.jpg";
 			this.bossImage.src = "/images/boss.png";
 			this.stoneImage.src = "/images/stone.gif";
-			this.el = document.createElement("canvas");
-			$(this.el).attr("width", "320");
-			$(this.el).attr("height", "640");
-
-			this.updateCanvas();
         },
         updateCanvas: function () {
-            var ctx = this.el.getContext("2d");
+            var ctx = $(".game__canvas").get(0).getContext("2d");
 
 			var canvasWidth = 320;
 			var canvasHeight = 640;
