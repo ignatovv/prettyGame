@@ -2,7 +2,7 @@
     <div class="game">
 	    <canvas class="game__canvas" width="320" height="620">
 	    </canvas>
-        <div class="game__controls">
+	    <div class="game__controls">
             <a href="#">Back</a>
         </div>
     </div>

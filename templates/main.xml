@@ -1,16 +1,21 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+w<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="menu">
         <div class="menu__title">
             SPACECRAFT
         </div>
         <a href="#game" class="menu__button">
             <span class="menu__button__span">
-                НАЧАТЬ ИГРУ         
+                START GAME
             </span>
         </a>
         <a href="#scoreboard" class="menu__button">
             <span class="menu__button__span">
-                РЕКОРДЫ        
+                HIGHSCORES
+            </span>
+        </a>
+        <a href="javascript://" class="menu__button menu__sound_button">
+            <span class="menu__button__span menu__sound_button_span">
+               SWITCH SOUND
             </span>
         </a>
     </div>
