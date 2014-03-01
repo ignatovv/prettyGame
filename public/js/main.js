@@ -5,7 +5,8 @@ require.config({
         jquery: "lib/jquery",
         underscore: "lib/underscore",
         backbone: "lib/backbone",
-		gyro: "lib/gyro.min"
+		gyro: "lib/gyro.min",
+        anim: "lib/animation"
     },
     shim: {
         'backbone': {
@@ -17,6 +18,10 @@ require.config({
         },
 		'gyro': {
             exports: 'gyro'
+        },
+        'anim': {
+            exports: 'requestAnimationFrame',
+            exports: 'cancelAnimationFrame'
         }
     }
 });

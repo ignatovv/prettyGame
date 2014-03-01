@@ -7,8 +7,7 @@ define([
 	gyro,
 	gamelogic
 ){
-
-    var Model = Backbone.Model.extend({	
+    var Canvas = Backbone.Model.extend({	
         spaceshipImage: new Image(),
 		backgroundImage: new Image(),
 		bossImage: new Image(),
@@ -18,6 +17,7 @@ define([
 			this.backgroundImage.src = "/images/background.jpg";
 			this.bossImage.src = "/images/boss.png";
 			this.stoneImage.src = "/images/stone.gif";
+			this.fps = 21;
         },
         updateCanvas: function () {
             var ctx = $(".game__canvas").get(0).getContext("2d");
@@ -35,8 +35,7 @@ define([
 			ctx.drawImage(this.stoneImage, 50, 200);
 
 			return this;
-        }
+        },
     });
-
-    return new Model();
+	return new Canvas();
 });

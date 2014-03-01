@@ -3,15 +3,24 @@ define([
 	'gyro',
     'tmpl/game',
     'models/gamecanvas',
-    'models/gamelogic'
+    'models/gamelogic',
+    'anim'
 ], function(
     Backbone,
 	gyro,
     tmpl,
     gamecanvas,
-    gamelogic
+    gamelogic,
+    anim
 ){
 
+    function draw() {
+        setTimeout(function() {
+            requestAnimationFrame(draw);
+            gamecanvas.updateCanvas();
+        }, 1000 / gamecanvas.fps);
+    };
+    
     var View = Backbone.View.extend({	
         template: tmpl,
         render: function () {
@@ -22,7 +31,10 @@ define([
             $('#page').html(this.render().el);
 
             gamelogic.start();
-        	gamecanvas.updateCanvas();
+            draw();
+        },
+        hide: function() {
+
         }
     });
 
