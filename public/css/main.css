@@ -1,3 +1,7 @@
+body {
+    background-color: #000;
+}
+
 .menu {
     width: 320px;
     height: 640px;
@@ -38,4 +42,8 @@
 .scoreboard__item {
     color: #ddfefd;
     font: 20px 'Courier New';
+}
+
+.game {
+    text-align: center;
 }

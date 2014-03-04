@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="game">
-	    <canvas class="game__canvas" width="320" height="620">
+	    <canvas class="game__canvas" width="1050" height="680">
 	    </canvas>
 	    <div class="game__controls">
             <a href="#">Back</a>
