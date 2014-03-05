@@ -26,16 +26,16 @@ define([
         template: tmpl,
 
         buttonDown: function(e){
-            if(e.keyCode == 37|| e.keyCode == 65) {
+            if(e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.moveLeft();
             } else if(e.keyCode == 39|| e.keyCode == 68) {
                 gamelogic.moveRight();
             } 
         },
         buttonUp: function(e){
-            if(e.keyCode == 37) {
+            if(e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.stop();
-            } else if(e.keyCode == 39) {
+            } else if(e.keyCode == 39 || e.keyCode == 68) {
                 gamelogic.stop();
             } 
         },

@@ -1,31 +1,31 @@
 define([
     'backbone',
 	'gyro',
-	'models/game_models/boss_unit'
+	'models/game_models/boss_unit',
+	'models/game_models/player_unit'
 ], function(
     Backbone,
 	gyro,
-	bossunit
+	bossUnit,
+	playerUnit
 ){
 
     var Logic = Backbone.Model.extend({	
-        playerX: 0,
-        playerY: 0,
         canvasWidth: 1050,
 		canvasHeight: 680,
-		rectWidth: 60,
-		rectHeight: 112,
-		bossunit: bossunit,
+		bossUnit: bossUnit,
+		playerUnit:playerUnit,
+
 		flag1:false,
 		flag2:false,
         start: function () {
         	var max_accelerate = 15;
 			var max_angle = 35;
 			var min_angle = -35;
-			this.playerX = (this.canvasWidth - this.rectWidth) / 2;
-			this.playerY = this.canvasHeight - this.rectHeight - 20;
 			var game = this;
-			bossunit.canvasWidth = this.canvasWidth;
+			bossUnit.canvasWidth = this.canvasWidth;
+			playerUnit.canvasWidth = this.canvasWidth;
+			playerUnit.canvasHeight = this.canvasHeight;
 
 			gyro.frequency = 15;
 			gyro.stopTracking();
@@ -53,21 +53,20 @@ define([
             return this;
         },
         stop: function() {
-        	this.flag1 = false;
-        	this.flag2 = false;
+        	playerUnit.movingLeft = false;
+        	playerUnit.movingRight = false;
         },
         moveLeft: function() {
         	//this.playerX = this.playerX - 3;
-        	this.flag1 = true;
+        	playerUnit.movingLeft = true;
         },
         moveRight: function() {
         	//this.playerX = this.playerX + 3;	
-        	this.flag2 = true;
+        	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
-			bossunit.move();
-			if(this.flag1) this.playerX = this.playerX - 3;
-			if(this.flag2) this.playerX = this.playerX + 3;
+			bossUnit.move();
+			playerUnit.move();
 		}     
     });
 	
