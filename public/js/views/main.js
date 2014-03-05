@@ -6,29 +6,38 @@ define([
     tmpl
 ){
 
-    var MainView = Backbone.View.extend({	
+    var View = Backbone.View.extend({	
         template: tmpl,
+		events: {
+			"click .menu__sound_button": "switchSound"
+		},
         initialize: function () {
+			this.$el.hide();
+			$('#page').append(this.render().el);
         },
         render: function () {
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
             return this;
         },
-        show: function(){
-            $('#page').html(this.render().el);
-            $('.menu__sound_button').on('click', this.switchSound);
+        show: function() {
+			this.$el.show();
+			this.trigger('show', this);
         },
+		hide: function() {
+			this.$el.hide();
+		},
         switchSound: function() {
-            var muscController =  $('.background__music').get(0);
-            if(muscController.paused) {
-                muscController.currentTime = 0;
-                muscController.play();
+            var musicElement = $('.background__music').get(0);
+
+            if (musicElement.paused) {
+                musicElement.currentTime = 0;
+                musicElement.play();
             } else {
-                muscController.pause();
+                musicElement.pause();
             }
         }
                                         
     });
 
-    return new MainView();
+    return new View();
 });

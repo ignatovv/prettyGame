@@ -1,4 +1,4 @@
-w<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="menu">
         <div class="menu__title">
             SPACECRAFT

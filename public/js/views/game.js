@@ -24,7 +24,10 @@ define([
     
     var View = Backbone.View.extend({	
         template: tmpl,
-
+		initialize: function () {
+			this.$el.hide();
+			$('#page').append(this.render().el);
+        },
         buttonDown: function(e){
             if(e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.moveLeft();
@@ -39,20 +42,22 @@ define([
                 gamelogic.stop();
             } 
         },
-
         render: function () {
-            $(this.el).html(this.template());
+            this.$el.html(this.template());
             $(document).get(0).addEventListener("keydown", this.buttonDown);
             $(document).get(0).addEventListener("keyup", this.buttonUp);
             return this;
         },
         show: function () {
-            $('#page').html(this.render().el);
+			this.$el.show();
+			this.trigger('show', this);
+			
             gamelogic.start();
             draw();
         },
         hide: function() {
-        }
+			this.$el.hide();
+		}
     });
 
     return new View();

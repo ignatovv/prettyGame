@@ -23,14 +23,21 @@ define([
             scores.add(new Score({ name: 'swag', score: 66}));
             scores.add(new Score({ name: '666kg', score: 3}));
             scores.add(new Score({ name: 'lehi4', score: 78}));
+
+			this.$el.hide();
+			$('#page').append(this.render().el);
         },
         render: function () {
-            $(this.el).html(this.template({scores: scores.toJSON()}));
+            this.$el.html(this.template({scores: scores.toJSON()}));
             return this;
         },
         show: function() {
-            $('#page').html(this.render().el);
-        }
+			this.$el.show();
+			this.trigger('show', this);
+        },
+		hide: function() {
+			this.$el.hide();
+		}
     });
 
     return new View();
