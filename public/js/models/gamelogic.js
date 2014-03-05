@@ -1,9 +1,11 @@
 define([
     'backbone',
-	'gyro'
+	'gyro',
+	'models/game_models/boss_unit'
 ], function(
     Backbone,
-	gyro
+	gyro,
+	bossunit
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -11,22 +13,19 @@ define([
         playerY: 0,
         bossX: 0,
         bossRight: true,
+		canvasWidth: 1050,
+		canvasHeight: 680,
+		rectWidth: 60,
+		rectHeight: 112,
+		bossunit: bossunit,
         start: function () {
-			var max_accelerate = 15;
+        	var max_accelerate = 15;
 			var max_angle = 35;
 			var min_angle = -35;
-			var canvasWidth = 320;
-			var canvasHeight = 640;
-			var rectWidth = 60;
-			var rectHeight = 112;
-
-			this.playerX = (canvasWidth - rectWidth) / 2;
-			this.playerY = canvasHeight - rectHeight - 20;
-
-			this.bossX = 50;
-			this.bossRight = true;
-
+			this.playerX = (this.canvasWidth - this.rectWidth) / 2;
+			this.playerY = this.canvasHeight - this.rectHeight - 20;
 			var game = this;
+			bossunit.canvasWidth = this.canvasWidth;
 
 			gyro.frequency = 15;
 			gyro.stopTracking();
@@ -35,9 +34,7 @@ define([
 					gyro.stopTracking();
 					return;
 				}
-
 				var tilt;
-
 				if (window.orientation == -90) tilt = (-1) * o.beta;
 				else if (window.orientation == 90) tilt = o.beta;
 				else if (window.orientation == 0) tilt = o.gamma;
@@ -49,15 +46,15 @@ define([
 				game.playerX += (tilt / max_angle) * max_accelerate;
 
 				if (game.playerX < 0) game.playerX = 0;
-				else if (game.playerX > canvasWidth - rectWidth) game.playerX = canvasWidth - rectWidth;
+				else if (game.playerX > game.canvasWidth - game.rectWidth) game.playerX = game.canvasWidth - game.rectWidth;
 
-				game.bossX = (game.bossRight) ? game.bossX + 1 : game.bossX - 1;
-
-        		if (game.bossX > canvasWidth - 111 || game.bossX < 0) game.bossRight = !game.bossRight;
-			});
+				});
 
             return this;
-        }
+        },
+		processGameFrame: function() {
+			bossunit.move();
+		}     
     });
 	
     return new Logic();

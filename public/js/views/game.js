@@ -17,9 +17,10 @@ define([
     function draw() {
         setTimeout(function() {
             requestAnimationFrame(draw);
+            gamelogic.processGameFrame();
             gamecanvas.updateCanvas();
         }, 1000 / gamecanvas.fps);
-    };
+    }
     
     var View = Backbone.View.extend({	
         template: tmpl,
@@ -29,7 +30,6 @@ define([
         },
         show: function () {
             $('#page').html(this.render().el);
-
             gamelogic.start();
             draw();
         },

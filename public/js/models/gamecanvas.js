@@ -33,7 +33,7 @@ define([
 
 			ctx.drawImage(this.backgroundImage, 0, this.backgroundY, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
 			ctx.drawImage(this.spaceshipImage, gamelogic.playerX, gamelogic.playerY);
-			ctx.drawImage(this.bossImage, gamelogic.bossX, 20);
+			ctx.drawImage(this.bossImage, gamelogic.bossunit.x, 20);
 			ctx.drawImage(this.stoneImage, 50, 200);
 
 			this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - 1 : this.backgroundMaxY;
