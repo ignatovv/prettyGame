@@ -11,13 +11,13 @@ define([
     var Logic = Backbone.Model.extend({	
         playerX: 0,
         playerY: 0,
-        bossX: 0,
-        bossRight: true,
-		canvasWidth: 1050,
+        canvasWidth: 1050,
 		canvasHeight: 680,
 		rectWidth: 60,
 		rectHeight: 112,
 		bossunit: bossunit,
+		flag1:false,
+		flag2:false,
         start: function () {
         	var max_accelerate = 15;
 			var max_angle = 35;
@@ -52,8 +52,22 @@ define([
 
             return this;
         },
+        stop: function() {
+        	this.flag1 = false;
+        	this.flag2 = false;
+        },
+        moveLeft: function() {
+        	//this.playerX = this.playerX - 3;
+        	this.flag1 = true;
+        },
+        moveRight: function() {
+        	//this.playerX = this.playerX + 3;	
+        	this.flag2 = true;
+        },
 		processGameFrame: function() {
 			bossunit.move();
+			if(this.flag1) this.playerX = this.playerX - 3;
+			if(this.flag2) this.playerX = this.playerX + 3;
 		}     
     });
 	
