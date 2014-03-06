@@ -2,14 +2,12 @@ define([
     'backbone',
 	'gyro',
 	'models/game_models/boss_unit',
-	'models/game_models/player_unit',
-	'models/gamecanvas'
+	'models/game_models/player_unit'
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
-	playerUnit,
-	gamecanvas
+	playerUnit
 ){
 
     var Logic = Backbone.Model.extend({	

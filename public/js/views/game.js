@@ -14,18 +14,6 @@ define([
     anim
 ){
 
-    function nextFrame() {
-        setTimeout(function() {
-			if (!gamelogic.playing) {
-				return;
-			}
-	
-            requestAnimationFrame(nextFrame);
-            gamelogic.processGameFrame();
-            gamecanvas.updateCanvas();
-        }, 1000 / gamecanvas.fps);
-    }
-    
     var View = Backbone.View.extend({	
         template: tmpl,
 		initialize: function () {
@@ -46,7 +34,19 @@ define([
                 gamelogic.stop();
             } 
         },
-		
+		nextFrame: function() {
+			var game = this;
+			
+	        nextFrameTimeout = setTimeout(function() {
+				if (!game.$el.is(":visible")) {
+					return;
+				}
+
+	            requestAnimationFrame(function() { game.nextFrame(); });
+	            gamelogic.processGameFrame();
+	            gamecanvas.updateCanvas();
+	        }, 1000 / gamecanvas.fps);
+	    },
         render: function () {
             this.$el.html(this.template());
             $(document).get(0).addEventListener("keydown", this.buttonDown);
@@ -56,16 +56,14 @@ define([
         show: function () {
 			this.$el.show();
 			this.trigger('show', this);
+			this.nextFrame();
 			
             gamelogic.startGyro();
-			gamelogic.playing = true;
-            nextFrame();
         },
         hide: function() {
 			this.$el.hide();
 			
 			gamelogic.stopGyro();
-			gamelogic.playing = false;
 		}
     });
 
