@@ -25,7 +25,6 @@ define([
             scores.add(new Score({ name: 'lehi4', score: 78}));
 
 			this.$el.hide();
-			$('#page').append(this.render().el);
         },
         render: function () {
             this.$el.html(this.template({scores: scores.toJSON()}));

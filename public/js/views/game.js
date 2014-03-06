@@ -18,19 +18,18 @@ define([
         template: tmpl,
 		initialize: function () {
 			this.$el.hide();
-			$('#page').append(this.render().el);
         },
         buttonDown: function(e){
-            if(e.keyCode == 37 || e.keyCode == 65) {
+            if (e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.moveLeft();
-            } else if(e.keyCode == 39|| e.keyCode == 68) {
+            } else if (e.keyCode == 39|| e.keyCode == 68) {
                 gamelogic.moveRight();
             } 
         },
         buttonUp: function(e){
-            if(e.keyCode == 37 || e.keyCode == 65) {
+            if (e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.stop();
-            } else if(e.keyCode == 39 || e.keyCode == 68) {
+            } else if (e.keyCode == 39 || e.keyCode == 68) {
                 gamelogic.stop();
             } 
         },

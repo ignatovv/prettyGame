@@ -13,7 +13,6 @@ define([
 		},
         initialize: function () {
 			this.$el.hide();
-			$('#page').append(this.render().el);
         },
         render: function () {
             this.$el.html(this.template());
