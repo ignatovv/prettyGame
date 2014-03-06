@@ -14,9 +14,13 @@ define([
     anim
 ){
 
-    function draw() {
+    function nextFrame() {
         setTimeout(function() {
-            requestAnimationFrame(draw);
+			if (!gamelogic.playing) {
+				return;
+			}
+	
+            requestAnimationFrame(nextFrame);
             gamelogic.processGameFrame();
             gamecanvas.updateCanvas();
         }, 1000 / gamecanvas.fps);
@@ -42,6 +46,7 @@ define([
                 gamelogic.stop();
             } 
         },
+		
         render: function () {
             this.$el.html(this.template());
             $(document).get(0).addEventListener("keydown", this.buttonDown);
@@ -52,11 +57,15 @@ define([
 			this.$el.show();
 			this.trigger('show', this);
 			
-            gamelogic.start();
-            draw();
+            gamelogic.startGyro();
+			gamelogic.playing = true;
+            nextFrame();
         },
         hide: function() {
 			this.$el.hide();
+			
+			gamelogic.stopGyro();
+			gamelogic.playing = false;
 		}
     });
 

@@ -2,12 +2,14 @@ define([
     'backbone',
 	'gyro',
 	'models/game_models/boss_unit',
-	'models/game_models/player_unit'
+	'models/game_models/player_unit',
+	'models/gamecanvas'
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
-	playerUnit
+	playerUnit,
+	gamecanvas
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -15,43 +17,46 @@ define([
 		canvasHeight: 680,
 		bossUnit: bossUnit,
 		playerUnit:playerUnit,
-
 		flag1:false,
 		flag2:false,
-        start: function () {
-        	var max_accelerate = 15;
-			var max_angle = 35;
-			var min_angle = -35;
-			var game = this;
+		max_accelerate: 15,
+		max_angle: 35,
+		min_angle: -35,
+		playing: false,
+		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasHeight = this.canvasHeight;
-
 			gyro.frequency = 15;
-			gyro.stopTracking();
+        },
+        startGyro: function () {
+        	var game = this;
+
            	gyro.startTracking(function(o) {
 				if (!o.x) {
 					gyro.stopTracking();
 					return;
 				}
+				
 				var tilt;
+				
 				if (window.orientation == -90) tilt = (-1) * o.beta;
 				else if (window.orientation == 90) tilt = o.beta;
 				else if (window.orientation == 0) tilt = o.gamma;
 				else if (window.orientation == 180) tilt = (-1) * o.gamma;
 
-				if (tilt > max_angle) tilt = max_angle;
-				else if (tilt < min_angle) tilt = min_angle;
+				if (tilt > game.max_angle) tilt = game.max_angle;
+				else if (tilt < game.min_angle) tilt = game.min_angle;
 
-				game.playerX += (tilt / max_angle) * max_accelerate;
+				game.playerX += (tilt / game.max_angle) * game.max_accelerate;
 
 				if (game.playerX < 0) game.playerX = 0;
 				else if (game.playerX > game.canvasWidth - game.rectWidth) game.playerX = game.canvasWidth - game.rectWidth;
-
-				});
-
-            return this;
+			});
         },
+		stopGyro: function () {
+			gyro.stopTracking();
+		},
         stop: function() {
         	playerUnit.movingLeft = false;
         	playerUnit.movingRight = false;
