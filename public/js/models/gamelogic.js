@@ -2,12 +2,15 @@ define([
     'backbone',
 	'gyro',
 	'models/game_models/boss_unit',
-	'models/game_models/player_unit'
+	'models/game_models/player_unit',
+	'models/game_models/bomb_unit',
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
-	playerUnit
+	playerUnit,
+	bombUnit
+
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -15,12 +18,10 @@ define([
 		canvasHeight: 680,
 		bossUnit: bossUnit,
 		playerUnit:playerUnit,
-		flag1:false,
-		flag2:false,
+		bombUnit:bombUnit,
 		max_accelerate: 15,
 		max_angle: 35,
 		min_angle: -35,
-		playing: false,
 		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
@@ -70,6 +71,19 @@ define([
 		processGameFrame: function() {
 			bossUnit.move();
 			playerUnit.move();
+			flag = false;
+			if(bossUnit.bombDropped) {
+				bombUnit.move();
+				if(bombUnit.x > playerUnit.x && (bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
+					alert("lose");					
+				} else if((playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
+					alert("lose");
+				} 
+			} else {
+				bossUnit.dropBomb(playerUnit.x);
+				bombUnit.x = bossUnit.x;
+				bombUnit.y = bossUnit.y;
+			}	
 		}     
     });
 	
