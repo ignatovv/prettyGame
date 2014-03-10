@@ -8,6 +8,7 @@ define([
 		currentView: null,
 		addView: function(view) {
 			view.on('show', this.viewShowed, this);
+			$('#page').append(view.render().$el);
 		},
 		viewShowed: function(sender) {
 			if (this.currentView != null) {
