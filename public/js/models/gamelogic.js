@@ -19,6 +19,7 @@ define([
 		bossUnit: bossUnit,
 		playerUnit:playerUnit,
 		bombUnit:bombUnit,
+		scores:0,
 		max_accelerate: 15,
 		max_angle: 35,
 		min_angle: -35,
@@ -74,17 +75,18 @@ define([
 			flag = false;
 			if (-playerUnit.y + bombUnit.y > 40) {
 					bossUnit.bombDropped = false;
+					this.scores = this.scores + 1;
 				};
 			if(bossUnit.bombDropped) {
 				bombUnit.move();
 				if(bombUnit.x > playerUnit.x){
 					if(( bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
 					// playerUnit.hp = 0;
-					alert("lose left");   		
+					alert("score:" + this.scores);
 					}	
 				} else if(( playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
 					// playerUnit.hp = 0;
-					alert("lose right");
+					alert("score:" + this.scores);
 				} 
 			} else {
 				bossUnit.dropBomb(playerUnit.x);
