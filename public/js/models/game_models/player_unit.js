@@ -6,6 +6,7 @@ define([
     var playerUnit = Backbone.Model.extend({	
     	x: 0,
     	y: 0,
+        hp:1,
         movingRight: false,
         movingLeft: false,
     	image: new Image(),
@@ -22,6 +23,9 @@ define([
             if(this.movingRight) this.x = this.x + 3;
 			if(this.x > this.canvasWidth - 61)  this.x = this.canvasWidth - 61;
             else if(this.x < 0) this.x = 0;
+            if(this.hp == 0){ 
+               // this.image.src = "/images/bomb.gif";    
+            }
 		}     
     });
     return new playerUnit();

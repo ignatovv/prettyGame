@@ -72,12 +72,19 @@ define([
 			bossUnit.move();
 			playerUnit.move();
 			flag = false;
+			if (-playerUnit.y + bombUnit.y > 40) {
+					bossUnit.bombDropped = false;
+				};
 			if(bossUnit.bombDropped) {
 				bombUnit.move();
-				if(bombUnit.x > playerUnit.x && (bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					alert("lose");					
-				} else if((playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					alert("lose");
+				if(bombUnit.x > playerUnit.x){
+					if(( bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
+					// playerUnit.hp = 0;
+					alert("lose left");   		
+					}	
+				} else if(( playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
+					// playerUnit.hp = 0;
+					alert("lose right");
 				} 
 			} else {
 				bossUnit.dropBomb(playerUnit.x);

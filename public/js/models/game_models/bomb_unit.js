@@ -14,7 +14,7 @@ define([
             this.image.src = "/images/bomb.gif";   
         },
         move: function() {      
-            this.y = this.y + 3;
+            this.y = this.y + 5;
         }     
     });
     return new playerUnit();
