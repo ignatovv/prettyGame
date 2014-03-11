@@ -95,10 +95,8 @@ define([
 			}	
 		},
 		endGame: function() {
-
+			window.location.href = '#gameover';
 		}
-
-
     });
 	
     return new Logic();

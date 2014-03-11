@@ -4,6 +4,7 @@ define([
 	'views/viewManager',
 	'views/main',
 	'views/game',
+    'views/gameOver',
 	'views/scoreboard'
 ], function(
 	Backbone,
@@ -11,6 +12,7 @@ define([
 	viewManager,
 	mainView,
 	gameView,
+    gameOverView,
 	scoreboardView
 ){
 
@@ -18,11 +20,13 @@ define([
         routes: {
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
+            'gameover': 'gameOverAction',
             '*default': 'defaultActions'
         },
 		initialize: function () {
 			viewManager.addView(mainView);
 			viewManager.addView(gameView);
+            viewManager.addView(gameOverView);
 			viewManager.addView(scoreboardView);
         },
         defaultActions: function () {
@@ -30,6 +34,9 @@ define([
         },
         gameAction: function () {
             gameView.show();
+        },
+        gameOverAction: function () {
+            gameOverView.show();
         },
 		scoreboardAction: function () {
       		scoreboardView.show();

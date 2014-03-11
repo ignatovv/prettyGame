@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="menu">
         <div class="menu__title">
-            РЕКОРДЫ
+            HIGHSCORES
         </div>
         <div class="scoreboard">
         <fest:each iterate="json.scores" index="i">
@@ -12,7 +12,7 @@
         </div>
         <a href="#" class="menu__button">
             <span class="menu__button__span">
-                НАЗАД
+                BACK
             </span>
         </a>
     </div>
