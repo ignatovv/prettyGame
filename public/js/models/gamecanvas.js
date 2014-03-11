@@ -33,6 +33,11 @@ define([
 			ctx.drawImage(gamelogic.bossUnit.image, gamelogic.bossUnit.x, 20);
 			ctx.drawImage(this.stoneImage, 50, 200);
 
+			if(gamelogic.bossUnit.bombDropped){
+				ctx.drawImage(gamelogic.bombUnit.image, gamelogic.bombUnit.x, gamelogic.bombUnit.y);
+			
+			}
+
 			this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - 1 : this.backgroundMaxY;
 
 			return this;

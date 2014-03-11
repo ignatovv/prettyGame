@@ -2,15 +2,12 @@ define([
     'backbone',
 	'gyro',
 	'models/game_models/boss_unit',
-	'models/game_models/player_unit',
-	'models/game_models/bomb_unit',
+	'models/game_models/player_unit'
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
-	playerUnit,
-	bombUnit
-
+	playerUnit
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -18,8 +15,8 @@ define([
 		canvasHeight: 680,
 		bossUnit: bossUnit,
 		playerUnit:playerUnit,
-		bombUnit:bombUnit,
-		scores:0,
+		flag1:false,
+		flag2:false,
 		max_accelerate: 15,
 		max_angle: 35,
 		min_angle: -35,
@@ -48,10 +45,10 @@ define([
 				if (tilt > game.max_angle) tilt = game.max_angle;
 				else if (tilt < game.min_angle) tilt = game.min_angle;
 
-				game.playerX += (tilt / game.max_angle) * game.max_accelerate;
+				playerUnit.playerX += (tilt / game.max_angle) * game.max_accelerate;
 
-				if (game.playerX < 0) game.playerX = 0;
-				else if (game.playerX > game.canvasWidth - game.rectWidth) game.playerX = game.canvasWidth - game.rectWidth;
+				if (playerUnit.playerX < 0) playerUnit.playerX = 0;
+				else if (playerUnit.playerX > game.canvasWidth - game.rectWidth) playerUnit.playerX = game.canvasWidth - game.rectWidth;
 			});
         },
 		stopGyro: function () {
@@ -72,33 +69,7 @@ define([
 		processGameFrame: function() {
 			bossUnit.move();
 			playerUnit.move();
-			flag = false;
-			if (-playerUnit.y + bombUnit.y > 40) {
-					bossUnit.bombDropped = false;
-					this.scores = this.scores + 1;
-				};
-			if(bossUnit.bombDropped) {
-				bombUnit.move();
-				if(bombUnit.x > playerUnit.x){
-					if(( bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					// playerUnit.hp = 0;
-					this.endGame();
-					}	
-				} else if(( playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					// playerUnit.hp = 0;
-					this.endGame();
-				} 
-			} else {
-				bossUnit.dropBomb(playerUnit.x);
-				bombUnit.x = bossUnit.x;
-				bombUnit.y = bossUnit.y;
-			}	
-		},
-		endGame: function() {
-
-		}
-
-
+		}     
     });
 	
     return new Logic();
