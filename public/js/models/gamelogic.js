@@ -82,18 +82,23 @@ define([
 				if(bombUnit.x > playerUnit.x){
 					if(( bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
 					// playerUnit.hp = 0;
-					alert("score:" + this.scores);
+					this.endGame();
 					}	
 				} else if(( playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
 					// playerUnit.hp = 0;
-					alert("score:" + this.scores);
+					this.endGame();
 				} 
 			} else {
 				bossUnit.dropBomb(playerUnit.x);
 				bombUnit.x = bossUnit.x;
 				bombUnit.y = bossUnit.y;
 			}	
-		}     
+		},
+		endGame: function() {
+
+		}
+
+
     });
 	
     return new Logic();
