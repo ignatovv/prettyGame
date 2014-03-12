@@ -47,3 +47,7 @@ body {
 .game {
     text-align: center;
 }
+
+.game__overlay_container {
+    position: absolute;
+}

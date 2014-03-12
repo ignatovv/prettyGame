@@ -4,6 +4,7 @@ define([
     'tmpl/game',
     'models/gamecanvas',
     'models/gamelogic',
+    'views/gameover',
     'anim'
 ], function(
     Backbone,
@@ -11,6 +12,7 @@ define([
     tmpl,
     gamecanvas,
     gamelogic,
+    gameover,
     anim
 ){
 
@@ -18,15 +20,16 @@ define([
         template: tmpl,
 		initialize: function () {
 			this.$el.hide();
+            gamelogic.on('endgame', this.onEndGame, this);
         },
-        buttonDown: function(e){
+        buttonDown: function(e) {
             if (e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.moveLeft();
             } else if (e.keyCode == 39|| e.keyCode == 68) {
                 gamelogic.moveRight();
             } 
         },
-        buttonUp: function(e){
+        buttonUp: function(e) {
             if (e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.stop();
             } else if (e.keyCode == 39 || e.keyCode == 68) {
@@ -48,6 +51,7 @@ define([
 	    },
         render: function () {
             this.$el.html(this.template());
+            this.$el.find('.game__overlay_container').html(gameover.render().$el);
             $(document).get(0).addEventListener("keydown", this.buttonDown);
             $(document).get(0).addEventListener("keyup", this.buttonUp);
             return this;
@@ -60,10 +64,14 @@ define([
             gamelogic.startGyro();
         },
         hide: function() {
-			this.$el.hide();
+			gameover.hide();
+            this.$el.hide();
 			
 			gamelogic.stopGyro();
-		}
+		},
+        onEndGame: function() {
+            gameover.show();
+        }
     });
 
     return new View();

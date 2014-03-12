@@ -95,7 +95,7 @@ define([
 			}	
 		},
 		endGame: function() {
-			window.location.href = '#gameover';
+			this.trigger('endgame', this);
 		}
     });
 	
