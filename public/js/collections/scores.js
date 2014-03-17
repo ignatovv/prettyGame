@@ -8,6 +8,7 @@ define([
 
     var Collection = Backbone.Collection.extend({
         model: Score,
+        url: '/scores/',
         comparator: function(obj) {
             return -obj.get("score");
         }

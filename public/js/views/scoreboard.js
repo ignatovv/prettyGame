@@ -13,6 +13,7 @@ define([
     var View = Backbone.View.extend({
         template: tmpl,
         initialize: function () {
+/*
             scores.add(new Score({ name: 'player1', score: 30}));
             scores.add(new Score({ name: 'mamku', score: 65}));
             scores.add(new Score({ name: 'sosai', score: 35}));
@@ -23,8 +24,10 @@ define([
             scores.add(new Score({ name: 'swag', score: 66}));
             scores.add(new Score({ name: '666kg', score: 3}));
             scores.add(new Score({ name: 'lehi4', score: 78}));
-
+*/
 			this.$el.hide();
+
+            scores.on('sync', this.render, this);
         },
         render: function () {
             this.$el.html(this.template({scores: scores.toJSON()}));
@@ -33,6 +36,8 @@ define([
         show: function() {
 			this.$el.show();
 			this.trigger('show', this);
+
+            scores.fetch();
         },
 		hide: function() {
 			this.$el.hide();
