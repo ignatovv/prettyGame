@@ -1,17 +1,17 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <div class="menu">
-        <div class="menu__title">
+    <div class="gameover">
+        <div class="gameover__title">
             GAME OVER
         </div>
         <div>
             Your score: <span class="score"></span>
         </div>
         <div class="score_submit">
-            Name: <input type="text" class="score_submit__name"/>
-            <button class="score_submit__button">Submit</button>
+            Name: <input type="text" class="gameover__name"/>
+            <button class="gameover__submit">Submit</button>
         </div>
-        <a href="#" class="menu__button">
-            <span class="menu__button__span">
+        <a href="#" class="gameover__button">
+            <span class="gameover__button__span">
                 BACK TO MENU
             </span>
         </a>

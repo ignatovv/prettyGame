@@ -51,3 +51,15 @@ body {
 .game__overlay_container {
     position: absolute;
 }
+
+.gameover {
+    width: 320px;
+    height: 640px;
+    background: #000;
+    color: #FFF;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -160px;
+    margin-top: -320px;
+}
