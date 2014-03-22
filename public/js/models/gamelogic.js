@@ -4,13 +4,14 @@ define([
 	'models/game_models/boss_unit',
 	'models/game_models/player_unit',
 	'models/game_models/bomb_unit',
+	'models/game_models/stone_unit',
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
 	playerUnit,
-	bombUnit
-
+	bombUnit,
+	stoneUnit
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -23,11 +24,22 @@ define([
 		max_accelerate: 15,
 		max_angle: 35,
 		min_angle: -35,
+		gamePaused: false,
 		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasHeight = this.canvasHeight;
+			bombUnit.canvasHeight = this.canvasHeight;
 			gyro.frequency = 15;
+        },
+        startNewGame: function() {
+        	this.startGyro();
+        	this.gamePaused = false;
+        	bossUnit.refresh();        	
+        	bombUnit.refresh();
+        	stoneUnit.refresh();
+        	playerUnit.refresh();
+        	this.scores = 0;
         },
         startGyro: function () {
         	var game = this;
@@ -36,8 +48,7 @@ define([
 				if (!o.x) {
 					gyro.stopTracking();
 					return;
-				}
-				
+				}				
 				var tilt;
 				
 				if (window.orientation == -90) tilt = (-1) * o.beta;
@@ -70,31 +81,15 @@ define([
         	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
-			bossUnit.move();
-			playerUnit.move();
-			flag = false;
-			if (-playerUnit.y + bombUnit.y > 40) {
-					bossUnit.bombDropped = false;
-					this.scores = this.scores + 1;
-				};
-			if(bossUnit.bombDropped) {
-				bombUnit.move();
-				if(bombUnit.x > playerUnit.x){
-					if(( bombUnit.x - playerUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					// playerUnit.hp = 0;
-					this.endGame();
-					}	
-				} else if(( playerUnit.x - bombUnit.x) < 40 && (playerUnit.y - bombUnit.y) < 40){
-					// playerUnit.hp = 0;
-					this.endGame();
-				} 
-			} else {
-				bossUnit.dropBomb(playerUnit.x);
-				bombUnit.x = bossUnit.x;
-				bombUnit.y = bossUnit.y;
-			}	
+			if(!this.gamePaused){
+				bossUnit.move();
+				playerUnit.move();
+				bombUnit.move(playerUnit.x, playerUnit.y, bossUnit.x, bossUnit.y);
+				if(bombUnit.exploded) { this.endGame(); }
+			}
 		},
 		endGame: function() {
+			this.gamePaused = true;
 			this.trigger('endgame', this);
 		}
     });

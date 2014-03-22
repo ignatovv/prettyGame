@@ -43,7 +43,6 @@ define([
 				if (!game.$el.is(":visible")) {
 					return;
 				}
-
 	            requestAnimationFrame(function() { game.nextFrame(); });
 	            gamelogic.processGameFrame();
 	            gamecanvas.updateCanvas();
@@ -58,10 +57,11 @@ define([
         },
         show: function () {
 			this.$el.show();
-			this.trigger('show', this);
-			this.nextFrame();
+			this.trigger('show', this);            
 			
-            gamelogic.startGyro();
+			
+            gamelogic.startNewGame();
+            this.nextFrame();
         },
         hide: function() {
 			gameover.hide();

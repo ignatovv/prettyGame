@@ -3,19 +3,50 @@ define([
 ], function(
     Backbone
 ){
-    var playerUnit = Backbone.Model.extend({    
+    var bombUnit = Backbone.Model.extend({    
         x: 0,
         y: 0,
         image: new Image(),
         canvasWidth: 0,
         canvasHeight: 0,
-
+        isVisible: false,
+        exploded: false,
         initialize: function() {          
-            this.image.src = "/images/bomb.gif";   
+            this.image.src = "/images/bomb.gif";               
         },
-        move: function() {      
-            this.y = this.y + 5;
+        move: function(playerX, playerY, bossX, bossY) {     
+            if(this.isVisible) {
+                this.y = this.y + 5;
+                if(this.y < playerY){
+                    if(this.x > playerX){
+                        if(( this.x - playerX) < 40 && (playerY - this.y) < 40){
+                        // playerUnit.hp = 0;
+                        this.exploded = true;
+                        }   
+                    } else if((playerX - this.x) < 40 && (playerY - this.y) < 40){
+                        // playerUnit.hp = 0;
+                        this.exploded = true;
+                    } 
+                }
+                if (this.y > this.canvasHeight) {   
+                    
+                     // SORES +1
+                    this.isVisible = false;
+                }
+            } else {
+                this.x = bossX;
+                this.y = bossY;
+                if(this.x == playerX) {
+                    this.isVisible = true;                    
+                }
+            }   
+        },
+        refresh: function(){
+            this.x = 0;
+            this.y = 0;
+            this.isVisible = false;
+            this.exploded = false;
         }     
     });
-    return new playerUnit();
+    return new bombUnit();
 });

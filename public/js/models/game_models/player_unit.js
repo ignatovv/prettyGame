@@ -26,7 +26,9 @@ define([
             if(this.hp == 0){ 
                // this.image.src = "/images/bomb.gif";    
             }
-		}     
+		},        
+        refresh: function(){            
+        }
     });
     return new playerUnit();
 });

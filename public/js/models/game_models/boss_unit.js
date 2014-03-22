@@ -3,7 +3,7 @@ define([
 ], function(
     Backbone
 ){
-    var BossUnit = Backbone.Model.extend({	
+    var bossUnit = Backbone.Model.extend({	
     	x: 50,
     	y: 20,
     	image: new Image(),
@@ -22,7 +22,13 @@ define([
                 this.bombDropped = true;
                 return true;
             }
-        }     
+        },
+        refresh: function() {
+            this.x = 50;
+            this.y = 20;
+            this.movingRight = true;
+            this.bombDropped = false;
+        }    
     });
-    return new BossUnit();
+    return new bossUnit();
 });

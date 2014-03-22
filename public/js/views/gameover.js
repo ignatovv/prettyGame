@@ -36,6 +36,5 @@ define([
             location.href = "#scoreboard";
         }
     });
-
     return new View();
 });
