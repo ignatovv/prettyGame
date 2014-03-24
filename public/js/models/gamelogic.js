@@ -5,13 +5,15 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/bomb_unit',
 	'models/game_models/stone_unit',
+	'collections/bombs'
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
 	playerUnit,
 	bombUnit,
-	stoneUnit
+	stoneUnit,
+	bombs
 ){
 
     var Logic = Backbone.Model.extend({	
@@ -25,12 +27,13 @@ define([
 		max_angle: 35,
 		min_angle: -35,
 		gamePaused: false,
+		bombs:bombs,
 		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasHeight = this.canvasHeight;
-			bombUnit.canvasHeight = this.canvasHeight;
-			gyro.frequency = 15;
+			bombUnit.canvasHeight = this.canvasHeight;		
+			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
@@ -81,10 +84,11 @@ define([
         	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
+			 bombs.create({});  //dont work
 			if(!this.gamePaused){
 				bossUnit.move();
 				playerUnit.move();
-				bombUnit.move(playerUnit.x, playerUnit.y, bossUnit.x, bossUnit.y);
+				bombUnit.move(playerUnit.x, playerUnit.y, bossUnit.x, bossUnit.y, this.scores);
 				if(bombUnit.exploded) { this.endGame(); }
 			}
 		},

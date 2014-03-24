@@ -29,8 +29,7 @@ define([
                     } 
                 }
                 if (this.y > this.canvasHeight) {   
-                    
-                     // SORES +1
+                
                     this.isVisible = false;
                 }
             } else {
