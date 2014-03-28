@@ -7,7 +7,7 @@ define([
 ){
 
     var Collection = Backbone.Collection.extend({
-        model: bomb        
+        model: bomb  
     });
     return new Collection();
 });

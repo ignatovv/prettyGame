@@ -47,5 +47,5 @@ define([
             this.exploded = false;
         }     
     });
-    return new bombUnit();
+    return bombUnit;
 });

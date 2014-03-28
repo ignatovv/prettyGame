@@ -33,9 +33,13 @@ define([
 			ctx.drawImage(gamelogic.bossUnit.image, gamelogic.bossUnit.x, 20);
 			ctx.drawImage(this.stoneImage, 50, 200);
 
-			if(gamelogic.bombUnit.isVisible){
-				ctx.drawImage(gamelogic.bombUnit.image, gamelogic.bombUnit.x, gamelogic.bombUnit.y);			
-			}			
+			gamelogic.bombs.forEach(function(bomb) {
+				ctx.drawImage(bomb.image, bomb.x, bomb.y);			
+			}, this);
+
+			// if(gamelogic.bombUnit.isVisible){
+			// 	ctx.drawImage(gamelogic.bombUnit.image, gamelogic.bombUnit.x, gamelogic.bombUnit.y);			
+			// }			
 			// if(gamelogic.stoneUnit.isVisible){
 			// 	ctx.drawImage(gamelogic.stoneUnit.image, gamelogic.stoneUnit.x, gamelogic.stoneUnit.y);			
 			// }

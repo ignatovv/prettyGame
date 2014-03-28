@@ -11,7 +11,7 @@ define([
 	gyro,
 	bossUnit,
 	playerUnit,
-	bombUnit,
+	BombUnit,
 	stoneUnit,
 	bombs
 ){
@@ -21,7 +21,7 @@ define([
 		canvasHeight: 680,
 		bossUnit: bossUnit,
 		playerUnit:playerUnit,
-		bombUnit:bombUnit,
+		//bombUnit:bombUnit,
 		scores:0,
 		max_accelerate: 15,
 		max_angle: 35,
@@ -32,17 +32,23 @@ define([
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasHeight = this.canvasHeight;
-			bombUnit.canvasHeight = this.canvasHeight;		
+			//bombUnit.canvasHeight = this.canvasHeight;		
 			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
         	bossUnit.refresh();        	
-        	bombUnit.refresh();
+        	//bombUnit.refresh();
         	stoneUnit.refresh();
         	playerUnit.refresh();
         	this.scores = 0;
+
+			var bombUnit = new BombUnit();
+
+			bombUnit.canvasHeight = this.canvasHeight;
+			bombUnit.refresh();
+        	bombs.add(bombUnit);
         },
         startGyro: function () {
         	var game = this;
@@ -84,12 +90,16 @@ define([
         	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
-			 bombs.create({});  //dont work
-			if(!this.gamePaused){
+			if(!this.gamePaused) {
 				bossUnit.move();
 				playerUnit.move();
-				bombUnit.move(playerUnit.x, playerUnit.y, bossUnit.x, bossUnit.y, this.scores);
-				if(bombUnit.exploded) { this.endGame(); }
+				
+				var game = this;
+
+				bombs.forEach(function(bomb) {
+					bomb.move(game.playerUnit.x, game.playerUnit.y, game.bossUnit.x, game.bossUnit.y, game.scores);
+					if(bomb.exploded) { game.endGame(); }
+				}, this);
 			}
 		},
 		endGame: function() {
