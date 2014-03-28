@@ -1,7 +1,9 @@
 define([
-    'backbone'
+    'backbone',
+    'models/gamelogic'
 ], function(
-    Backbone
+    Backbone,
+    gamelogic
 ){
     var bombUnit = Backbone.Model.extend({    
         x: 0,
@@ -31,6 +33,8 @@ define([
                 if (this.y > this.canvasHeight) {   
                 
                     this.isVisible = false;
+                    ///fail
+                    gamelogic.scores = 100;
                 }
             } else {
                 this.x = bossX;

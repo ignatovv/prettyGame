@@ -82,11 +82,9 @@ define([
         	playerUnit.movingRight = false;
         },
         moveLeft: function() {
-        	//this.playerX = this.playerX - 3;
         	playerUnit.movingLeft = true;
         },
         moveRight: function() {
-        	//this.playerX = this.playerX + 3;	
         	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
@@ -97,7 +95,7 @@ define([
 				var game = this;
 
 				bombs.forEach(function(bomb) {
-					bomb.move(game.playerUnit.x, game.playerUnit.y, game.bossUnit.x, game.bossUnit.y, game.scores);
+					bomb.move(game.playerUnit.x, game.playerUnit.y, game.bossUnit.x, game.bossUnit.y);
 					if(bomb.exploded) { game.endGame(); }
 				}, this);
 			}

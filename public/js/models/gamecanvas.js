@@ -34,7 +34,8 @@ define([
 			ctx.drawImage(this.stoneImage, 50, 200);
 
 			gamelogic.bombs.forEach(function(bomb) {
-				ctx.drawImage(bomb.image, bomb.x, bomb.y);			
+				if(bomb.isVisible)
+					ctx.drawImage(bomb.image, bomb.x, bomb.y);			
 			}, this);
 
 			// if(gamelogic.bombUnit.isVisible){
