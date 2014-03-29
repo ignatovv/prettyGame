@@ -42,13 +42,7 @@ define([
         	//bombUnit.refresh();
         	stoneUnit.refresh();
         	playerUnit.refresh();
-        	this.scores = 0;
-
-			var bombUnit = new BombUnit();
-
-			bombUnit.canvasHeight = this.canvasHeight;
-			bombUnit.refresh();
-        	bombs.add(bombUnit);
+        	this.scores = 0;     
         },
         startGyro: function () {
         	var game = this;
@@ -89,14 +83,26 @@ define([
         },
 		processGameFrame: function() {
 			if(!this.gamePaused) {
-				bossUnit.move();
+
+				bossUnit.move(playerUnit.x);
+				if(bossUnit.bombDropped){
+					var bombUnit = new BombUnit();
+					bombUnit.canvasHeight = this.canvasHeight;					
+					bombUnit.x = bossUnit.x;
+					bombUnit.y = bossUnit.y;
+					bombs.add(bombUnit);
+				bossUnit.bombDropped = false;
+				}			
+				
 				playerUnit.move();
 				
-				var game = this;
-
+				var game = this;			
 				bombs.forEach(function(bomb) {
-					bomb.move(game.playerUnit.x, game.playerUnit.y, game.bossUnit.x, game.bossUnit.y);
+					bomb.move(game.playerUnit.x, game.playerUnit.y);
 					if(bomb.exploded) { game.endGame(); }
+					if(bomb.deleted) { game.scores = game.scores + 1; 
+					///delete bomb					
+					}
 				}, this);
 			}
 		},

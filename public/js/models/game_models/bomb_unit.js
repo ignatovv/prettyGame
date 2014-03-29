@@ -11,45 +11,28 @@ define([
         image: new Image(),
         canvasWidth: 0,
         canvasHeight: 0,
-        isVisible: false,
         exploded: false,
+        deleted: false,
         initialize: function() {          
             this.image.src = "/images/bomb.gif";               
         },
-        move: function(playerX, playerY, bossX, bossY) {     
-            if(this.isVisible) {
-                this.y = this.y + 5;
-                if(this.y < playerY){
-                    if(this.x > playerX){
-                        if(( this.x - playerX) < 40 && (playerY - this.y) < 40){
-                        // playerUnit.hp = 0;
-                        this.exploded = true;
-                        }   
-                    } else if((playerX - this.x) < 40 && (playerY - this.y) < 40){
-                        // playerUnit.hp = 0;
-                        this.exploded = true;
-                    } 
-                }
-                if (this.y > this.canvasHeight) {   
-                
-                    this.isVisible = false;
-                    ///fail
-                    gamelogic.scores = 100;
-                }
-            } else {
-                this.x = bossX;
-                this.y = bossY;
-                if(this.x == playerX) {
-                    this.isVisible = true;                    
-                }
-            }   
-        },
-        refresh: function(){
-            this.x = 0;
-            this.y = 0;
-            this.isVisible = false;
-            this.exploded = false;
-        }     
+        move: function(playerX, playerY) {            
+            this.y = this.y + 5;
+            if(this.y < playerY){
+                if(this.x > playerX){
+                    if(( this.x - playerX) < 40 && (playerY - this.y) < 40){
+                    // playerUnit.hp = 0;
+                    this.exploded = true;
+                    }   
+                } else if((playerX - this.x) < 40 && (playerY - this.y) < 40){
+                    // playerUnit.hp = 0;
+                    this.exploded = true;
+                } 
+            }
+            if (this.y > this.canvasHeight) {               
+                this.deleted = true;
+            }     
+        }   
     });
     return bombUnit;
 });

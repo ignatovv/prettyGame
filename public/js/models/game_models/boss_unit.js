@@ -10,24 +10,26 @@ define([
     	canvasWidth: 0,
     	movingRight: true,
         bombDropped: false,
+        timer: 0,
     	initialize: function() {
     		this.image.src = "/images/boss.png";	
     	},
-		move: function() {		
+		move: function(playerX) {		
 			this.x = (this.movingRight) ? this.x + 3 : this.x - 3;
 			if (this.x > this.canvasWidth - 111 || this.x < 0) this.movingRight = !this.movingRight;
-		},
-        dropBomb: function(e) {
-            if(!this.bombDropped && (this.x == e)) {
+
+            if(this.x == playerX || this.timer == 100) {
                 this.bombDropped = true;
-                return true;
-            }
-        },
+                this.timer = 0;            
+            } else { this.timer = this.timer + 1; }
+
+		},
         refresh: function() {
             this.x = 50;
             this.y = 20;
             this.movingRight = true;
             this.bombDropped = false;
+            this.timer = 0;
         }    
     });
     return new bossUnit();

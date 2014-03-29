@@ -33,8 +33,7 @@ define([
 			ctx.drawImage(gamelogic.bossUnit.image, gamelogic.bossUnit.x, 20);
 			ctx.drawImage(this.stoneImage, 50, 200);
 
-			gamelogic.bombs.forEach(function(bomb) {
-				if(bomb.isVisible)
+			gamelogic.bombs.forEach(function(bomb) {				
 					ctx.drawImage(bomb.image, bomb.x, bomb.y);			
 			}, this);
 
