@@ -17,6 +17,7 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             'scoreboard': 'scoreboardAction',
+            'scoreboard?limit=:limit': 'scoreboardAction',
             'game': 'gameAction',
             '*default': 'defaultActions'
         },
@@ -31,8 +32,8 @@ define([
         gameAction: function () {
             gameView.show();
         },
-		scoreboardAction: function () {
-      		scoreboardView.show();
+		scoreboardAction: function (limit) {
+      		scoreboardView.show(limit);
         }
     });
 

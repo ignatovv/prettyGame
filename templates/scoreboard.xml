@@ -1,5 +1,13 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
     <div class="menu">
+        <div class="menu__overlay">
+            <div class="menu__overlay__title">
+                LOADING...
+            </div>
+            <div>
+                <button class="menu__overlay__retry_button" style="width: 50px; height: 25px;">Retry</button>
+            </div>
+        </div>
         <div class="menu__title">
             HIGHSCORES
         </div>

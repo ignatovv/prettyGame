@@ -9,6 +9,15 @@ body {
     text-align: center;
 }
 
+.menu__overlay {
+    background-color: black;
+    color: white;
+    width: 320px;
+    height: 640px;
+    position: absolute;
+    z-index: 2;
+}
+
 .menu__title {
     color: #ddfefd;
     font: 36px 'Courier New';
@@ -37,6 +46,7 @@ body {
     position: absolute;
     top: 44px;
     left: 0px;
+    z-index: 1;
 }
 
 .scoreboard__item {
