@@ -14,15 +14,14 @@ define([
     	initialize: function() {
     		this.image.src = "/images/boss.png";	
     	},
-		move: function(playerX) {		
-			this.x = (this.movingRight) ? this.x + 3 : this.x - 3;
-			if (this.x > this.canvasWidth - 111 || this.x < 0) this.movingRight = !this.movingRight;
-
-            if(this.x == playerX || this.timer == 100) {
+		move: function() {		
+			this.x = (this.movingRight) ? this.x + 5 : this.x - 5;
+			if (this.x > this.canvasWidth - 111 || this.x < 0) this.movingRight = !this.movingRight;            
+            if(this.timer > 40) {
                 this.bombDropped = true;
-                this.timer = 0;            
-            } else { this.timer = this.timer + 1; }
-
+                this.timer = 0;
+            }                    
+            this.timer = this.timer + 1;             
 		},
         refresh: function() {
             this.x = 50;

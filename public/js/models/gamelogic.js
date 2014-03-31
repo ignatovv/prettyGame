@@ -5,44 +5,46 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/bomb_unit',
 	'models/game_models/stone_unit',
-	'collections/bombs'
+	'collections/bombs',
+	'collections/stones'
 ], function(
     Backbone,
 	gyro,
 	bossUnit,
 	playerUnit,
 	BombUnit,
-	stoneUnit,
-	bombs
+	StoneUnit,
+	bombs,
+	stones
 ){
 
     var Logic = Backbone.Model.extend({	
         canvasWidth: 1050,
 		canvasHeight: 680,
 		bossUnit: bossUnit,
-		playerUnit:playerUnit,
-		//bombUnit:bombUnit,
+		playerUnit: playerUnit,
 		scores:0,
 		max_accelerate: 15,
 		max_angle: 35,
 		min_angle: -35,
 		gamePaused: false,
-		bombs:bombs,
+		bombs: bombs,
+		stones: stones,
+		timer: 0,
 		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
 			playerUnit.canvasWidth = this.canvasWidth;
-			playerUnit.canvasHeight = this.canvasHeight;
-			//bombUnit.canvasHeight = this.canvasHeight;		
+			playerUnit.canvasHeight = this.canvasHeight;	
 			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
-        	bossUnit.refresh();        	
-        	//bombUnit.refresh();
-        	stoneUnit.refresh();
+        	bossUnit.refresh();  
         	playerUnit.refresh();
-        	this.scores = 0;     
+        	this.scores = 0;    
+        	this.timer = 0; 
+        	//clear collections
         },
         startGyro: function () {
         	var game = this;
@@ -84,7 +86,7 @@ define([
 		processGameFrame: function() {
 			if(!this.gamePaused) {
 
-				bossUnit.move(playerUnit.x);
+				bossUnit.move();
 				if(bossUnit.bombDropped){
 					var bombUnit = new BombUnit();
 					bombUnit.canvasHeight = this.canvasHeight;					
@@ -92,7 +94,17 @@ define([
 					bombUnit.y = bossUnit.y;
 					bombs.add(bombUnit);
 				bossUnit.bombDropped = false;
-				}			
+				}		
+
+				if(this.timer > 40) {
+					this.timer = 0;					
+					var stoneUnit = new StoneUnit();
+					stoneUnit.canvasHeight = this.canvasHeight;
+					stoneUnit.x = playerUnit.x;
+					stones.add(stoneUnit);
+				} else {
+					this.timer = this.timer + 1;
+				}
 				
 				playerUnit.move();
 				
@@ -102,6 +114,14 @@ define([
 					if(bomb.exploded) { game.endGame(); }
 					if(bomb.deleted) { game.scores = game.scores + 1; 
 					///delete bomb					
+					}
+				}, this);
+
+				stones.forEach(function(stone) {
+					stone.move(game.playerUnit.x, game.playerUnit.y);
+					if(stone.exploded) { game.endGame(); }
+					if(stone.deleted) { game.scores = game.scores + 2; 
+					///delete stone				
 					}
 				}, this);
 			}
