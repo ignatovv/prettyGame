@@ -8,13 +8,11 @@ define([
     var bombUnit = Backbone.Model.extend({    
         x: 0,
         y: 0,
-        image: new Image(),
         canvasWidth: 0,
         canvasHeight: 0,
         exploded: false,
         deleted: false,
         initialize: function() {          
-            this.image.src = "/images/bomb.gif";               
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -31,8 +29,13 @@ define([
             }
             if (this.y > this.canvasHeight) {               
                 this.deleted = true;
-            }     
+            }  
         }   
+    }, {
+        image: new Image(),
+        loadImage: function() {
+            this.image.src = "/images/bomb.gif";
+        }
     });
     return bombUnit;
 });

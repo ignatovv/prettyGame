@@ -64,12 +64,12 @@ body {
 
 .gameover {
     width: 320px;
-    height: 320px;
+    height: 100px;
     background: #000;
     color: #FFF;
     position: fixed;
     top: 50%;
     left: 50%;
     margin-left: -160px;
-    margin-top: -160px;
+    margin-top: -50px;
 }

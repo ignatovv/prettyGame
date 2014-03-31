@@ -1,11 +1,15 @@
 define([
     'backbone',
 	'gyro',
-	'models/gamelogic'
+	'models/gamelogic',
+	'models/game_models/stone_unit',
+	'models/game_models/bomb_unit'
 ], function(
     Backbone,
 	gyro,
-	gamelogic
+	gamelogic,
+	Stone,
+	Bomb
 ){
     var Canvas = Backbone.Model.extend({	
         spaceshipImage: new Image(),
@@ -17,6 +21,8 @@ define([
 			this.backgroundImage.src = "/images/background.png";
 			this.stoneImage.src = "/images/stone.gif";
 			this.fps = 60;
+			Stone.loadImage();
+			Bomb.loadImage();
         },
         updateCanvas: function () {
             var ctx = $(".game__canvas").get(0).getContext("2d");
@@ -33,12 +39,11 @@ define([
 			ctx.drawImage(gamelogic.bossUnit.image, gamelogic.bossUnit.x, 20);
 		
 			gamelogic.bombs.forEach(function(bomb) {				
-					ctx.drawImage(bomb.image, bomb.x, bomb.y);			
+				ctx.drawImage(Bomb.image, bomb.x, bomb.y);			
 			}, this);
 
-
 			gamelogic.stones.forEach(function(stone) {				
-					ctx.drawImage(stone.image, stone.x, stone.y);			
+				ctx.drawImage(Stone.image, stone.x, stone.y);			
 			}, this);
 
 			this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - 1 : this.backgroundMaxY;

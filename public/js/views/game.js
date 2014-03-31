@@ -59,7 +59,6 @@ define([
 			this.$el.show();
 			this.trigger('show', this);            
 			
-			
             gamelogic.startNewGame();
             this.nextFrame();
         },

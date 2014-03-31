@@ -8,14 +8,11 @@ define([
     var stoneUnit = Backbone.Model.extend({    
         x: 0,
         y: -50,
-        image: new Image(),
         canvasWidth: 0,
         canvasHeight: 0,
         exploded: false,
         deleted: false,
-
         initialize: function() {          
-            this.image.src = "/images/stone.gif";   
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -34,6 +31,11 @@ define([
                 this.deleted = true;
             }     
         }    
+    }, {
+        image: new Image(),
+        loadImage: function() {
+            this.image.src = "/images/stone.gif";
+        }
     });
     return stoneUnit;
 });
