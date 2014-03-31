@@ -13,6 +13,10 @@ define([
 		},
         initialize: function () {
 			this.$el.hide();
+
+            if (!localStorage['sound'] || localStorage['sound'] == 'on') {
+                this.switchSound();
+            }
         },
         render: function () {
             this.$el.html(this.template());
@@ -31,8 +35,10 @@ define([
             if (musicElement.paused) {
                 musicElement.currentTime = 0;
                 musicElement.play();
+                localStorage['sound'] = 'on';
             } else {
                 musicElement.pause();
+                localStorage['sound'] = 'off';
             }
         }
                                         
