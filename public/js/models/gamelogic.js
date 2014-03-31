@@ -44,7 +44,8 @@ define([
         	playerUnit.refresh();
         	this.scores = 0;    
         	this.timer = 0; 
-        	//clear collections
+        	bombs.reset();
+        	stones.reset();
         },
         startGyro: function () {
         	var game = this;
@@ -84,47 +85,57 @@ define([
         	playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
-			if(!this.gamePaused) {
-
-				bossUnit.move();
-				if(bossUnit.bombDropped){
-					var bombUnit = new BombUnit();
-					bombUnit.canvasHeight = this.canvasHeight;					
-					bombUnit.x = bossUnit.x;
-					bombUnit.y = bossUnit.y;
-					bombs.add(bombUnit);
-				bossUnit.bombDropped = false;
-				}		
-
-				if(this.timer > 40) {
-					this.timer = 0;					
-					var stoneUnit = new StoneUnit();
-					stoneUnit.canvasHeight = this.canvasHeight;
-					stoneUnit.x = playerUnit.x;
-					stones.add(stoneUnit);
-				} else {
-					this.timer = this.timer + 1;
-				}
-				
-				playerUnit.move();
-				
-				var game = this;			
-				bombs.forEach(function(bomb) {
-					bomb.move(game.playerUnit.x, game.playerUnit.y);
-					if(bomb.exploded) { game.endGame(); }
-					if(bomb.deleted) { game.scores = game.scores + 1; 
-					///delete bomb					
-					}
-				}, this);
-
-				stones.forEach(function(stone) {
-					stone.move(game.playerUnit.x, game.playerUnit.y);
-					if(stone.exploded) { game.endGame(); }
-					if(stone.deleted) { game.scores = game.scores + 2; 
-					///delete stone				
-					}
-				}, this);
+			if (this.gamePaused) {
+				return;
 			}
+
+			bossUnit.move();
+			
+			if (bossUnit.bombDropped) {
+				var bombUnit = new BombUnit();
+				bombUnit.canvasHeight = this.canvasHeight;					
+				bombUnit.x = bossUnit.x;
+				bombUnit.y = bossUnit.y;
+				bombs.add(bombUnit);
+				bossUnit.bombDropped = false;
+			}		
+
+			if (this.timer > 40) {
+				this.timer = 0;					
+				var stoneUnit = new StoneUnit();
+				stoneUnit.canvasHeight = this.canvasHeight;
+				stoneUnit.x = playerUnit.x;
+				stones.add(stoneUnit);
+			} else {
+				this.timer = this.timer + 1;
+			}
+			
+			playerUnit.move();
+			
+			var game = this;			
+			var bombsToRemove = [];
+			var stonesToRemove = [];
+			
+			bombs.forEach(function(bomb) {
+				bomb.move(game.playerUnit.x, game.playerUnit.y);
+				if (bomb.exploded) { game.endGame(); }
+				if (bomb.deleted) {
+					game.scores = game.scores + 1; 
+					bombsToRemove.push(bomb);	
+				}
+			}, this);
+
+			stones.forEach(function(stone) {
+				stone.move(game.playerUnit.x, game.playerUnit.y);
+				if (stone.exploded) { game.endGame(); }
+				if (stone.deleted) {
+					game.scores = game.scores + 2; 
+					stonesToRemove.push(stone);
+				}
+			}, this);
+
+			bombs.remove(bombsToRemove);
+			stones.remove(stonesToRemove);
 		},
 		endGame: function() {
 			this.gamePaused = true;
