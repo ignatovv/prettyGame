@@ -42,7 +42,7 @@ define([
         	this.gamePaused = false;
         	bossUnit.refresh();  
         	playerUnit.refresh();
-        	this.scores = 0;    
+        	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
         	stones.reset();

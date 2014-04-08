@@ -18,6 +18,7 @@ define([
 
     var View = Backbone.View.extend({	
         template: tmpl,
+        className: 'full_screen_view_container',
 		initialize: function () {
 			this.$el.hide();
             gamelogic.on('endgame', this.onEndGame, this);

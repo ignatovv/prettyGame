@@ -1,22 +1,30 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <div class="menu">
-        <div class="menu__title">
-            SPACECRAFT
-        </div>
-        <a href="#game" class="menu__button">
-            <span class="menu__button__span">
-                START GAME
-            </span>
-        </a>
-        <a href="#scoreboard" class="menu__button">
-            <span class="menu__button__span">
-                HIGHSCORES
-            </span>
-        </a>
-        <a href="javascript://" class="menu__button menu__sound_button">
-            <span class="menu__button__span menu__sound_button_span">
-               SWITCH SOUND
-            </span>
-        </a>
-    </div>
+    <table cellspacing="0" cellpadding="0" width="100%" height="100%">
+        <tr>
+            <td class="menu__left_border" width="50%"></td>
+            <td class="menu__main">
+                <div class="menu__main__div">
+                    <div class="menu__title">
+                        SPACECRAFT
+                    </div>
+                    <a href="#game" class="menu__button">
+                        <span class="menu__button__span">
+                            START GAME
+                        </span>
+                    </a>
+                    <a href="#scoreboard" class="menu__button">
+                        <span class="menu__button__span">
+                            HIGHSCORES
+                        </span>
+                    </a>
+                    <a href="javascript://" class="menu__button menu__sound_button">
+                        <span class="menu__button__span menu__sound_button_span">
+                           SWITCH SOUND
+                        </span>
+                    </a>
+                </div>
+            </td>
+            <td class="menu__right_border" width="50%"></td>
+        </tr>
+    </table>
 </fest:template>

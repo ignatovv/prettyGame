@@ -8,6 +8,7 @@ define([
 
     var View = Backbone.View.extend({	
         template: tmpl,
+        className: 'full_screen_view_container',
 		events: {
 			"click .menu__sound_button": "switchSound"
 		},

@@ -12,6 +12,7 @@ define([
 
     var View = Backbone.View.extend({
         template: tmpl,
+        className: 'full_screen_view_container',
         limit: undefined,
         events: {
             'click .menu__overlay__retry_button': 'onRetry'

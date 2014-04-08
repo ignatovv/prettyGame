@@ -1,28 +1,36 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <div class="menu">
-        <div class="menu__overlay">
-            <div class="menu__overlay__title">
-                LOADING...
-            </div>
-            <div>
-                <button class="menu__overlay__retry_button" style="width: 50px; height: 25px;">Retry</button>
-            </div>
-        </div>
-        <div class="menu__title">
-            HIGHSCORES
-        </div>
-        <div class="scoreboard">
-        <fest:each iterate="json.scores" index="i">
-            <div class="scoreboard__item">
-                <b><fest:value>json.scores[i].name</fest:value></b>:<fest:value>json.scores[i].score</fest:value>
-            </div>
-        </fest:each>
-        </div>
-        <a href="#" class="menu__button">
-            <span class="menu__button__span">
-                BACK
-            </span>
-        </a>
-    </div>
+    <table cellspacing="0" cellpadding="0" width="100%" height="100%">
+        <tr>
+            <td class="menu__left_border" width="50%"></td>
+            <td class="menu__main">
+                <div class="menu__main__div">
+                    <div class="menu__overlay">
+                        <div class="menu__overlay__title">
+                            LOADING...
+                        </div>
+                        <div>
+                            <button class="menu__overlay__retry_button" style="width: 50px; height: 25px;">Retry</button>
+                        </div>
+                    </div>
+                    <div class="menu__title">
+                        HIGHSCORES
+                    </div>
+                    <div class="scoreboard">
+                    <fest:each iterate="json.scores" index="i">
+                        <div class="scoreboard__item">
+                            <b><fest:value>json.scores[i].name</fest:value></b>:<fest:value>json.scores[i].score</fest:value>
+                        </div>
+                    </fest:each>
+                    </div>
+                    <a href="#" class="menu__button">
+                        <span class="menu__button__span">
+                            BACK
+                        </span>
+                    </a>
+                </div>
+            </td>
+            <td class="menu__right_border" width="50%"></td>
+        </tr>
+    </table>
 </fest:template>
 

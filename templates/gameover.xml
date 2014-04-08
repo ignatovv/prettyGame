@@ -3,18 +3,17 @@
         <div class="gameover__title">
             GAME OVER
         </div>
-        <div>
-            Your score: <span class="score"></span>
+        <div class="gameover__score_submit">
+            <div>
+                Your score: <span class="score"></span>
+            </div>
+            <div>
+                Your name <input type="text" class="gameover__name"/>
+            </div>
+            <div>
+                <button class="gameover__submit">Submit</button>
+            </div>
         </div>
-        <div class="score_submit">
-            Name: <input type="text" class="gameover__name"/>
-            <button class="gameover__submit">Submit</button>
-        </div>
-        <a href="#" class="gameover__button">
-            <span class="gameover__button__span">
-                BACK TO MENU
-            </span>
-        </a>
     </div>
 </fest:template>
 

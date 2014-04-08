@@ -1,11 +1,25 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
-    <div class="game">
-	    <div class="game__overlay_container"></div>
-	    <div class="score"></div>
-	    <canvas class="game__canvas" width="1050" height="680">
-	    </canvas>
-	    <div class="game__controls">
-            <a href="#">Back</a>
-        </div>
-    </div>
+    <div class="game__overlay_container"></div>
+
+    <table cellspacing="0" cellpadding="0" width="100%" height="100%">
+    	<tr>
+    		<td class="game__left_border" width="50%"></td>
+    		<td class="game__main">
+    			<div align="right" style="position: relative;">
+	    			<table class="game_button" style="position: absolute; left: 20px; top: 70px;">
+			        	<tr>
+			        		<td>
+			        			<a href="#">BACK</a>
+			        		</td>
+			    		</tr>
+			    	</table>
+		    	</div>
+
+    			<div class="game__main__shadow_top"></div>
+			    <canvas class="game_canvas" width="1050" height="680"></canvas>
+			    <div class="game__main__shadow_bottom"></div>
+		    </td>
+		    <td class="game__right_border" width="50%"></td>
+		</tr>
+	</table>
 </fest:template>

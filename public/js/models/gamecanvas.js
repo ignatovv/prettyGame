@@ -18,14 +18,14 @@ define([
 		backgroundMaxY: 696,
 		backgroundY: 0,
         initialize: function () {
-			this.backgroundImage.src = "/images/background.png";
+			this.backgroundImage.src = "/images/game_space.png";
 			this.stoneImage.src = "/images/stone.gif";
 			this.fps = 60;
 			Stone.loadImage();
 			Bomb.loadImage();
         },
         updateCanvas: function () {
-            var ctx = $(".game__canvas").get(0).getContext("2d");
+            var ctx = $(".game_canvas").get(0).getContext("2d");
 
 			var canvasWidth = 1050;
 			var canvasHeight = 680;
