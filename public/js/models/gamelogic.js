@@ -11,7 +11,7 @@ define([
     Backbone,
 	gyro,
 	bossUnit,
-	playerUnit,
+	PlayerUnit,
 	BombUnit,
 	StoneUnit,
 	bombs,
@@ -22,7 +22,7 @@ define([
         canvasWidth: 1050,
 		canvasHeight: 680,
 		bossUnit: bossUnit,
-		playerUnit: playerUnit,
+		playerUnit: null,
 		scores:0,
 		max_accelerate: 15,
 		max_angle: 35,
@@ -33,15 +33,14 @@ define([
 		timer: 0,
 		initialize: function () {
 			bossUnit.canvasWidth = this.canvasWidth;
-			playerUnit.canvasWidth = this.canvasWidth;
-			playerUnit.canvasHeight = this.canvasHeight;	
+			this.playerUnit = new PlayerUnit(this);
 			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
         	bossUnit.refresh();  
-        	playerUnit.refresh();
+        	this.playerUnit.refresh();
         	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
@@ -75,20 +74,21 @@ define([
 			gyro.stopTracking();
 		},
         stop: function() {
-        	playerUnit.movingLeft = false;
-        	playerUnit.movingRight = false;
+        	this.playerUnit.movingLeft = false;
+        	this.playerUnit.movingRight = false;
         },
         moveLeft: function() {
-        	playerUnit.movingLeft = true;
+        	this.playerUnit.movingLeft = true;
         },
         moveRight: function() {
-        	playerUnit.movingRight = true;
+        	this.playerUnit.movingRight = true;
         },
 		processGameFrame: function() {
 			if (this.gamePaused) {
 				return;
 			}
 
+			this.playerUnit.move();
 			bossUnit.move();
 			
 			if (bossUnit.bombDropped) {
@@ -104,13 +104,11 @@ define([
 				this.timer = 0;					
 				var stoneUnit = new StoneUnit();
 				stoneUnit.canvasHeight = this.canvasHeight;
-				stoneUnit.x = playerUnit.x;
+				stoneUnit.x = this.playerUnit.x;
 				stones.add(stoneUnit);
 			} else {
 				this.timer = this.timer + 1;
 			}
-			
-			playerUnit.move();
 			
 			var game = this;			
 			var bombsToRemove = [];
@@ -136,6 +134,8 @@ define([
 
 			bombs.remove(bombsToRemove);
 			stones.remove(stonesToRemove);
+
+			this.trigger('game_frame', this);
 		},
 		endGame: function() {
 			this.gamePaused = true;

@@ -5,7 +5,7 @@ define([
     Backbone,
     gamelogic
 ){
-    var stoneUnit = Backbone.Model.extend({    
+    var StoneUnit = Backbone.Model.extend({    
         x: 0,
         y: -50,
         canvasWidth: 0,
@@ -37,5 +37,5 @@ define([
             this.image.src = "/images/stone.gif";
         }
     });
-    return stoneUnit;
+    return StoneUnit;
 });
