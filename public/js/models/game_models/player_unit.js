@@ -18,7 +18,7 @@ define([
         gamelogic: null,
     	initialize: function(gamelogic) {
             this.x = 500;
-            this.y =  520;            
+            this.y =  520;
     		this.image.src = "/images/spaceship.gif";	
             this.gamelogic = gamelogic;
             this.gamelogic.on('game_frame', this.onGameFrame, this);

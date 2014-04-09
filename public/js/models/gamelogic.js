@@ -3,16 +3,14 @@ define([
 	'gyro',
 	'models/game_models/boss_unit',
 	'models/game_models/player_unit',
-	'models/game_models/bomb_unit',
 	'models/game_models/stone_unit',
 	'collections/bombs',
 	'collections/stones'
 ], function(
     Backbone,
 	gyro,
-	bossUnit,
+	BossUnit,
 	PlayerUnit,
-	BombUnit,
 	StoneUnit,
 	bombs,
 	stones
@@ -21,8 +19,8 @@ define([
     var Logic = Backbone.Model.extend({	
         canvasWidth: 1050,
 		canvasHeight: 680,
-		bossUnit: bossUnit,
 		playerUnit: null,
+		bossUnit: null,
 		scores:0,
 		max_accelerate: 15,
 		max_angle: 35,
@@ -32,14 +30,16 @@ define([
 		stones: stones,
 		timer: 0,
 		initialize: function () {
-			bossUnit.canvasWidth = this.canvasWidth;
 			this.playerUnit = new PlayerUnit(this);
+			this.bossUnit = new BossUnit(this);
+			this.bossUnit.canvasWidth = this.canvasWidth;
+			this.bossUnit.on('bomb_dropped', this.onBombDropped);
 			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
-        	bossUnit.refresh();  
+        	this.bossUnit.refresh();  
         	this.playerUnit.refresh();
         	this.scores = 1;    
         	this.timer = 0; 
@@ -87,55 +87,75 @@ define([
 			if (this.gamePaused) {
 				return;
 			}
-
-			this.playerUnit.move();
-			bossUnit.move();
 			
-			if (bossUnit.bombDropped) {
-				var bombUnit = new BombUnit();
-				bombUnit.canvasHeight = this.canvasHeight;					
-				bombUnit.x = bossUnit.x;
-				bombUnit.y = bossUnit.y;
-				bombs.add(bombUnit);
-				bossUnit.bombDropped = false;
-			}		
+			this.createStoneIfNeeded();
+			this.moveGameModels();
+			this.detectCollisions();		
+			this.removeBombsIfNeeded();
+			this.removeStoneIfNeeded();
 
-			if (this.timer > 40) {
-				this.timer = 0;					
+			this.trigger('game_frame');
+		},
+		moveGameModels: function() {
+			this.playerUnit.move();
+			this.bossUnit.move();
+
+			bombs.forEach(function(bomb) {
+				bomb.move(this.playerUnit.x, this.playerUnit.y);
+			}, this);
+
+			stones.forEach(function(stone) {
+				stone.move(this.playerUnit.x, this.playerUnit.y);
+			}, this);
+		},
+		createStoneIfNeeded: function() {
+			++this.timer;
+			
+			if (this.timer >= 40) {
 				var stoneUnit = new StoneUnit();
+
 				stoneUnit.canvasHeight = this.canvasHeight;
 				stoneUnit.x = this.playerUnit.x;
 				stones.add(stoneUnit);
-			} else {
-				this.timer = this.timer + 1;
+
+				this.timer = 0;
 			}
-			
-			var game = this;			
+		},
+		detectCollisions: function() {
+			bombs.forEach(function(bomb) {
+				if (bomb.exploded) { this.endGame(); }
+			}, this);
+
+			stones.forEach(function(stone) {
+				if (stone.exploded) { this.endGame(); }
+			}, this);
+		},
+		removeBombsIfNeeded: function() {
 			var bombsToRemove = [];
-			var stonesToRemove = [];
 			
 			bombs.forEach(function(bomb) {
-				bomb.move(game.playerUnit.x, game.playerUnit.y);
-				if (bomb.exploded) { game.endGame(); }
 				if (bomb.deleted) {
-					game.scores = game.scores + 1; 
+					this.scores = this.scores + 1; 
 					bombsToRemove.push(bomb);	
 				}
 			}, this);
 
+			bombs.remove(bombsToRemove);
+		},
+		removeStoneIfNeeded: function() {
+			var stonesToRemove = [];
+
 			stones.forEach(function(stone) {
-				stone.move(game.playerUnit.x, game.playerUnit.y);
-				if (stone.exploded) { game.endGame(); }
 				if (stone.deleted) {
-					game.scores = game.scores + 2; 
+					this.scores = this.scores + 2;
 					stonesToRemove.push(stone);
 				}
 			}, this);
 
-			bombs.remove(bombsToRemove);
 			stones.remove(stonesToRemove);
-
-			this.trigger('game_frame', this);
+		},
+		onBombDropped: function(bombUnit) {
+			bombs.add(bombUnit);
 		},
 		endGame: function() {
 			this.gamePaused = true;
