@@ -37,8 +37,8 @@ define([
             ++this.timeSinceLastBombDrop;
 
             if (this.timeSinceLastBombDrop >= 40) {
-                var bombUnit = new BombUnit();
-                
+                var bombUnit = new BombUnit(this.gamelogic);
+
                 bombUnit.canvasHeight = this.gamelogic.canvasHeight;                  
                 bombUnit.x = this.x;
                 bombUnit.y = this.y;

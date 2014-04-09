@@ -91,8 +91,6 @@ define([
 			this.createStoneIfNeeded();
 			this.moveGameModels();
 			this.detectCollisions();		
-			this.removeBombsIfNeeded();
-			this.removeStoneIfNeeded();
 
 			this.trigger('game_frame');
 		},
@@ -112,7 +110,7 @@ define([
 			++this.timer;
 			
 			if (this.timer >= 40) {
-				var stoneUnit = new StoneUnit();
+				var stoneUnit = new StoneUnit(this);
 
 				stoneUnit.canvasHeight = this.canvasHeight;
 				stoneUnit.x = this.playerUnit.x;
@@ -129,30 +127,6 @@ define([
 			stones.forEach(function(stone) {
 				if (stone.exploded) { this.endGame(); }
 			}, this);
-		},
-		removeBombsIfNeeded: function() {
-			var bombsToRemove = [];
-			
-			bombs.forEach(function(bomb) {
-				if (bomb.deleted) {
-					this.scores = this.scores + 1; 
-					bombsToRemove.push(bomb);	
-				}
-			}, this);
-
-			bombs.remove(bombsToRemove);
-		},
-		removeStoneIfNeeded: function() {
-			var stonesToRemove = [];
-
-			stones.forEach(function(stone) {
-				if (stone.deleted) {
-					this.scores = this.scores + 2;
-					stonesToRemove.push(stone);
-				}
-			}, this);
-
-			stones.remove(stonesToRemove);
 		},
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);

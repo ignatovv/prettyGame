@@ -1,9 +1,11 @@
 define([
     'backbone',
-    'models/gamelogic'
+    'models/gamelogic',
+    'collections/bombs'
 ], function(
     Backbone,
-    gamelogic
+    gamelogic,
+    bombs
 ){
     var bombUnit = Backbone.Model.extend({    
         x: 0,
@@ -11,8 +13,9 @@ define([
         canvasWidth: 0,
         canvasHeight: 0,
         exploded: false,
-        deleted: false,
-        initialize: function() {          
+        gamelogic: null,
+        initialize: function(gamelogic) {          
+            this.gamelogic = gamelogic;
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -28,7 +31,8 @@ define([
                 } 
             }
             if (this.y > this.canvasHeight) {               
-                this.deleted = true;
+                bombs.remove(this);
+                this.gamelogic.scores = this.gamelogic.scores + 1;
             }  
         }   
     }, {

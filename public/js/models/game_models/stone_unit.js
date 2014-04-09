@@ -1,9 +1,9 @@
 define([
     'backbone',
-    'models/gamelogic'
+    'collections/stones'
 ], function(
     Backbone,
-    gamelogic
+    stones
 ){
     var StoneUnit = Backbone.Model.extend({    
         x: 0,
@@ -11,8 +11,9 @@ define([
         canvasWidth: 0,
         canvasHeight: 0,
         exploded: false,
-        deleted: false,
-        initialize: function() {          
+        gamelogic: null,
+        initialize: function(gamelogic) {          
+            this.gamelogic = gamelogic;
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -28,9 +29,10 @@ define([
                 } 
             }
             if (this.y > this.canvasHeight) {               
-                this.deleted = true;
-            }     
-        }    
+                stones.remove(this);
+                this.gamelogic.scores = this.gamelogic.scores + 2;
+            }
+        }
     }, {
         image: new Image(),
         loadImage: function() {
