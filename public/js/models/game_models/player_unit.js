@@ -27,15 +27,13 @@ define([
             if (this.hp == 0) {
                //this.image.src = "/images/bomb.gif";
             }
-		},
-        refresh: function() {
-        }
+		}
     }, {
         image: new Image(),
         loadImage: function() {
             this.image.src = "/images/spaceship.gif";
         }
     });
-    
+
     return PlayerUnit;
 });
