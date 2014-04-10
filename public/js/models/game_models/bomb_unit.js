@@ -1,21 +1,19 @@
 define([
     'backbone',
-    'models/gamelogic',
+    'models/game_models/game_model',
     'collections/bombs'
 ], function(
     Backbone,
-    gamelogic,
+    GameModel,
     bombs
 ){
-    var bombUnit = Backbone.Model.extend({    
-        x: 0,
-        y: 0,
-        canvasWidth: 0,
-        canvasHeight: 0,
+    var BombUnit = GameModel.extend({    
+        width: 50,
+        height: 50,
         exploded: false,
-        gamelogic: null,
         initialize: function(gamelogic) {          
-            this.gamelogic = gamelogic;
+            BombUnit.__super__.initialize(gamelogic, this);
+            this.image = BombUnit.image;
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -41,5 +39,6 @@ define([
             this.image.src = "/images/bomb.gif";
         }
     });
-    return bombUnit;
+
+    return BombUnit;
 });

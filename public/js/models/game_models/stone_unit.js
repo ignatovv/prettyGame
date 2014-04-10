@@ -1,19 +1,20 @@
 define([
     'backbone',
+    'models/game_models/game_model',
     'collections/stones'
 ], function(
     Backbone,
+    GameModel,
     stones
 ){
-    var StoneUnit = Backbone.Model.extend({    
-        x: 0,
+    var StoneUnit = GameModel.extend({    
         y: -50,
-        canvasWidth: 0,
-        canvasHeight: 0,
+        width: 48,
+        height: 50,
         exploded: false,
-        gamelogic: null,
-        initialize: function(gamelogic) {          
-            this.gamelogic = gamelogic;
+        initialize: function(gamelogic) {     
+            StoneUnit.__super__.initialize(gamelogic, this);
+            this.image = StoneUnit.image;
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 5;
@@ -39,5 +40,6 @@ define([
             this.image.src = "/images/stone.gif";
         }
     });
+
     return StoneUnit;
 });

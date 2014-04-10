@@ -15,8 +15,7 @@ define([
 	bombs,
 	stones
 ){
-
-    var Logic = Backbone.Model.extend({	
+    var GameLogic = Backbone.Model.extend({	
         canvasWidth: 1050,
 		canvasHeight: 680,
 		playerUnit: null,
@@ -30,17 +29,14 @@ define([
 		stones: stones,
 		timer: 0,
 		initialize: function () {
-			this.playerUnit = new PlayerUnit(this);
-			this.bossUnit = new BossUnit(this);
-			this.bossUnit.canvasWidth = this.canvasWidth;
-			this.bossUnit.on('bomb_dropped', this.onBombDropped);
 			gyro.frequency = 15;			
         },
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
-        	this.bossUnit.refresh();  
-        	this.playerUnit.refresh();
+        	this.playerUnit = new PlayerUnit(this);
+			this.bossUnit = new BossUnit(this);
+			this.bossUnit.on('bomb_dropped', this.onBombDropped);
         	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
@@ -53,7 +49,8 @@ define([
 				if (!o.x) {
 					gyro.stopTracking();
 					return;
-				}				
+				}
+							
 				var tilt;
 				
 				if (window.orientation == -90) tilt = (-1) * o.beta;
@@ -112,7 +109,6 @@ define([
 			if (this.timer >= 40) {
 				var stoneUnit = new StoneUnit(this);
 
-				stoneUnit.canvasHeight = this.canvasHeight;
 				stoneUnit.x = this.playerUnit.x;
 				stones.add(stoneUnit);
 
@@ -137,5 +133,5 @@ define([
 		}
     });
 	
-    return new Logic();
+    return new GameLogic();
 });
