@@ -41,7 +41,11 @@ define([
                 this.timeSinceLastBombDrop = 0;
                 this.trigger('bomb_dropped', bombUnit);
             }
+        },
+        contains: function() {
+            return true;
         }
+
     }, {
         image: new Image(),
         loadImage: function() {

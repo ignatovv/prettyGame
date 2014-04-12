@@ -1,9 +1,11 @@
 define([
     'backbone',
-    'models/game_models/game_model'
+    'models/game_models/game_model',
+    'models/game_models/slug_unit'
 ], function(
     Backbone,
-    GameModel
+    GameModel,
+    SlugUnit
 ){
     var PlayerUnit = GameModel.extend({
         x: 500,
@@ -34,7 +36,18 @@ define([
             if (this.hp == 0) {
                //this.image.src = "/images/bomb.gif";
             }
+            this.shoot();
 		},
+        shoot: function(){
+            if(this.gamelogic.spacebarButtonPressed) {
+                var slugUnit = new SlugUnit(this.gamelogic);
+
+                slugUnit.x = this.x + this.width/2 - slugUnit.width/2;
+                slugUnit.y = this.y;                
+                this.gamelogic.spacebarButtonPressed = false;                
+                this.trigger('player_shot', slugUnit);
+            }
+        },
         contains: function(canvas_x, canvas_y) {
             var x = canvas_x - this.x - 2;
             var y = canvas_y - this.y - 2;

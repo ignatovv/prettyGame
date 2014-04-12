@@ -15,7 +15,7 @@ define([
             StoneUnit.__super__.initialize(gamelogic, this);
             this.image = StoneUnit.image;
         },
-        move: function(playerX, playerY) {            
+        move: function() {            
             this.y = this.y + 3;
 
             if (this.y > this.canvasHeight) {               

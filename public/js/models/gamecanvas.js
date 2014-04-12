@@ -5,7 +5,8 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/boss_unit',
 	'models/game_models/stone_unit',
-	'models/game_models/bomb_unit'
+	'models/game_models/bomb_unit',
+	'models/game_models/slug_unit'	
 ], function(
     Backbone,
 	gyro,
@@ -13,7 +14,8 @@ define([
 	PlayerUnit,
 	BossUnit,
 	StoneUnit,
-	BombUnit
+	BombUnit,
+	SlugUnit
 ){
     var Canvas = Backbone.Model.extend({	
 		backgroundImage: new Image(),
@@ -30,6 +32,7 @@ define([
         	BossUnit.loadImage();
         	StoneUnit.loadImage();
         	BombUnit.loadImage();
+        	SlugUnit.loadImage();
         },
         updateCanvas: function () {
             var ctx = $(".game_canvas").get(0).getContext("2d");
@@ -46,6 +49,10 @@ define([
 
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);
+			});
+
+			gamelogic.slugs.forEach(function(slug) {
+				slug.draw(ctx);
 			});
 
 			return this;

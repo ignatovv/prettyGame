@@ -14,7 +14,7 @@ define([
             BombUnit.__super__.initialize(gamelogic, this);
             this.image = BombUnit.image;
         },
-        move: function(playerX, playerY) {            
+        move: function() {            
             this.y = this.y + 5;
             
             if (this.y > this.canvasHeight) {               

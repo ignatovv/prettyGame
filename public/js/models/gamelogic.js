@@ -4,16 +4,20 @@ define([
 	'models/game_models/boss_unit',
 	'models/game_models/player_unit',
 	'models/game_models/stone_unit',
+	'models/game_models/slug_unit',
 	'collections/bombs',
-	'collections/stones'
+	'collections/stones',
+	'collections/slugs'
 ], function(
     Backbone,
 	gyro,
 	BossUnit,
 	PlayerUnit,
 	StoneUnit,
+	SlugUnit,
 	bombs,
-	stones
+	stones,
+	slugs
 ){
     var GameLogic = Backbone.Model.extend({	
         canvasWidth: 1050,
@@ -27,9 +31,11 @@ define([
 		gamePaused: false,
 		bombs: bombs,
 		stones: stones,
+		slugs: slugs,
 		timer: 0,
 		leftButtonPressed: false,
 		rightButtonPressed: false,
+		spacebarButtonPressed: false,
 		initialize: function () {
 			gyro.frequency = 15;			
         },
@@ -37,12 +43,14 @@ define([
         	this.startGyro();
         	this.gamePaused = false;
         	this.playerUnit = new PlayerUnit(this);
+        	this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
         	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
         	stones.reset();
+        	slugs.reset();
         },
         startGyro: function () {
         	var game = this;
@@ -88,11 +96,15 @@ define([
 			this.bossUnit.move();
 
 			bombs.forEach(function(bomb) {
-				bomb.move(this.playerUnit.x, this.playerUnit.y);
+				bomb.move();
 			}, this);
 
 			stones.forEach(function(stone) {
-				stone.move(this.playerUnit.x, this.playerUnit.y);
+				stone.move();
+			}, this);
+
+			slugs.forEach(function(slug) {
+				slug.move();
 			}, this);
 		},
 		createStoneIfNeeded: function() {
@@ -111,17 +123,52 @@ define([
 			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
+			// bombs.forEach(function(bomb) {
+			// 	if (bomb.exploded) { this.endGame(); }
+			// }, this);
+
+			// stones.forEach(function(stone) {
+			// 	if (stone.exploded) { this.endGame(); }
+			// }, this);
+
+			
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
 					this.endGame();
 				}
+
+				slugs.forEach(function(slug) {
+					if(this.intersects(slug, bomb)) {
+						this.scores = this.scores + 2;
+						bombs.remove(bomb);
+						slugs.remove(slug);
+					}
+				}, this);
+
 			}, this);
 
 			stones.forEach(function(stone) {
 				if (this.intersects(stone, this.playerUnit)) {
 					this.endGame();
 				}
+
+				slugs.forEach(function(slug) {
+					if(this.intersects(slug,stone)) {					
+						this.scores = this.scores + 2;
+						stones.remove(stone)
+						slugs.remove(slug);
+					}
+				}, this);
+
 			}, this);
+
+			// slugs.forEach(function(slug) {
+			// 	if(this.intersects(slug,this.bossUnit)) {
+			// 		this.endGame();
+			// 	}
+			// }, this);
+
+
 		},
 		intersection: function(unit1, unit2) {
 			var smaller, bigger;
@@ -152,6 +199,7 @@ define([
 				for (var x = intersect_x.coordinate; x < intersect_x.coordinate + intersect_x.size; ++x) {
 					for (var y = intersect_y.coordinate; y < intersect_y.coordinate + intersect_y.size; ++y) {
 						if (unit1.contains(x, y) && unit2.contains(x, y)) {
+							console.log(x, y, unit1, unit2);
 							return true;
 						}
 					}
@@ -160,6 +208,9 @@ define([
 
 			return false;
 		},
+		onPlayerShot: function(slugUnit) {
+			slugs.add(slugUnit);
+		},		
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);
 		},
