@@ -17,10 +17,10 @@ define([
             this.image = StoneUnit.image;
         },
         move: function(playerX, playerY) {            
-            this.y = this.y + 5;
-            if(this.y < playerY){
-                if(this.x > playerX){
-                    if(( this.x - playerX) < 40 && (playerY - this.y) < 40){
+            this.y = this.y + 3;
+            if (this.y < playerY){
+                if (this.x > playerX){
+                    if (( this.x - playerX) < 40 && (playerY - this.y) < 40){
                     // playerUnit.hp = 0;
                     this.exploded = true;
                     }   

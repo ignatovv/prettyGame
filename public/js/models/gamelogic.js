@@ -101,11 +101,14 @@ define([
 			if (this.timer >= 40) {
 				var stoneUnit = new StoneUnit(this);
 
-				stoneUnit.x = this.playerUnit.x;
+				stoneUnit.x = this.random(0, this.canvasWidth - stoneUnit.width);
 				stones.add(stoneUnit);
 
 				this.timer = 0;
 			}
+		},
+		random: function(min, max) {
+			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
 			bombs.forEach(function(bomb) {
