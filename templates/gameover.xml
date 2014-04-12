@@ -8,10 +8,11 @@
                 Your score: <span class="score"></span>
             </div>
             <div>
-                Your name <input type="text" class="gameover__name"/>
+                Your name: <input type="text" class="gameover__name"/>
             </div>
             <div>
                 <button class="gameover__submit">Submit</button>
+                <button class="gameover__playagain">Play again</button>
             </div>
         </div>
     </div>

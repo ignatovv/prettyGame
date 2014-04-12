@@ -15,7 +15,8 @@ define([
     var View = Backbone.View.extend({
         template: tmpl,
         events: {
-            "click .gameover__submit": "submitScore"
+            "click .gameover__submit": "submitScore",
+            "click .gameover__playagain": "playAgain"
         },
         initialize: function () {
 			this.$el.hide();
@@ -94,6 +95,10 @@ define([
             this.setInputsEnabled(true);
 
             location.href = "#scoreboard";
+        },
+        playAgain: function() {
+            this.hide();
+            gamelogic.startNewGame();
         }
     });
     return new View();

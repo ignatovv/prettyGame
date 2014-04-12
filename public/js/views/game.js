@@ -30,6 +30,7 @@ define([
 				if (!game.$el.is(":visible")) {
 					return;
 				}
+                
 	            requestAnimationFrame(function() { game.nextFrame(); });
 	            gamelogic.processGameFrame();
 	            gamecanvas.updateCanvas();
@@ -45,11 +46,12 @@ define([
             $(document).on("keydown", this.buttonDown);
             $(document).on("keyup", this.buttonUp);
 
+            this.nextFrame();
 			this.$el.show();
 			this.trigger('show', this);            
 			
             gamelogic.startNewGame();
-            this.nextFrame();
+            
         },
         hide: function() {
             $(document).off("keydown", this.buttonDown);
