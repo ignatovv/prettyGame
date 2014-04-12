@@ -106,15 +106,16 @@ body {
 }
 
 .game__main__shadow_top {
-    height: 50px;
     background-image: url("/images/game_shadow_top.png");
-    background-repeat: repeat-x; 
+    background-repeat: repeat-x;
+    background-position: bottom;
 }
 
 .game__main__shadow_bottom {
-    height: 50px;
+
     background-image: url("/images/game_shadow_bottom.png");
     background-repeat: repeat-x; 
+    background-position: top;
 }
 
 .game_button {

@@ -19,6 +19,7 @@ define([
 		backgroundImage: new Image(),
 		backgroundMaxY: 696,
 		backgroundY: 0,
+		backgroundSpeed: 2,
         initialize: function () {
 			this.backgroundImage.src = "/images/game_space.png";
 			this.fps = 60;
@@ -51,7 +52,8 @@ define([
         },
         drawBackground: function(ctx) {
         	ctx.drawImage(this.backgroundImage, 0, this.backgroundY, gamelogic.canvasWidth, gamelogic.canvasHeight, 0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
-        	this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - 1 : this.backgroundMaxY;
+        	
+        	this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - this.backgroundSpeed : this.backgroundMaxY;
         }
     });
 	return new Canvas();

@@ -15,9 +15,19 @@
 			    	</table>
 		    	</div>
 
-    			<div class="game__main__shadow_top"></div>
-			    <canvas class="game_canvas" width="1050" height="680"></canvas>
-			    <div class="game__main__shadow_bottom"></div>
+		    	<table cellspacing="0" cellpadding="0" width="100%" height="100%">
+		    		<tr>
+		    			<td class="game__main__shadow_top"></td>
+		    		</tr>
+		    		<tr>
+			    		<td height="680">
+			    			<canvas class="game_canvas" width="1050" height="680"></canvas>
+			    		</td>
+			    	</tr>
+			    	<tr>
+			    		<td class="game__main__shadow_bottom"></td>
+			    	</tr>
+				</table>
 		    </td>
 		    <td class="game__right_border" width="50%"></td>
 		</tr>
