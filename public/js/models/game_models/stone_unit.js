@@ -33,6 +33,13 @@ define([
                 stones.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 2;
             }
+        },
+        contains: function(canvas_x, canvas_y) {
+            var x = canvas_x - this.x;
+            var y = canvas_y - this.y;
+            var r = this.width / 2;
+
+            return y * y >= x * x - r * r;
         }
     }, {
         image: new Image(),

@@ -34,7 +34,13 @@ define([
             if (this.hp == 0) {
                //this.image.src = "/images/bomb.gif";
             }
-		}
+		},
+        contains: function(canvas_x, canvas_y) {
+            var x = canvas_x - this.x;
+            var y = canvas_y - this.y;
+            
+            return y >= this.height * (1 - 2 * x / this.width) && y >= this.height * (2 * x / this.width - 1);
+        }
     }, {
         image: new Image(),
         loadImage: function() {

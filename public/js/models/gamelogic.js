@@ -79,7 +79,7 @@ define([
 			
 			this.createStoneIfNeeded();
 			this.moveGameModels();
-			this.detectCollisions();		
+			this.detectCollisions();
 
 			this.trigger('game_frame');
 		},
@@ -111,13 +111,62 @@ define([
 			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
+			// bombs.forEach(function(bomb) {
+			// 	if (bomb.exploded) { this.endGame(); }
+			// }, this);
+
+			// stones.forEach(function(stone) {
+			// 	if (stone.exploded) { this.endGame(); }
+			// }, this);
+
 			bombs.forEach(function(bomb) {
-				if (bomb.exploded) { this.endGame(); }
+				if (this.intersects(bomb, this.playerUnit)) {
+					this.endGame();
+				}
 			}, this);
 
 			stones.forEach(function(stone) {
-				if (stone.exploded) { this.endGame(); }
+				if (this.intersects(stone, this.playerUnit)) {
+					this.endGame();
+				}
 			}, this);
+		},
+		intersection: function(unit1, unit2) {
+			var smaller, bigger;
+
+			if (unit1.coordinate >= unit2.coordinate) {
+				bigger = unit1;
+				smaller = unit2;
+			} else {
+				bigger = unit2;
+				smaller = unit1;
+			}
+
+			var delta = bigger.coordinate - smaller.coordinate;
+			var intersect_coordinate, intersect_size;
+
+			if (delta < smaller.size) {
+				intersect_coordinate = bigger.coordinate;
+				intersect_size = smaller.size - delta;
+			}
+
+			return { coordinate: intersect_coordinate, size: intersect_size };
+		},
+		intersects: function(unit1, unit2) {
+			var intersect_x = this.intersection({ coordinate: unit1.x, size: unit1.width }, { coordinate: unit2.x, size: unit2.width });
+			var intersect_y = this.intersection({ coordinate: unit1.y, size: unit1.height }, { coordinate: unit2.y, size: unit2.height });
+
+			if (intersect_x.coordinate && intersect_y.coordinate) {
+				for (var x = intersect_x.coordinate; x < intersect_x.coordinate + intersect_x.size; ++x) {
+					for (var y = intersect_y.coordinate; y < intersect_y.coordinate + intersect_y.size; ++y) {
+						if (unit1.contains(x, y) && unit2.contains(x, y)) {
+							return true;
+						}
+					}
+				}
+			}
+
+			return false;
 		},
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);
