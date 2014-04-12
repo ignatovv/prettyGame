@@ -36,10 +36,12 @@ define([
             }
 		},
         contains: function(canvas_x, canvas_y) {
-            var x = canvas_x - this.x;
-            var y = canvas_y - this.y;
+            var x = canvas_x - this.x - 2;
+            var y = canvas_y - this.y - 2;
+            var width = this.width - 2 * 2;
+            var height = 66;
             
-            return y >= this.height * (1 - 2 * x / this.width) && y >= this.height * (2 * x / this.width - 1);
+            return y > height * (1 - 2 * x / width) && y > height * (2 * x / width - 1) && y < 2 + height;
         }
     }, {
         image: new Image(),

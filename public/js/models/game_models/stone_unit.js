@@ -11,24 +11,13 @@ define([
         y: -50,
         width: 48,
         height: 50,
-        exploded: false,
         initialize: function(gamelogic) {     
             StoneUnit.__super__.initialize(gamelogic, this);
             this.image = StoneUnit.image;
         },
         move: function(playerX, playerY) {            
             this.y = this.y + 3;
-            if (this.y < playerY){
-                if (this.x > playerX){
-                    if (( this.x - playerX) < 40 && (playerY - this.y) < 40){
-                    // playerUnit.hp = 0;
-                    this.exploded = true;
-                    }   
-                } else if((playerX - this.x) < 40 && (playerY - this.y) < 40){
-                    // playerUnit.hp = 0;
-                    this.exploded = true;
-                } 
-            }
+
             if (this.y > this.canvasHeight) {               
                 stones.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 2;
@@ -39,7 +28,10 @@ define([
             var y = canvas_y - this.y;
             var r = this.width / 2;
 
-            return y * y >= x * x - r * r;
+            x -= this.width / 2;
+            y -= this.width / 2;
+            
+            return y > (-1) * Math.sqrt(x * x + r * r) + r && y < Math.sqrt(x * x + r * r) + r;
         }
     }, {
         image: new Image(),
