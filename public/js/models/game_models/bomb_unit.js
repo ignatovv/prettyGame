@@ -28,9 +28,9 @@ define([
             var r = 17;
 
             x -= this.width / 2;
-            y -= this.width / 2;
+            y -= this.height / 2;
             
-            return y > (-1) * Math.sqrt(x * x + r * r) + r && y < Math.sqrt(x * x + r * r) + r;
+            return y >= (-1) * Math.sqrt(r * r - x * x) + r && y <= Math.sqrt(r * r - x * x);
         }
     }, {
         image: new Image(),

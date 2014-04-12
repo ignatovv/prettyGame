@@ -10,7 +10,7 @@ define([
         y: 520,
         width: 60,
         height: 112,
-        frames: [6, 6, 6, 6],
+        frames: [4, 4, 4, 4],
         hp: 1,
     	initialize: function(gamelogic) {
             PlayerUnit.__super__.initialize(gamelogic, this);
@@ -18,11 +18,11 @@ define([
     	},
 		move: function() {		
 			if (this.gamelogic.leftButtonPressed) {
-                this.x -= 3;
+                this.x -= 5;
             }
             
             if (this.gamelogic.rightButtonPressed) {
-                this.x += 3;
+                this.x += 5;
             }
 			
             if (this.x + this.width > this.gamelogic.canvasWidth - 1) {
@@ -41,7 +41,7 @@ define([
             var width = this.width - 2 * 2;
             var height = 66;
             
-            return y > height * (1 - 2 * x / width) && y > height * (2 * x / width - 1) && y < 2 + height;
+            return y >= height * (1 - 2 * x / width) && y >= height * (2 * x / width - 1) && y <= 2 + height;
         }
     }, {
         image: new Image(),

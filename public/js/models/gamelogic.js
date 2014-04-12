@@ -111,14 +111,6 @@ define([
 			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
-			// bombs.forEach(function(bomb) {
-			// 	if (bomb.exploded) { this.endGame(); }
-			// }, this);
-
-			// stones.forEach(function(stone) {
-			// 	if (stone.exploded) { this.endGame(); }
-			// }, this);
-
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
 					this.endGame();
@@ -160,7 +152,6 @@ define([
 				for (var x = intersect_x.coordinate; x < intersect_x.coordinate + intersect_x.size; ++x) {
 					for (var y = intersect_y.coordinate; y < intersect_y.coordinate + intersect_y.size; ++y) {
 						if (unit1.contains(x, y) && unit2.contains(x, y)) {
-							console.log(x, y, unit1, unit2);
 							return true;
 						}
 					}

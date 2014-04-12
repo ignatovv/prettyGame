@@ -27,11 +27,11 @@ define([
             var x = canvas_x - this.x;
             var y = canvas_y - this.y;
             var r = this.width / 2;
-
-            x -= this.width / 2;
-            y -= this.width / 2;
             
-            return y > (-1) * Math.sqrt(x * x + r * r) + r && y < Math.sqrt(x * x + r * r) + r;
+            x -= this.width / 2;
+            y -= this.height / 2;
+            
+            return y >= (-1) * Math.sqrt(r * r - x * x) && y <= Math.sqrt(r * r - x * x);
         }
     }, {
         image: new Image(),
