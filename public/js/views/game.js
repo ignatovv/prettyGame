@@ -23,20 +23,6 @@ define([
 			this.$el.hide();
             gamelogic.on('endgame', this.onEndGame, this);
         },
-        buttonDown: function(e) {
-            if (e.keyCode == 37 || e.keyCode == 65) {
-                gamelogic.moveLeft();
-            } else if (e.keyCode == 39|| e.keyCode == 68) {
-                gamelogic.moveRight();
-            } 
-        },
-        buttonUp: function(e) {
-            if (e.keyCode == 37 || e.keyCode == 65) {
-                gamelogic.stop();
-            } else if (e.keyCode == 39 || e.keyCode == 68) {
-                gamelogic.stop();
-            } 
-        },
 		nextFrame: function() {
 			var game = this;
 			
@@ -52,11 +38,13 @@ define([
         render: function () {
             this.$el.html(this.template());
             this.$el.find('.game__overlay_container').html(gameover.render().$el);
-            $(document).get(0).addEventListener("keydown", this.buttonDown);
-            $(document).get(0).addEventListener("keyup", this.buttonUp);
+            
             return this;
         },
         show: function () {
+            $(document).on("keydown", this.buttonDown);
+            $(document).on("keyup", this.buttonUp);
+
 			this.$el.show();
 			this.trigger('show', this);            
 			
@@ -64,11 +52,28 @@ define([
             this.nextFrame();
         },
         hide: function() {
+            $(document).off("keydown", this.buttonDown);
+            $(document).off("keyup", this.buttonUp);
+
 			gameover.hide();
             this.$el.hide();
 			
 			gamelogic.stopGyro();
 		},
+        buttonDown: function(e) {
+            if (e.keyCode == 37 || e.keyCode == 65) {
+                gamelogic.leftButtonPressed = true;
+            } else if (e.keyCode == 39|| e.keyCode == 68) {
+                gamelogic.rightButtonPressed = true;
+            } 
+        },
+        buttonUp: function(e) {
+            if (e.keyCode == 37 || e.keyCode == 65) {
+                gamelogic.leftButtonPressed = false;
+            } else if (e.keyCode == 39 || e.keyCode == 68) {
+                gamelogic.rightButtonPressed = false;
+            } 
+        },
         onEndGame: function() {
             gameover.show();
         }

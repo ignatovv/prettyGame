@@ -28,6 +28,8 @@ define([
 		bombs: bombs,
 		stones: stones,
 		timer: 0,
+		leftButtonPressed: false,
+		rightButtonPressed: false,
 		initialize: function () {
 			gyro.frequency = 15;			
         },
@@ -70,16 +72,6 @@ define([
 		stopGyro: function () {
 			gyro.stopTracking();
 		},
-        stop: function() {
-        	this.playerUnit.movingLeft = false;
-        	this.playerUnit.movingRight = false;
-        },
-        moveLeft: function() {
-        	this.playerUnit.movingLeft = true;
-        },
-        moveRight: function() {
-        	this.playerUnit.movingRight = true;
-        },
 		processGameFrame: function() {
 			if (this.gamePaused) {
 				return;
