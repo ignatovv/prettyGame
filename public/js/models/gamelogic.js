@@ -5,9 +5,11 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/stone_unit',
 	'models/game_models/slug_unit',
+	'models/game_models/explosion_unit',
 	'collections/bombs',
 	'collections/stones',
-	'collections/slugs'
+	'collections/slugs',
+	'collections/effects'
 ], function(
     Backbone,
 	gyro,
@@ -15,9 +17,11 @@ define([
 	PlayerUnit,
 	StoneUnit,
 	SlugUnit,
+	ExplosionUnit,
 	bombs,
 	stones,
-	slugs
+	slugs,
+	effects
 ){
     var GameLogic = Backbone.Model.extend({	
         canvasWidth: 1050,
@@ -105,6 +109,10 @@ define([
 
 			slugs.forEach(function(slug) {
 				slug.move();
+			}, this);
+
+			effects.forEach(function(effect) {
+				effect.move();
 			}, this);
 		},
 		createStoneIfNeeded: function() {

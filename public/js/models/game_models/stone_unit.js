@@ -1,23 +1,28 @@
 define([
     'backbone',
     'models/game_models/game_model',
-    'collections/stones'
+    'models/game_models/explosion_unit',
+    'collections/stones',
+    'collections/effects'
 ], function(
     Backbone,
     GameModel,
-    stones
+    ExplosionUnit,
+    stones,
+    effects
 ){
     var StoneUnit = GameModel.extend({    
         y: -50,
         width: 48,
         height: 50,
         hp: 3,
+        speed: 3,
         initialize: function(gamelogic) {     
             StoneUnit.__super__.initialize(gamelogic, this);
             this.image = StoneUnit.image;
         },
         move: function() {            
-            this.y = this.y + 3;
+            this.y += this.speed;
 
             if (this.y > this.gamelogic.canvasHeight) {           
                 stones.remove(this);
@@ -25,14 +30,26 @@ define([
             }
         },
         hit: function(power) {
-            // alert(power);
-            this.hp = this.hp -  power;
+            this.hp = this.hp - power;
 
-            if(this.hp <= 0) {
-                new Audio('/sounds/explosion2.wav').play();
-                stones.remove(this);
-                this.gamelogic.scores = this.gamelogic.scores + 3;
+            if (this.hp <= 0) {
+                this.explode();
             }
+        },
+        explode: function() {
+            new Audio('/sounds/explosion2.wav').play();
+
+            stones.remove(this);
+
+            var explosionUnit = new ExplosionUnit(this.gamelogic);
+
+            explosionUnit.x = this.x + (this.width - explosionUnit.width) / 2;
+            explosionUnit.y = this.y + (this.height - explosionUnit.height) / 2;
+            explosionUnit.speed = this.speed;
+
+            effects.add(explosionUnit);
+
+            this.gamelogic.scores = this.gamelogic.scores + 3;
         },
         contains: function(canvas_x, canvas_y) {
             var x = canvas_x - this.x;
