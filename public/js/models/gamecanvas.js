@@ -8,6 +8,7 @@ define([
 	'models/game_models/bomb_unit',
 	'models/game_models/slug_unit',
 	'models/game_models/blast_unit',
+	'models/game_models/clever_bomb_unit',
 	'models/game_models/explosion_unit',
 	'collections/effects'
 ], function(
@@ -20,6 +21,7 @@ define([
 	BombUnit,
 	SlugUnit,
 	Blastunit,
+	CleverBombUnit,
 	ExplosionUnit,
 	effects
 ){
@@ -47,6 +49,7 @@ define([
         	SlugUnit.loadImage();
         	ExplosionUnit.loadImage();
         	Blastunit.loadImage();
+        	CleverBombUnit.loadImage();
         	ExplosionUnit.loadImage();
         },
         updateCanvas: function () {

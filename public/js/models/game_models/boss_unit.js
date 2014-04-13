@@ -2,12 +2,14 @@ define([
     'backbone',
     'models/game_models/game_model',
     'models/game_models/bomb_unit',
-    'models/game_models/blast_unit',    
+    'models/game_models/blast_unit',
+    'models/game_models/clever_bomb_unit'
 ], function(
     Backbone,
     GameModel,
     BombUnit,
-    BlastUnit
+    BlastUnit,
+    CleverBombUnit
 ){
     var BossUnit = GameModel.extend({	
     	x: 50,
@@ -55,8 +57,11 @@ define([
             ++this.timeSinceLastBombDrop;
 
             if (this.timeSinceLastBombDrop >= 40) {
-                var bombUnit = new BombUnit(this.gamelogic);
-                 
+                var bombUnit;
+                if (Math.random()*100 > 20) 
+                    bombUnit = new BombUnit(this.gamelogic);
+                else 
+                    bombUnit = new CleverBombUnit(this.gamelogic);
                 bombUnit.x = this.x;
                 bombUnit.y = this.y;
 
