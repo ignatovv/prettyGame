@@ -17,7 +17,7 @@ define([
         move: function() {            
             this.y = this.y + 5;
             
-            if (this.y > this.gamelogic.canvasHeight) { console.log('bomb');    
+            if (this.y > this.gamelogic.canvasHeight) {  
                 bombs.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 1;
             }  

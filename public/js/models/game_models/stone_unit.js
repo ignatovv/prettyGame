@@ -18,7 +18,7 @@ define([
         move: function() {            
             this.y = this.y + 3;
 
-            if (this.y > this.gamelogic.canvasHeight) { console.log('shone');               
+            if (this.y > this.gamelogic.canvasHeight) {           
                 stones.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 2;
             }
