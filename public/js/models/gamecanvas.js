@@ -56,8 +56,9 @@ define([
             var ctx = $(".game_canvas").get(0).getContext("2d");
 
             ctx.clearRect(0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
-
-			this.drawBackground(ctx);
+            
+            this.drawBackground(ctx);
+			
 			gamelogic.playerUnit.draw(ctx);
 
 			gamelogic.stones.forEach(function(stone) {				
@@ -96,8 +97,9 @@ define([
         },
         drawBackground: function(ctx) {
         	ctx.drawImage(this.backgroundImage, 0, this.backgroundY, gamelogic.canvasWidth, gamelogic.canvasHeight, 0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
-        	
-        	this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - this.backgroundSpeed : this.backgroundMaxY;
+        	if (!gamelogic.gamePaused) {
+        		this.backgroundY = (this.backgroundY > 0) ? this.backgroundY - this.backgroundSpeed : this.backgroundMaxY;
+        	}
         }
     });
 	return new Canvas();
