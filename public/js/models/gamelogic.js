@@ -5,9 +5,11 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/stone_unit',
 	'models/game_models/slug_unit',
+	'models/game_models/explosion_unit',
 	'collections/bombs',
 	'collections/stones',
-	'collections/slugs'
+	'collections/slugs',
+	'collections/explosions',
 ], function(
     Backbone,
 	gyro,
@@ -15,9 +17,11 @@ define([
 	PlayerUnit,
 	StoneUnit,
 	SlugUnit,
+	ExplosionUnit,
 	bombs,
 	stones,
-	slugs
+	slugs,
+	explosions
 ){
     var GameLogic = Backbone.Model.extend({	
         canvasWidth: 1050,
@@ -32,6 +36,7 @@ define([
 		bombs: bombs,
 		stones: stones,
 		slugs: slugs,
+		explosions: explosions,
 		timer: 0,
 		leftButtonPressed: false,
 		rightButtonPressed: false,
@@ -95,6 +100,10 @@ define([
 			this.playerUnit.move();
 			this.bossUnit.move();
 
+			explosions.forEach(function(explosion) {
+				explosion.move();
+			}, this);
+
 			bombs.forEach(function(bomb) {
 				bomb.move();
 			}, this);
@@ -106,6 +115,7 @@ define([
 			slugs.forEach(function(slug) {
 				slug.move();
 			}, this);
+			
 		},
 		createStoneIfNeeded: function() {
 			++this.timer;
@@ -142,6 +152,10 @@ define([
 						this.scores = this.scores + 2;
 						bombs.remove(bomb);
 						slugs.remove(slug);
+						var expl = new ExplosionUnit(this);
+						expl.x = bomb.x - 50;
+						expl.y = bomb.y - 50 ;
+						explosions.add(expl);
 					}
 				}, this);
 
@@ -157,6 +171,11 @@ define([
 						this.scores = this.scores + 2;
 						stones.remove(stone)
 						slugs.remove(slug);
+						slugs.remove(slug);
+						var expl = new ExplosionUnit(this);
+						expl.x = stone.x - 50;
+						expl.y = stone.y - 50 ;
+						explosions.add(expl);
 					}
 				}, this);
 
@@ -167,7 +186,6 @@ define([
 			// 		this.endGame();
 			// 	}
 			// }, this);
-
 
 		},
 		intersection: function(unit1, unit2) {

@@ -1,5 +1,5 @@
 define([
-    'backbone'
+    'backbone',
 ], function(
     Backbone
 ){
@@ -39,6 +39,5 @@ define([
             ctx.drawImage(this.image, this.width * this.currentFrame, 0, this.width, this.height, this.x, this.y, this.width, this.height);
         }
     });
-
     return GameModel;
 });
