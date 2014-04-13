@@ -9,6 +9,7 @@ define([
 	'models/game_models/slug_unit',
 	'models/game_models/blast_unit',
 	'models/game_models/clever_bomb_unit',
+	'models/game_models/powerup_unit',	
 	'models/game_models/explosion_unit',
 	'collections/effects'
 ], function(
@@ -22,6 +23,7 @@ define([
 	SlugUnit,
 	Blastunit,
 	CleverBombUnit,
+	PowerupUnit,
 	ExplosionUnit,
 	effects
 ){
@@ -51,6 +53,7 @@ define([
         	Blastunit.loadImage();
         	CleverBombUnit.loadImage();
         	ExplosionUnit.loadImage();
+        	PowerupUnit.loadImage();
         },
         updateCanvas: function () {
             var ctx = $(".game_canvas").get(0).getContext("2d");
@@ -63,6 +66,9 @@ define([
 
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);
+			});
+			gamelogic.powerups.forEach(function(powerup) {
+				powerup.draw(ctx);
 			});
 			gamelogic.bombs.forEach(function(bomb) {		
 				bomb.draw(ctx);

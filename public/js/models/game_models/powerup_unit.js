@@ -2,30 +2,46 @@ define([
     'backbone',
     'models/game_models/game_model',
     'models/game_models/explosion_unit',
-    'collections/bombs',
+    'collections/powerups',
     'collections/effects'
 ], function(
     Backbone,
     GameModel,
     ExplosionUnit,
-    bombs,
+    powerups,
     effects
 ){
-    var BombUnit = GameModel.extend({    
-        width: 50,
-        height: 50,    
-        frames: [30, 30, 30, 30, 30],
+    var PowerupUnit = GameModel.extend({    
+        width: 42,
+        height: 41,    
+        frames: [5, 5, 5, 5, 5, 5, 5, 5],
         hp: 2,
-        speed: 5,
+        speed_x: 5,
+        speed_y: 3,
+        movingRight: true,
+        deviation_x: 0,
         initialize: function(gamelogic) {          
-            BombUnit.__super__.initialize(gamelogic, this);
-            this.image = BombUnit.image;
+            PowerupUnit.__super__.initialize(gamelogic, this);
+            this.image = PowerupUnit.image;
         },
         move: function() {            
-            this.y += this.speed;
+            this.y += this.speed_y;
+            
+            if(this.movingRight) {
+                this.x = this.x + this.speed_x;
+                ++this.deviation_x;
+            }
+            else {
+                 this.x = this.x - this.speed_x;            
+                 --this.deviation_x;
+            }
+            if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0 || Math.abs(this.deviation_x) > 20) {
+                this.movingRight = !this.movingRight;
+            }
+
             
             if (this.y > this.gamelogic.canvasHeight) {  
-                bombs.remove(this);
+                powerups.remove(this);
             }  
         },
         hit: function(power) {
@@ -38,34 +54,25 @@ define([
         explode: function() {
             new Audio('/sounds/explosion2.wav').play();
 
-            bombs.remove(this);
+            powerups.remove(this);
 
             var explosionUnit = new ExplosionUnit(this.gamelogic);
 
             explosionUnit.x = this.x + (this.width - explosionUnit.width) / 2;
             explosionUnit.y = this.y + (this.height - explosionUnit.height) / 2;
-            explosionUnit.speed = this.speed;
+            explosionUnit.speed = this.speed_x;
 
             effects.add(explosionUnit);
-
-            this.gamelogic.scores = this.gamelogic.scores + 2;
         },
         contains: function(canvas_x, canvas_y) {
-            var x = canvas_x - this.x;
-            var y = canvas_y - this.y;
-            var r = 17;
-
-            x -= this.width / 2;
-            y -= this.height / 2;
-            
-            return y >= (-1) * Math.sqrt(r * r - x * x) + r && y <= Math.sqrt(r * r - x * x);
+            return true;
         }
     }, {
         image: new Image(),
         loadImage: function() {
-            this.image.src = "/images/bomb.gif";
+            this.image.src = "/images/crate.gif";
         }
     });
 
-    return BombUnit;
+    return PowerupUnit;
 });

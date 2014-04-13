@@ -5,11 +5,13 @@ define([
 	'models/game_models/player_unit',
 	'models/game_models/stone_unit',
 	'models/game_models/slug_unit',
+	'models/game_models/powerup_unit',
 	'models/game_models/explosion_unit',
 	'collections/bombs',
 	'collections/stones',
 	'collections/slugs',
-	'collections/effects'
+	'collections/effects',
+	'collections/powerups'
 ], function(
     Backbone,
 	gyro,
@@ -17,11 +19,13 @@ define([
 	PlayerUnit,
 	StoneUnit,
 	SlugUnit,
+	PowerupUnit,
 	ExplosionUnit,
 	bombs,
 	stones,
 	slugs,
-	effects
+	effects,
+	powerups
 ){
     var GameLogic = Backbone.Model.extend({	
         canvasWidth: 1050,
@@ -36,6 +40,7 @@ define([
 		bombs: bombs,
 		stones: stones,
 		slugs: slugs,
+		powerups: powerups,
 		timer: 0,
 		leftButtonPressed: false,
 		rightButtonPressed: false,
@@ -89,8 +94,8 @@ define([
 			if (this.gamePaused) {
 				return;
 			}
-
-			this.createStoneIfNeeded();
+			++this.timer; 
+			this.processTimeEvents();			
 			this.moveGameModels();
 			this.detectCollisions();
 
@@ -112,22 +117,27 @@ define([
 				slug.move();
 			}, this);
 
+			powerups.forEach(function(powerup) {
+				powerup.move();
+			}, this);
+
 			effects.forEach(function(effect) {
 				effect.move();
 			}, this);
 		},
-		createStoneIfNeeded: function() {
-			++this.timer;
-			
-			if (this.timer >= 40) {
+		processTimeEvents: function() {						
+			if (this.timer % 40  == 0) {
 				var stoneUnit = new StoneUnit(this);
 
 				stoneUnit.x = this.random(0, this.canvasWidth - stoneUnit.width);
-				stones.add(stoneUnit);
-
-				this.timer = 0;
+				stones.add(stoneUnit);			
 			}
-		},
+			if (this.timer % 800 == 0 ) {
+				var powerup = new PowerupUnit(this);	
+				powerup.x = this.random(0, this.canvasWidth - powerup.width);
+				powerups.add(powerup);		
+			}
+		},		
 		random: function(min, max) {
 			return Math.random() * (max - min) + min;
 		},
@@ -175,7 +185,22 @@ define([
 					this.bossUnit.hit(slug.power);
 					slugs.remove(slug);
 				}
+
+				powerups.forEach(function(powerup) {
+					if(this.intersects(powerup,slug)) {
+						slugs.remove(slug);
+						powerup.hit(slug.power);
+					}
+				},this);
+
 			}, this);
+
+			powerups.forEach(function(powerup) {
+				if(this.intersects(powerup,this.playerUnit)) {
+					powerups.remove(powerup);
+					this.playerUnit.getPowerup();
+				}
+			},this);
 
 		},
 		intersection: function(unit1, unit2) {

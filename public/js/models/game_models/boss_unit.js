@@ -22,14 +22,15 @@ define([
         timer: 0,
         hp: 10,
         blasts: 0,
+        speed: 5,
     	initialize: function(gamelogic) {
     		BossUnit.__super__.initialize(gamelogic, this);
             this.image = BossUnit.image;
     	},
 		move: function() {		
-			this.x = (this.movingRight) ? this.x + 5 : this.x - 5;
+			this.x = (this.movingRight) ? this.x + this.speed : this.x - this.speed;
 			
-            if (this.x > this.gamelogic.canvasWidth - 111 || this.x < 0) {
+            if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0) {
                 this.movingRight = !this.movingRight;
             }
 

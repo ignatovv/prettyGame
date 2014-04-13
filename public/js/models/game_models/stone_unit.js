@@ -26,7 +26,6 @@ define([
 
             if (this.y > this.gamelogic.canvasHeight) {           
                 stones.remove(this);
-                this.gamelogic.scores = this.gamelogic.scores + 2;
             }
         },
         hit: function(power) {
