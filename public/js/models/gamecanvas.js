@@ -52,12 +52,11 @@ define([
 			this.drawBackground(ctx);
 			gamelogic.playerUnit.draw(ctx);
 
-			gamelogic.bombs.forEach(function(bomb) {		
-				bomb.draw(ctx);
-			});
-
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);
+			});
+			gamelogic.bombs.forEach(function(bomb) {		
+				bomb.draw(ctx);
 			});
 
 			gamelogic.slugs.forEach(function(slug) {

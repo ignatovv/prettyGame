@@ -134,11 +134,12 @@ define([
 			
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
+                	new Audio('/sounds/explosion.wav').play();
 					this.endGame();
 				}
 
 				slugs.forEach(function(slug) {
-					if(this.intersects(slug, bomb)) {
+					if (this.intersects(slug, bomb)) {
 						this.scores = this.scores + 2;
 						bomb.hit(slug.power);
 						slugs.remove(slug);
@@ -148,6 +149,7 @@ define([
 
 			stones.forEach(function(stone) {
 				if (this.intersects(stone, this.playerUnit)) {
+					new Audio('/sounds/explosion.wav').play();
 					this.endGame();
 				}
 

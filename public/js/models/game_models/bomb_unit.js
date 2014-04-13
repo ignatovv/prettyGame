@@ -27,6 +27,7 @@ define([
         hit: function(power) {
             this.hp = this.hp - power;
             if(this.hp <= 0) {
+                new Audio('/sounds/explosion2.wav').play();
                 bombs.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 2;
             }

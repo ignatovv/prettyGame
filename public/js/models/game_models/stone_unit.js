@@ -29,6 +29,7 @@ define([
             this.hp = this.hp -  power;
 
             if(this.hp <= 0) {
+                new Audio('/sounds/explosion2.wav').play();
                 stones.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 3;
             }
