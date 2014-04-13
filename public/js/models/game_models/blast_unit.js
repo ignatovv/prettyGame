@@ -7,34 +7,29 @@ define([
     GameModel,
     bombs
 ){
-    var BombUnit = GameModel.extend({    
+    var BlastUnit = GameModel.extend({    
         width: 50,
-        height: 50,    
-        frames: [30, 30, 30, 30, 30],
-        hp: 2,
+        height: 59,    
+        frames: [5, 5, 5, 5, 5, 5],
+        // speed: 10,
         initialize: function(gamelogic) {          
-            BombUnit.__super__.initialize(gamelogic, this);
-            this.image = BombUnit.image;
+            BlastUnit.__super__.initialize(gamelogic, this);
+            this.image = BlastUnit.image;
         },
         move: function() {            
-            this.y = this.y + 5;
+            this.y = this.y + 10;
             
             if (this.y > this.gamelogic.canvasHeight) {  
                 bombs.remove(this);
-                this.gamelogic.scores = this.gamelogic.scores + 1;
             }  
         },
-        hit: function(power) {
-            this.hp = this.hp - power;
-            if(this.hp <= 0) {
-                bombs.remove(this);
-                this.gamelogic.scores = this.gamelogic.scores + 2;
-            }
+        hit: function(power) {   
+                   
         },
         contains: function(canvas_x, canvas_y) {
             var x = canvas_x - this.x;
             var y = canvas_y - this.y;
-            var r = 17;
+            var r = 20;
 
             x -= this.width / 2;
             y -= this.height / 2;
@@ -44,9 +39,9 @@ define([
     }, {
         image: new Image(),
         loadImage: function() {
-            this.image.src = "/images/bomb.gif";
+            this.image.src = "/images/blast.gif";
         }
     });
 
-    return BombUnit;
+    return BlastUnit;
 });

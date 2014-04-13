@@ -1,6 +1,6 @@
 define([
     'backbone',
-    'models/game_models/bomb_unit'
+    'models/game_models/game_model'
 ], function(
     Backbone,
     bomb

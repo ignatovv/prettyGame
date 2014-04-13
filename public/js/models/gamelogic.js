@@ -140,11 +140,10 @@ define([
 				slugs.forEach(function(slug) {
 					if(this.intersects(slug, bomb)) {
 						this.scores = this.scores + 2;
-						bombs.remove(bomb);
+						bomb.hit(slug.power);
 						slugs.remove(slug);
 					}
 				}, this);
-
 			}, this);
 
 			stones.forEach(function(stone) {
@@ -153,20 +152,19 @@ define([
 				}
 
 				slugs.forEach(function(slug) {
-					if(this.intersects(slug,stone)) {					
-						this.scores = this.scores + 2;
-						stones.remove(stone)
+					if(this.intersects(slug,stone)) {	
+						stone.hit(slug.power);
 						slugs.remove(slug);
 					}
-				}, this);
+				}, this);				
+			}, this);			
 
+			slugs.forEach(function(slug) {
+				if(this.intersects(slug,this.bossUnit)) {
+					this.bossUnit.hit(slug.power);
+					slugs.remove(slug);
+				}
 			}, this);
-
-			// slugs.forEach(function(slug) {
-			// 	if(this.intersects(slug,this.bossUnit)) {
-			// 		this.endGame();
-			// 	}
-			// }, this);
 
 
 		},
