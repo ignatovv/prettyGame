@@ -1,7 +1,7 @@
 define([
     'backbone',
     'models/game_models/game_model',
-    'models/game_models/slug_unit'
+    'models/game_models/slug_unit',
 ], function(
     Backbone,
     GameModel,

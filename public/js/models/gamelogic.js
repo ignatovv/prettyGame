@@ -50,6 +50,7 @@ define([
         	this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
+			this.on('explode', this.onExplode)
         	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
@@ -175,7 +176,6 @@ define([
 					slugs.remove(slug);
 				}
 			}, this);
-
 
 		},
 		intersection: function(unit1, unit2) {

@@ -45,6 +45,7 @@ define([
         	StoneUnit.loadImage();
         	BombUnit.loadImage();
         	SlugUnit.loadImage();
+        	ExplosionUnit.loadImage();
         	Blastunit.loadImage();
         	ExplosionUnit.loadImage();
         },
