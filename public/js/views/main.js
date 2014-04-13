@@ -33,13 +33,10 @@ define([
         switchSound: function() {
             var musicElement = $('.background__music').get(0);
 
-            if (musicElement.paused) {
-                musicElement.currentTime = 0;
-                musicElement.play();
-                localStorage['sound'] = 'on';
-            } else {
-                musicElement.pause();
+            if (!localStorage['sound'] || localStorage['sound'] == 'on') {
                 localStorage['sound'] = 'off';
+            } else {
+                localStorage['sound'] = 'on';
             }
         }
                                         
