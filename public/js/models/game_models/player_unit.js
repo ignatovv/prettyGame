@@ -88,6 +88,7 @@ define([
             }
         },
         getPowerup: function(){
+            new Audio('/sounds/powerup.wav').play();
             this.powerups = "triple_shot";
             this.powerup_timer = 200;
         },

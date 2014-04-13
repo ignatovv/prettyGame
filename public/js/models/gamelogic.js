@@ -132,7 +132,7 @@ define([
 				stoneUnit.x = this.random(0, this.canvasWidth - stoneUnit.width);
 				stones.add(stoneUnit);			
 			}
-			if (this.timer % 400 == 0 ) {
+			if (this.timer % 800 == 0 ) {
 				var powerup = new PowerupUnit(this);	
 				powerup.x = this.random(0, this.canvasWidth - powerup.width);
 				powerups.add(powerup);		
