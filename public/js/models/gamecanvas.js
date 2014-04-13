@@ -8,6 +8,8 @@ define([
 	'models/game_models/bomb_unit',
 	'models/game_models/slug_unit',
 	'models/game_models/explosion_unit',
+	'models/game_models/blast_unit'
+		
 ], function(
     Backbone,
 	gyro,
@@ -17,15 +19,22 @@ define([
 	StoneUnit,
 	BombUnit,
 	SlugUnit,
-	ExplosionUnit
+	ExplosionUnit,
+	Blastunit
 ){
     var Canvas = Backbone.Model.extend({	
 		backgroundImage: new Image(),
 		backgroundMaxY: 696,
 		backgroundY: 0,
 		backgroundSpeed: 2,
+		hpBarBackgroundImage: new Image(),
+		hpBarValueGreenImage: new Image(),
+		hpBarValueRedImage: new Image(),
         initialize: function () {
 			this.backgroundImage.src = "/images/game_space.png";
+			this.hpBarBackgroundImage.src = "/images/hp_bar_background.png";
+			this.hpBarValueGreenImage.src = "/images/hp_bar_value_green.gif";
+			this.hpBarValueRedImage.src = "/images/hp_bar_value_red.gif";
 			this.fps = 60;
 			this.loadGameModelsImages();
         },
@@ -36,32 +45,47 @@ define([
         	BombUnit.loadImage();
         	SlugUnit.loadImage();
         	ExplosionUnit.loadImage();
+        	Blastunit.loadImage();
         },
         updateCanvas: function () {
             var ctx = $(".game_canvas").get(0).getContext("2d");
 
-            ctx.clearRect(0, 0, gamelogic.canvasHeight, gamelogic.canvasHeight);
+            ctx.clearRect(0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
 
 			this.drawBackground(ctx);
 			gamelogic.playerUnit.draw(ctx);
-			gamelogic.bossUnit.draw(ctx);
 
 			gamelogic.explosions.forEach(function(explosion) {		
 				explosion.draw(ctx);
 			});
-			gamelogic.bombs.forEach(function(bomb) {		
-				bomb.draw(ctx);
-			});
 
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);
+			});
+			gamelogic.bombs.forEach(function(bomb) {		
+				bomb.draw(ctx);
 			});
 
 			gamelogic.slugs.forEach(function(slug) {
 				slug.draw(ctx);
 			});
 
+			gamelogic.bossUnit.draw(ctx);
+
+			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, 0.8);
+			this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / 10);
+
+
 			return this;
+        },
+        drawHpBar: function(ctx, text, x, y, valueImage, hpPerctantage) {
+        	ctx.drawImage(this.hpBarBackgroundImage, x, y);
+			ctx.font = "12px Courier New";
+			ctx.fillStyle = 'white';
+			ctx.textAlign = 'center';
+			ctx.fillText(text, x + 30, y + 17);
+
+			ctx.drawImage(valueImage, 0, 0, 179 * hpPerctantage, 8, x + 60, y + 9, 179 * hpPerctantage, 8);
         },
         drawBackground: function(ctx) {
         	ctx.drawImage(this.backgroundImage, 0, this.backgroundY, gamelogic.canvasWidth, gamelogic.canvasHeight, 0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);

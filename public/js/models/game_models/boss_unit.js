@@ -1,11 +1,13 @@
 define([
     'backbone',
     'models/game_models/game_model',
-    'models/game_models/bomb_unit'
+    'models/game_models/bomb_unit',
+    'models/game_models/blast_unit',    
 ], function(
     Backbone,
     GameModel,
-    BombUnit
+    BombUnit,
+    BlastUnit
 ){
     var BossUnit = GameModel.extend({	
     	x: 50,
@@ -14,7 +16,10 @@ define([
         height: 60,
     	movingRight: true,
         timeSinceLastBombDrop: 0,
+        timeSinceLastBlast:0,
         timer: 0,
+        hp: 10,
+        blasts: 0,
     	initialize: function(gamelogic) {
     		BossUnit.__super__.initialize(gamelogic, this);
             this.image = BossUnit.image;
@@ -28,6 +33,24 @@ define([
 
             this.throwBombIfNeeded();
 		},
+        hit: function(power) {
+            this.hp = this.hp - power;
+
+            new Audio('/sounds/hit.wav').play();
+
+            if (this.hp <= 0) {
+                this.hp = 10;
+                this.gamelogic.scores = this.gamelogic.scores + 10;
+            
+                var blastUnit = new BlastUnit(this.gamelogic);
+                blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;
+                blastUnit.y = this.y;
+                this.blasts = this.blasts + 4;
+                new Audio('/sounds/blast_shoot.wav').play();
+                this.timeSinceLastBlast = 0;
+                this.trigger('bomb_dropped', blastUnit);   
+            }
+        },
         throwBombIfNeeded: function() {
             ++this.timeSinceLastBombDrop;
 
@@ -39,6 +62,17 @@ define([
 
                 this.timeSinceLastBombDrop = 0;
                 this.trigger('bomb_dropped', bombUnit);
+            }
+
+            ++this.timeSinceLastBlast;
+
+            if(this.blasts > 0 && this.timeSinceLastBlast > 5) {
+                var blastUnit = new BlastUnit(this.gamelogic);
+                blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;
+                blastUnit.y = this.y;
+                this.blasts = this.blasts - 1;
+                this.timeSinceLastBlast = 0;
+                this.trigger('bomb_dropped', blastUnit);  
             }
         },
         contains: function() {

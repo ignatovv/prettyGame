@@ -15,6 +15,7 @@ define([
         frames: [4, 4, 4, 4],
         hp: 1,
         timeSinceLastShoot: 0,
+        shootSound: new Audio('/sounds/shoot.wav'),
     	initialize: function(gamelogic) {
             PlayerUnit.__super__.initialize(gamelogic, this);
             this.image = PlayerUnit.image;
@@ -48,6 +49,7 @@ define([
                 slugUnit.x = this.x + this.width / 2 - slugUnit.width / 2;
                 slugUnit.y = this.y;                
           
+                new Audio('/sounds/player_shoot.wav').play();
                 this.trigger('player_shot', slugUnit);
 
                 this.timeSinceLastShoot = 0;

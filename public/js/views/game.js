@@ -51,7 +51,7 @@ define([
 			this.trigger('show', this);            
 			
             gamelogic.startNewGame();
-            
+            this.playMusic();
         },
         hide: function() {
             $(document).off("keydown", this.buttonDown);
@@ -61,7 +61,24 @@ define([
             this.$el.hide();
 			
 			gamelogic.stopGyro();
+            this.stopMusic();
 		},
+        playMusic: function() {
+            var musicElement = $('.background__music').get(0);
+
+            if (!localStorage['sound'] || localStorage['sound'] == 'on') {
+                musicElement.currentTime = 0;
+                musicElement.volume = 0.6;
+                musicElement.play();
+            }
+        },
+        stopMusic: function() {
+            var musicElement = $('.background__music').get(0);
+
+            if (!musicElement.paused) {
+                musicElement.pause();
+            }
+        },
         buttonDown: function(e) {
             if (e.keyCode == 37 || e.keyCode == 65) {
                 gamelogic.leftButtonPressed = true;

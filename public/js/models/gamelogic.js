@@ -51,6 +51,7 @@ define([
         	this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
+			this.on('explode', this.onExplode)
         	this.scores = 1;    
         	this.timer = 0; 
         	bombs.reset();
@@ -144,48 +145,39 @@ define([
 			
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
+                	new Audio('/sounds/explosion.wav').play();
 					this.endGame();
 				}
 
 				slugs.forEach(function(slug) {
-					if(this.intersects(slug, bomb)) {
+					if (this.intersects(slug, bomb)) {
 						this.scores = this.scores + 2;
-						bombs.remove(bomb);
+						bomb.hit(slug.power);
 						slugs.remove(slug);
-						var expl = new ExplosionUnit(this);
-						expl.x = bomb.x - 50;
-						expl.y = bomb.y - 50 ;
-						explosions.add(expl);
 					}
 				}, this);
-
 			}, this);
 
 			stones.forEach(function(stone) {
 				if (this.intersects(stone, this.playerUnit)) {
+					new Audio('/sounds/explosion.wav').play();
 					this.endGame();
 				}
 
 				slugs.forEach(function(slug) {
-					if(this.intersects(slug,stone)) {					
-						this.scores = this.scores + 2;
-						stones.remove(stone)
+					if(this.intersects(slug,stone)) {	
+						stone.hit(slug.power);
 						slugs.remove(slug);
-						slugs.remove(slug);
-						var expl = new ExplosionUnit(this);
-						expl.x = stone.x - 50;
-						expl.y = stone.y - 50 ;
-						explosions.add(expl);
 					}
-				}, this);
+				}, this);				
+			}, this);			
 
+			slugs.forEach(function(slug) {
+				if(this.intersects(slug,this.bossUnit)) {
+					this.bossUnit.hit(slug.power);
+					slugs.remove(slug);
+				}
 			}, this);
-
-			// slugs.forEach(function(slug) {
-			// 	if(this.intersects(slug,this.bossUnit)) {
-			// 		this.endGame();
-			// 	}
-			// }, this);
 
 		},
 		intersection: function(unit1, unit2) {
@@ -230,6 +222,12 @@ define([
 		},		
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);
+		},
+		onExplode: function(unit) {
+			expl = new ExplosionUnit(this)
+			expl.x = unit.x + unit.width/2 - 70;
+			expl.y = unit.y + unit.height/2 -100;
+			explosions.add(expl);
 		},
 		endGame: function() {
 			this.gamePaused = true;

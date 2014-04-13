@@ -11,6 +11,7 @@ define([
         y: -50,
         width: 48,
         height: 50,
+        hp: 3,
         initialize: function(gamelogic) {     
             StoneUnit.__super__.initialize(gamelogic, this);
             this.image = StoneUnit.image;
@@ -21,6 +22,17 @@ define([
             if (this.y > this.gamelogic.canvasHeight) {           
                 stones.remove(this);
                 this.gamelogic.scores = this.gamelogic.scores + 2;
+            }
+        },
+        hit: function(power) {
+            // alert(power);
+            this.hp = this.hp -  power;
+
+            if(this.hp <= 0) {
+                new Audio('/sounds/explosion2.wav').play();
+                stones.remove(this);
+                this.gamelogic.trigger("explode", this)
+                this.gamelogic.scores = this.gamelogic.scores + 3;
             }
         },
         contains: function(canvas_x, canvas_y) {
