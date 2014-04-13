@@ -45,7 +45,6 @@ define([
         show: function () {
             $(document).on("keydown", this.buttonDown);
             $(document).on("keyup", this.buttonUp);
-            $(document).on("keypress", this.buttonPressed);
 
             this.nextFrame();
 			this.$el.show();
@@ -57,8 +56,6 @@ define([
         hide: function() {
             $(document).off("keydown", this.buttonDown);
             $(document).off("keyup", this.buttonUp);
-            $(document).on("keypress", this.buttonPressed);
-
 
 			gameover.hide();
             this.$el.hide();
@@ -70,6 +67,8 @@ define([
                 gamelogic.leftButtonPressed = true;
             } else if (e.keyCode == 39|| e.keyCode == 68) {
                 gamelogic.rightButtonPressed = true;           
+            } else if (e.keyCode == 32) {
+                gamelogic.spacebarButtonPressed = true;
             }
         },
         buttonUp: function(e) {
@@ -77,12 +76,9 @@ define([
                 gamelogic.leftButtonPressed = false;
             } else if (e.keyCode == 39 || e.keyCode == 68) {
                 gamelogic.rightButtonPressed = false;
+            } else if (e.keyCode == 32) {
+                gamelogic.spacebarButtonPressed = false;
             } 
-        },
-        buttonPressed: function(e) {
-            if (e.keyCode == 32) {
-                gamelogic.spacebarButtonPressed = true;
-            }
         },
         onEndGame: function() {
             gameover.show();

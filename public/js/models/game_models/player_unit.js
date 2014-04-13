@@ -14,6 +14,7 @@ define([
         height: 112,
         frames: [4, 4, 4, 4],
         hp: 1,
+        timeSinceLastShoot: 0,
     	initialize: function(gamelogic) {
             PlayerUnit.__super__.initialize(gamelogic, this);
             this.image = PlayerUnit.image;
@@ -38,14 +39,18 @@ define([
             }
             this.shoot();
 		},
-        shoot: function(){
-            if(this.gamelogic.spacebarButtonPressed) {
+        shoot: function() {
+            ++this.timeSinceLastShoot;
+
+            if (this.gamelogic.spacebarButtonPressed && this.timeSinceLastShoot >= 10) {
                 var slugUnit = new SlugUnit(this.gamelogic);
 
-                slugUnit.x = this.x + this.width/2 - slugUnit.width/2;
+                slugUnit.x = this.x + this.width / 2 - slugUnit.width / 2;
                 slugUnit.y = this.y;                
-                this.gamelogic.spacebarButtonPressed = false;                
+          
                 this.trigger('player_shot', slugUnit);
+
+                this.timeSinceLastShoot = 0;
             }
         },
         contains: function(canvas_x, canvas_y) {
