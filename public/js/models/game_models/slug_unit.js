@@ -8,8 +8,8 @@ define([
     slugs
 ){
     var SlugUnit = GameModel.extend({    
-        width: 5,
-        height: 10,
+        width: 8,
+        height: 17,
         initialize: function(gamelogic) {          
             SlugUnit.__super__.initialize(gamelogic, this);
             this.image = SlugUnit.image;
