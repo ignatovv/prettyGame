@@ -1,5 +1,5 @@
 define([
-    'backbone',
+	'backbone',
 	'gyro',
 	'models/game_models/boss_unit',
 	'models/game_models/player_unit',
@@ -13,7 +13,7 @@ define([
 	'collections/effects',
 	'collections/powerups'
 ], function(
-    Backbone,
+	Backbone,
 	gyro,
 	BossUnit,
 	PlayerUnit,
@@ -27,8 +27,8 @@ define([
 	effects,
 	powerups
 ){
-    var GameLogic = Backbone.Model.extend({	
-        canvasWidth: 1050,
+	var GameLogic = Backbone.Model.extend({	
+		canvasWidth: 1050,
 		canvasHeight: 680,
 		playerUnit: null,
 		bossUnit: null,
@@ -49,26 +49,28 @@ define([
 		spacebarButtonPressed: false,
 		initialize: function () {
 			gyro.frequency = 15;			
-        },
-        startNewGame: function() {
-        	this.startGyro();
-        	this.gamePaused = false;
-        	this.gameOver = false;
-        	this.tactsAfterGameOver = 25;
-        	this.playerUnit = new PlayerUnit(this);
-        	this.playerUnit.on('player_shot', this.onPlayerShot);
+		},
+		startNewGame: function() {
+			this.startGyro();
+			this.gamePaused = false;
+			this.gameOver = false;
+			this.tactsAfterGameOver = 25;
+			this.playerUnit = new PlayerUnit(this);
+			this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
-        	this.scores = 1;
-        	this.timer = 0; 
-        	bombs.reset();
-        	stones.reset();
-        	slugs.reset();
-        },
-        startGyro: function () {
-        	var game = this;
+			this.scores = 1;
+			this.timer = 0; 
+			bombs.reset();
+			stones.reset();
+			slugs.reset();
+			powerups.reset();
+			effects.reset();
+		},
+		startGyro: function () {
+			var game = this;
 
-           	gyro.startTracking(function(o) {
+			gyro.startTracking(function(o) {
 				if (!o.x) {
 					gyro.stopTracking();
 					return;
@@ -89,7 +91,7 @@ define([
 				if (game.playerX < 0) game.playerX = 0;
 				else if (game.playerX > game.canvasWidth - game.rectWidth) game.playerX = game.canvasWidth - game.rectWidth;
 			});
-        },
+		},
 		stopGyro: function () {
 			gyro.stopTracking();
 		},
@@ -155,7 +157,7 @@ define([
 			
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
-                	this.playerUnit.hit(bomb.power);
+					this.playerUnit.hit(bomb.power);
 					bombs.remove(bomb);
 				}
 
@@ -252,16 +254,19 @@ define([
 		explode: function(unit) {
 			var explosionUnit = new ExplosionUnit(this);
 
-            explosionUnit.x = unit.x + (unit.width - explosionUnit.width) / 2;
-            explosionUnit.y = unit.y + (unit.height - explosionUnit.height) / 2;
-            explosionUnit.speed = unit.speed;
+			explosionUnit.x = unit.x + (unit.width - explosionUnit.width) / 2;
+			explosionUnit.y = unit.y + (unit.height - explosionUnit.height) / 2;
+			if (unit.speed == null) 
+				explosionUnit.speed = unit.speed_y;
+			else
+				explosionUnit.speed = unit.speed;
 
-            effects.add(explosionUnit);
+			effects.add(explosionUnit);
 		},
 		endGame: function() {
 			this.gamePaused = true;
 			this.trigger('endgame', this);
 		}
-    });
-    return new GameLogic();
+	});
+	return new GameLogic();
 });
