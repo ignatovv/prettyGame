@@ -32,11 +32,13 @@
 		backgroundMaxY: 696,
 		backgroundY: 0,
 		backgroundSpeed: 2,
+		scoreBarBackgroundImage: new Image(),
 		hpBarBackgroundImage: new Image(),
 		hpBarValueGreenImage: new Image(),
 		hpBarValueRedImage: new Image(),
         initialize: function () {
 			this.backgroundImage.src = "/images/game_space.png";
+			this.scoreBarBackgroundImage.src = "/images/score_bar_background.png";
 			this.hpBarBackgroundImage.src = "/images/hp_bar_background.png";
 			this.hpBarValueGreenImage.src = "/images/hp_bar_value_green.gif";
 			this.hpBarValueRedImage.src = "/images/hp_bar_value_red.gif";
@@ -84,10 +86,21 @@
 				effect.draw(ctx);
 			});
 
+			this.drawScoreBar(ctx, gamelogic.scores, 10, gamelogic.canvasHeight - (25 + 10) * 2);
 			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, gamelogic.playerUnit.hp / gamelogic.playerUnit.max_hp);
 			this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / 10);
 
 			return this;
+        },
+        drawScoreBar: function(ctx, score, x, y) {
+        	ctx.drawImage(this.scoreBarBackgroundImage, x, y);
+
+			ctx.font = "12px Courier New";
+			ctx.fillStyle = 'white';
+			ctx.textAlign = 'center';
+			ctx.fillText("SCORE", x + 30, y + 17);
+
+			ctx.fillText(score, x + 94, y + 17);
         },
         drawHpBar: function(ctx, text, x, y, valueImage, hpPerctantage) {
         	ctx.drawImage(this.hpBarBackgroundImage, x, y);
