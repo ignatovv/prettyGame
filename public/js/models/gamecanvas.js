@@ -84,7 +84,7 @@
 				effect.draw(ctx);
 			});
 
-			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, 0.8);
+			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, gamelogic.playerUnit.hp / gamelogic.playerUnit.max_hp);
 			this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / 10);
 
 			return this;

@@ -158,7 +158,7 @@ define([
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
 					this.playerUnit.hit(bomb.power);
-					bombs.remove(bomb);
+					bomb.explode();
 				}
 
 				slugs.forEach(function(slug) {
