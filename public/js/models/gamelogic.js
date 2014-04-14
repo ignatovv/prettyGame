@@ -54,7 +54,7 @@ define([
 			this.startGyro();
 			this.gamePaused = false;
 			this.gameOver = false;
-			this.tactsAfterGameOver = 25;
+			this.tactsAfterGameOver = 40;
 			this.playerUnit = new PlayerUnit(this);
 			this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
