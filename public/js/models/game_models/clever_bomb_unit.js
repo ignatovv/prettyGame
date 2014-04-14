@@ -26,9 +26,15 @@ define([
             this.image = CleverBombUnit.image;
         },
         move: function() {
+            var dist_y = this.gamelogic.playerUnit.y - this.y;
+            var dist_x = this.gamelogic.playerUnit.x - this.x;
+            if (dist_x * dist_x + dist_y * dist_y < 20000)
+                this.currentFrame = 1;
+            else
+                this.currentFrame = 0;
             var step = 0.02;
             if (this.y < this.gamelogic.playerUnit.y) {
-                var beta = Math.atan((this.gamelogic.playerUnit.x - this.x)/(this.gamelogic.playerUnit.y - this.y))
+                var beta = Math.atan(dist_x/dist_y)
                 if (Math.abs(this.alfa) < Math.PI * this.max_angle/360) 
                     if (this.alfa > beta)
                         this.alfa -= step;
@@ -42,7 +48,7 @@ define([
             }
             this.speed_x = this.max_speed * Math.sin(this.alfa);
             this.speed_y = this.max_speed * Math.cos(this.alfa);
-            this.x +=this.speed_x;
+            this.x += this.speed_x;
             this.y += this.speed_y;
             if (this.y > this.gamelogic.canvasHeight) {  
                 bombs.remove(this);

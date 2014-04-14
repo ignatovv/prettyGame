@@ -14,7 +14,7 @@ define([
     var BombUnit = GameModel.extend({    
         width: 50,
         height: 50,    
-        frames: [30, 30, 30, 30, 30],
+        //frames: [30, 30, 30, 30, 30],
         hp: 2,
         speed: 5,
         power: 3,
@@ -24,10 +24,15 @@ define([
         },
         move: function() {            
             this.y += this.speed;
-            
+            var dist_y = this.y - this.gamelogic.playerUnit.y;
+            var dist_x = this.x - this.gamelogic.playerUnit.x;
+            if (dist_x * dist_x + dist_y * dist_y < 20000)
+                this.currentFrame = 1;
+            else
+                this.currentFrame = 0;
             if (this.y > this.gamelogic.canvasHeight) {  
                 bombs.remove(this);
-            }  
+            }
         },
         hit: function(power) {
             this.hp = this.hp - power;

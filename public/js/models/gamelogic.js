@@ -156,7 +156,7 @@ define([
 		detectCollisions: function() {
 			
 			bombs.forEach(function(bomb) {
-				if (this.intersects(bomb, this.playerUnit)) {
+				if ((this.playerUnit.hp > 0) && (this.intersects(bomb, this.playerUnit))) {
 					this.playerUnit.hit(bomb.power);
 					bomb.explode();
 				}
@@ -171,7 +171,7 @@ define([
 			}, this);
 
 			stones.forEach(function(stone) {
-				if (this.intersects(stone, this.playerUnit)) {
+				if ((this.playerUnit.hp > 0) && (this.intersects(stone, this.playerUnit))) {
 					this.playerUnit.hit(stone.power);
 					stone.explode();
 				}
@@ -201,7 +201,7 @@ define([
 			}, this);
 
 			powerups.forEach(function(powerup) {
-				if(this.intersects(powerup,this.playerUnit)) {
+				if ((this.playerUnit.hp > 0) && (this.intersects(powerup, this.playerUnit))) {
 					powerups.remove(powerup);
 					this.playerUnit.getPowerup();
 				}
