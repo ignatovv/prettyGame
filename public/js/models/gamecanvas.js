@@ -1,4 +1,4 @@
-define([
+ define([
     'backbone',
 	'gyro',
 	'models/gamelogic',
@@ -61,8 +61,8 @@ define([
             ctx.clearRect(0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
             
             this.drawBackground(ctx);
-			
-			gamelogic.playerUnit.draw(ctx);
+			if (gamelogic.playerUnit.hp > 0)
+				gamelogic.playerUnit.draw(ctx);
 
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);

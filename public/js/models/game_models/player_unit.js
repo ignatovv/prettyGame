@@ -17,6 +17,7 @@ define([
         timeSinceLastShoot: 0,
         powerup_timer: 0,
         powerups: 'none',
+        speed: 0,
         // powerups: 'triple_shot',
         shootSound: new Audio('/sounds/shoot.wav'),
     	initialize: function(gamelogic) {
@@ -91,6 +92,20 @@ define([
             new Audio('/sounds/powerup.wav').play();
             this.powerups = "triple_shot";
             this.powerup_timer = 200;
+        },
+        hit: function(power) {
+            this.hp = this.hp - power;
+
+            if (this.hp <= 0) {
+                this.explode();
+            }
+        },
+        explode: function() {
+            new Audio('/sounds/explosion.wav').play();
+
+            this.gamelogic.gameOver = true;
+
+            this.gamelogic.explode(this);
         },
         contains: function(canvas_x, canvas_y) {
             var x = canvas_x - this.x - 2;

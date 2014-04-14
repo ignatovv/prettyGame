@@ -17,6 +17,7 @@ define([
         height: 50,
         hp: 3,
         speed: 3,
+        power: 2,
         initialize: function(gamelogic) {     
             StoneUnit.__super__.initialize(gamelogic, this);
             this.image = StoneUnit.image;

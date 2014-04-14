@@ -56,13 +56,7 @@ define([
 
             powerups.remove(this);
 
-            var explosionUnit = new ExplosionUnit(this.gamelogic);
-
-            explosionUnit.x = this.x + (this.width - explosionUnit.width) / 2;
-            explosionUnit.y = this.y + (this.height - explosionUnit.height) / 2;
-            explosionUnit.speed = this.speed_x;
-
-            effects.add(explosionUnit);
+            this.gamelogic.explode(this);
         },
         contains: function(canvas_x, canvas_y) {
             return true;

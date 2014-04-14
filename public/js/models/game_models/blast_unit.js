@@ -11,6 +11,7 @@ define([
         width: 50,
         height: 59,    
         frames: [5, 5, 5, 5, 5, 5],
+        power: 4,
         // speed: 10,
         initialize: function(gamelogic) {          
             BlastUnit.__super__.initialize(gamelogic, this);

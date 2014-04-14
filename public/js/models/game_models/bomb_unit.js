@@ -17,6 +17,7 @@ define([
         frames: [30, 30, 30, 30, 30],
         hp: 2,
         speed: 5,
+        power: 3,
         initialize: function(gamelogic) {          
             BombUnit.__super__.initialize(gamelogic, this);
             this.image = BombUnit.image;
@@ -40,13 +41,7 @@ define([
 
             bombs.remove(this);
 
-            var explosionUnit = new ExplosionUnit(this.gamelogic);
-
-            explosionUnit.x = this.x + (this.width - explosionUnit.width) / 2;
-            explosionUnit.y = this.y + (this.height - explosionUnit.height) / 2;
-            explosionUnit.speed = this.speed;
-
-            effects.add(explosionUnit);
+            this.gamelogic.explode(this);
 
             this.gamelogic.scores = this.gamelogic.scores + 2;
         },

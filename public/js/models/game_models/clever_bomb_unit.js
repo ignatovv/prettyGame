@@ -15,15 +15,16 @@ define([
         width: 50,
         height: 50,     
         hp: 2,
-        speed_y: 4,
+        speed: 4,
         speed_x: 0,
+        power: 1,
         initialize: function(gamelogic) {          
             CleverBombUnit.__super__.initialize(gamelogic, this);
             this.image = CleverBombUnit.image;
         },
         move: function() {            
-            this.y += this.speed_y;
-            if ((this.speed_x / this.speed_y) > ((this.gamelogic.playerUnit.x - this.x)/(this.gamelogic.playerUnit.y - this.y)))
+            this.y += this.speed;
+            if ((this.speed_x / this.speed) > ((this.gamelogic.playerUnit.x - this.x)/(this.gamelogic.playerUnit.y - this.y)))
                 this.speed_x -= 0.1;
             else
                 this.speed_x += 0.1;
@@ -45,13 +46,7 @@ define([
 
             bombs.remove(this);
 
-            var explosionUnit = new ExplosionUnit(this.gamelogic);
-
-            explosionUnit.x = this.x + (this.width - explosionUnit.width) / 2;
-            explosionUnit.y = this.y + (this.height - explosionUnit.height) / 2;
-            explosionUnit.speed = this.speed_y;
-
-            effects.add(explosionUnit);
+            this.gamelogic.explode(this);
 
             this.gamelogic.scores = this.gamelogic.scores + 2;
         },

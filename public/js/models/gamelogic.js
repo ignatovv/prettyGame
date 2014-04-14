@@ -37,6 +37,8 @@ define([
 		max_angle: 35,
 		min_angle: -35,
 		gamePaused: false,
+		gameOver: false,
+		tactsAfterGameOver: 0,
 		bombs: bombs,
 		stones: stones,
 		slugs: slugs,
@@ -51,12 +53,13 @@ define([
         startNewGame: function() {
         	this.startGyro();
         	this.gamePaused = false;
+        	this.gameOver = false;
+        	this.tactsAfterGameOver = 25;
         	this.playerUnit = new PlayerUnit(this);
         	this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
-			this.on('explode', this.onExplode)
-        	this.scores = 1;    
+        	this.scores = 1;
         	this.timer = 0; 
         	bombs.reset();
         	stones.reset();
@@ -94,6 +97,12 @@ define([
 			if (this.gamePaused) {
 				return;
 			}
+			if (this.gameOver) {
+				if (this.tactsAfterGameOver > 0)
+					this.tactsAfterGameOver--;
+				else
+					this.endGame();
+			}
 			++this.timer; 
 			this.processTimeEvents();			
 			this.moveGameModels();
@@ -102,7 +111,8 @@ define([
 			this.trigger('game_frame');
 		},
 		moveGameModels: function() {
-			this.playerUnit.move();
+			if (this.playerUnit.hp > 0) 
+				this.playerUnit.move();
 			this.bossUnit.move();
 
 			bombs.forEach(function(bomb) {
@@ -142,19 +152,11 @@ define([
 			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
-			// bombs.forEach(function(bomb) {
-			// 	if (bomb.exploded) { this.endGame(); }
-			// }, this);
-
-			// stones.forEach(function(stone) {
-			// 	if (stone.exploded) { this.endGame(); }
-			// }, this);
-
 			
 			bombs.forEach(function(bomb) {
 				if (this.intersects(bomb, this.playerUnit)) {
-                	new Audio('/sounds/explosion.wav').play();
-					this.endGame();
+                	this.playerUnit.hit(bomb.power);
+					bombs.remove(bomb);
 				}
 
 				slugs.forEach(function(slug) {
@@ -168,14 +170,15 @@ define([
 
 			stones.forEach(function(stone) {
 				if (this.intersects(stone, this.playerUnit)) {
-					new Audio('/sounds/explosion.wav').play();
-					this.endGame();
+					this.playerUnit.hit(stone.power);
+					stone.explode();
 				}
 
 				slugs.forEach(function(slug) {
 					if(this.intersects(slug,stone)) {	
 						stone.hit(slug.power);
 						slugs.remove(slug);
+						return;
 					}
 				}, this);				
 			}, this);			
@@ -246,11 +249,19 @@ define([
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);
 		},
+		explode: function(unit) {
+			var explosionUnit = new ExplosionUnit(this);
+
+            explosionUnit.x = unit.x + (unit.width - explosionUnit.width) / 2;
+            explosionUnit.y = unit.y + (unit.height - explosionUnit.height) / 2;
+            explosionUnit.speed = unit.speed;
+
+            effects.add(explosionUnit);
+		},
 		endGame: function() {
 			this.gamePaused = true;
 			this.trigger('endgame', this);
 		}
     });
-	
     return new GameLogic();
 });
