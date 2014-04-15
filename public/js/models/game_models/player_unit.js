@@ -19,8 +19,6 @@ define([
         powerup_timer: 0,
         powerups: 'none',
         speed: 0,
-        // powerups: 'triple_shot',
-        shootSound: new Audio('/sounds/shoot.wav'),
         hited: false,
     	initialize: function(gamelogic) {
             PlayerUnit.__super__.initialize(gamelogic, this);
