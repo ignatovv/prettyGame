@@ -21,6 +21,7 @@ define([
         speed: 0,
         // powerups: 'triple_shot',
         shootSound: new Audio('/sounds/shoot.wav'),
+        hited: false,
     	initialize: function(gamelogic) {
             PlayerUnit.__super__.initialize(gamelogic, this);
             this.image = PlayerUnit.image;
@@ -95,10 +96,12 @@ define([
             this.powerup_timer = 200;
         },
         hit: function(power) {
-            this.hp = this.hp - power;
-
+            this.hp -= power;
+            
             if (this.hp <= 0) {
                 this.explode();
+            } else {
+                this.hited = true;
             }
         },
         explode: function() {

@@ -36,6 +36,7 @@
 		hpBarBackgroundImage: new Image(),
 		hpBarValueGreenImage: new Image(),
 		hpBarValueRedImage: new Image(),
+		hitEffectRemainingTime: 0,
         initialize: function () {
 			this.backgroundImage.src = "/images/game_space.png";
 			this.scoreBarBackgroundImage.src = "/images/score_bar_background.png";
@@ -63,6 +64,7 @@
             ctx.clearRect(0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
             
             this.drawBackground(ctx);
+
 			if (gamelogic.playerUnit.hp > 0)
 				gamelogic.playerUnit.draw(ctx);
 
@@ -86,11 +88,27 @@
 				effect.draw(ctx);
 			});
 
+			this.drawHitEffectIfNeeded(ctx);
 			this.drawScoreBar(ctx, gamelogic.scores, 10, gamelogic.canvasHeight - (25 + 10) * 2);
 			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, gamelogic.playerUnit.hp / gamelogic.playerUnit.max_hp);
 			this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / 10);
 
+
 			return this;
+        },
+        drawHitEffectIfNeeded: function(ctx) {
+			if (gamelogic.playerUnit.hited || this.hitEffectRemainingTime > 0) {
+				if (gamelogic.playerUnit.hited) {
+					this.hitEffectRemainingTime = 10;
+				}
+
+				ctx.rect(0, 0, gamelogic.canvasWidth, gamelogic.canvasHeight);
+				ctx.fillStyle = 'rgba(255, 0, 0, ' + 0.5 * 0.1 * this.hitEffectRemainingTime + ')';
+				ctx.fill();
+
+				gamelogic.playerUnit.hited = false;
+				--this.hitEffectRemainingTime;
+			}
         },
         drawScoreBar: function(ctx, score, x, y) {
         	ctx.drawImage(this.scoreBarBackgroundImage, x, y);
