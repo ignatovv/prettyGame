@@ -156,3 +156,19 @@ body {
 .gameover__score_submit {
     text-align: center;
 }
+.notsupported {
+    text-align: center;
+}
+.notsupported__text {
+    font: 20px 'Courier New';
+    color: white;
+}
+.notsupported__link, .notsupported__link:visited, .notsupported__link:hover {
+    font: 20px 'Courier New';
+    font-weight: bold;
+    color: #01b0bb;
+    text-decoration: none;
+}
+.notsupported__link:hover {
+    text-decoration: underline;
+}
