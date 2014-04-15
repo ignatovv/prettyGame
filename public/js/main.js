@@ -20,8 +20,7 @@ require.config({
             exports: 'gyro'
         },
         'anim': {
-            exports: 'requestAnimationFrame',
-            exports: 'cancelAnimationFrame'
+            exports: 'requestAnimationFrame'
         }
     }
 });
