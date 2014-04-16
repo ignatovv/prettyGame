@@ -52,10 +52,8 @@ define([
 			}
 		},
 		explode: function() {
-			new Audio('/sounds/explosion2.wav').play();
-
+			this.gamelogic.soundFactory.playExplosion2();
 			powerups.remove(this);
-
 			this.gamelogic.explode(this);
 		},
 		contains: function(canvas_x, canvas_y) {

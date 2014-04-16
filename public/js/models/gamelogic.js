@@ -7,6 +7,7 @@ define([
 	'models/game_models/slug_unit',
 	'models/game_models/powerup_unit',
 	'models/game_models/explosion_unit',
+	'models/soundfactory',
 	'collections/bombs',
 	'collections/stones',
 	'collections/slugs',
@@ -21,6 +22,7 @@ define([
 	SlugUnit,
 	PowerupUnit,
 	ExplosionUnit,
+	SoundFactory,
 	bombs,
 	stones,
 	slugs,
@@ -47,6 +49,7 @@ define([
 		leftButtonPressed: false,
 		rightButtonPressed: false,
 		spacebarButtonPressed: false,
+		soundFactory: new SoundFactory(),
 		initialize: function () {
 			gyro.frequency = 15;			
 		},

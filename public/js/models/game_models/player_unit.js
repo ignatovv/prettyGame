@@ -56,10 +56,9 @@ define([
                     slugUnit.x = this.x + (this.width - slugUnit.width) / 2;
                     slugUnit.y = this.y;                
               
-                    new Audio('/sounds/player_shoot.wav').play();
+                    this.gamelogic.soundFactory.playPlayerShoot();
                     this.trigger('player_shot', slugUnit);
-                }
-                else if(this.powerups == 'triple_shot') {
+                } else if(this.powerups == 'triple_shot') {
                     var slugUnit1 = new SlugUnit(this.gamelogic);
                     var slugUnit2 = new SlugUnit(this.gamelogic);
                     var slugUnit3 = new SlugUnit(this.gamelogic);
@@ -73,9 +72,8 @@ define([
                     slugUnit3.x = this.x + this.width;
                     slugUnit3.y = this.y + 40;                
               
-                    new Audio('/sounds/player_shoot.wav').play();
-                    new Audio('/sounds/player_shoot.wav').play();
-                    new Audio('/sounds/player_shoot.wav').play();
+                    this.gamelogic.soundFactory.playPlayerTripleShoot();
+
                     this.trigger('player_shot', slugUnit1);
                     this.trigger('player_shot', slugUnit2);
                     this.trigger('player_shot', slugUnit3);
@@ -89,7 +87,7 @@ define([
             }
         },
         getPowerup: function(){
-            new Audio('/sounds/powerup.wav').play();
+            this.gamelogic.soundFactory.playPowerUp();
             this.powerups = "triple_shot";
             this.powerup_timer = 200;
         },
@@ -103,10 +101,8 @@ define([
             }
         },
         explode: function() {
-            new Audio('/sounds/explosion.wav').play();
-
+            this.gamelogic.soundFactory.playExplosion();
             this.gamelogic.gameOver = true;
-
             this.gamelogic.explode(this);
         },
         contains: function(canvas_x, canvas_y) {

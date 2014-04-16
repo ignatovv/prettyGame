@@ -37,7 +37,7 @@ define([
             }
         },
         explode: function() {
-            new Audio('/sounds/explosion2.wav').play();
+            this.gamelogic.soundFactory.playExplosion2();
 
             stones.remove(this);
 

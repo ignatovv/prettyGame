@@ -39,7 +39,7 @@ define([
         hit: function(power) {
             this.hp = this.hp - power;
 
-            new Audio('/sounds/hit.wav').play();
+            this.gamelogic.soundFactory.playHit();
 
             if (this.hp <= 0) {
                 this.hp = 10;
@@ -49,7 +49,8 @@ define([
                 blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;
                 blastUnit.y = this.y;
                 this.blasts = this.blasts + 4;
-                new Audio('/sounds/blast_shoot.wav').play();
+                
+                this.gamelogic.soundFactory.playBlastShoot();
                 this.timeSinceLastBlast = 0;
                 this.trigger('bomb_dropped', blastUnit);   
             }
