@@ -63,7 +63,8 @@ define([
 			this.bossUnit = new BossUnit(this);
 			this.bossUnit.on('bomb_dropped', this.onBombDropped);
 			this.scores = 1;
-			this.timer = 0; 
+			this.timer = 0;
+			this.soundFactory.playBackgroundMusic();
 			bombs.reset();
 			stones.reset();
 			slugs.reset();
@@ -268,6 +269,7 @@ define([
 		},
 		endGame: function() {
 			this.gamePaused = true;
+			this.soundFactory.stopBackgroundMusic();
 			this.trigger('endgame', this);
 		}
 	});

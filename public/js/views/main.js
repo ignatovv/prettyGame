@@ -1,9 +1,11 @@
 define([
     'backbone',
-    'tmpl/main'
+    'tmpl/main',
+    'models/gamelogic'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    gamelogic
 ){
 
     var View = Backbone.View.extend({	
@@ -14,10 +16,6 @@ define([
 		},
         initialize: function () {
 			this.$el.hide();
-
-            if (!localStorage['sound'] || localStorage['sound'] == 'on') {
-                this.switchSound();
-            }
         },
         render: function () {
             this.$el.html(this.template());
@@ -31,15 +29,8 @@ define([
 			this.$el.hide();
 		},
         switchSound: function() {
-            var musicElement = $('.background__music').get(0);
-
-            if (!localStorage['sound'] || localStorage['sound'] == 'on') {
-                localStorage['sound'] = 'off';
-            } else {
-                localStorage['sound'] = 'on';
-            }
+            gamelogic.soundFactory.set('status', !gamelogic.soundFactory.get('status'));
         }
-                                        
     });
 
     return new View();
