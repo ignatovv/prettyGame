@@ -3,67 +3,87 @@ define([
 ], function(
 	Backbone
 ){
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+
 	var SoundFactory = Backbone.Model.extend({
-		sounds: { },
-		music: { },
+		ctx: new AudioContext(),
+		soundBuffers: {},
+		musicSource: null,
+		soundsLoaded: 0,
+		soundsTotal: 0,
 		initialize: function () {
 			this.set('status', !localStorage['sound'] || localStorage['sound'] == 'on');
-			this.initializeSound('blast_shoot.wav', 1);
-			this.initializeSound('player_shoot.wav', 10);
-			this.initializeSound('player_triple_shoot.wav', 10);
-			this.initializeSound('explosion.wav', 1);
-			this.initializeSound('explosion2.wav', 10);
-			this.initializeSound('hit.wav', 10);
-			this.initializeSound('powerup.wav', 1);
-			this.initializeMusic('background.mp3');
+			this.initializeSound('blast_shoot.wav');
+			this.initializeSound('player_shoot.wav');
+			this.initializeSound('explosion.wav');
+			this.initializeSound('explosion2.wav');
+			this.initializeSound('hit.wav');
+			this.initializeSound('powerup.wav');
+			this.initializeSound('background.mp3');
 			this.on('change:status', this.onStatusChanged);
 		},
-		initializeSound: function(filename, count) {
-			this.sounds[filename] = { sounds: [], index: 0 };
+		initializeSound: function(filename) {
+			var request = new XMLHttpRequest();
+			var soundFactory = this;
+			var url = '/sounds/' + filename;
 
-			for (var i = 0; i < count; ++i) {
-				this.sounds[filename].sounds.push(new Audio('/sounds/' + filename));
-			}
+			++this.soundsTotal;
+
+			request.open('GET', url, true);
+			request.responseType = 'arraybuffer';
+			request.onload = function() {
+				soundFactory.ctx.decodeAudioData(request.response, function(buffer) {
+					soundFactory.soundBuffers[filename] = buffer;
+					++soundFactory.soundsLoaded;
+					soundFactory.onSoundLoaded();
+				}, function() {
+					console.error('Sound file ' + url + ' cant be loaded');
+				});
+			};
+
+			request.send();
 		},
-		initializeMusic: function(filename) {
-			this.music[filename] = new Audio('/music/' + filename);
-			this.music[filename].volume = 0.6;
-			this.music[filename].loop = true;
+		play: function(filename, delay) {
+			if (!this.soundBuffers[filename]) {
+				console.error('Sound ' + filename + ' was not loaded');
+				return null;
+			}
+
+			var source = this.ctx.createBufferSource();
+
+			if (!delay) {
+				delay = 0;
+			}
+
+			source.buffer = this.soundBuffers[filename];
+			source.connect(this.ctx.destination);
+
+			source.start(delay);
+
+			return source;
 		},
-		playSound: function(filename) {
-			if (!this.get('status')) {
-				return;
-			}
-
-			this.sounds[filename].sounds[this.sounds[filename].index++].play();
-
-			if (this.sounds[filename].index >= this.sounds[filename].sounds.length) {
-				this.sounds[filename].index = 0;
-			}
+		playSound: function(filename, delay) {
+			this.play(filename, delay);
 		},
 		playMusic: function(filename) {
-			if (!this.get('status')) {
-				return;
-			}
+			var source = this.play(filename);
 
-            this.music[filename].play();
+			if (source) {
+				source.loop = 'true';
+				this.musicSource = source;
+			}
         },
         stopMusic: function(filename) {
-			if (!this.get('status')) {
-				return;
+        	if (this.musicSource) {
+				this.musicSource.stop();
+				this.musicSource = null;
 			}
-
-            this.music[filename].currentTime = 0;
-            this.music[filename].pause();
         },
 		playBlastShoot: function() {
 			this.playSound('blast_shoot.wav');
 		},
-		playPlayerShoot: function() {
-			this.playSound('player_shoot.wav');
-		},
-		playPlayerTripleShoot: function() {
-			this.playSound('player_triple_shoot.wav');
+		playPlayerShoot: function(delay) {
+			this.playSound('player_shoot.wav', delay);
 		},
 		playExplosion: function() {
 			this.playSound('explosion.wav');
@@ -85,6 +105,12 @@ define([
         },
         onStatusChanged: function() {
 			localStorage['sound'] = (this.get('status')) ? 'on' : 'off';
+		},
+		onSoundLoaded: function() {
+			this.trigger('sound_loaded');
+		},
+		isSoundsLoaded: function() {
+			return this.soundsLoaded == this.soundsTotal;
 		}
 	});
 

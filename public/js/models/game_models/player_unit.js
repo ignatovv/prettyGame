@@ -72,7 +72,9 @@ define([
                     slugUnit3.x = this.x + this.width;
                     slugUnit3.y = this.y + 40;                
               
-                    this.gamelogic.soundFactory.playPlayerTripleShoot();
+                    this.gamelogic.soundFactory.playPlayerShoot();
+                    this.gamelogic.soundFactory.playPlayerShoot(0.05);
+                    this.gamelogic.soundFactory.playPlayerShoot(0.1);
 
                     this.trigger('player_shot', slugUnit1);
                     this.trigger('player_shot', slugUnit2);

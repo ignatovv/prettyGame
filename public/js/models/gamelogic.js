@@ -52,6 +52,14 @@ define([
 		soundFactory: new SoundFactory(),
 		initialize: function () {
 			gyro.frequency = 15;			
+			this.soundFactory.on('sound_loaded', this.onSoundLoaded, this);
+		},
+		onSoundLoaded: function() {
+			console.log(this.soundFactory.soundsLoaded + ' of ' + this.soundFactory.soundsTotal + ' sounds loaded');
+
+			if (this.soundFactory.isSoundsLoaded()) {
+				console.log('sounds loaded!');
+			}
 		},
 		startNewGame: function() {
 			this.startGyro();
