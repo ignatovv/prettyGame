@@ -89,19 +89,19 @@ module.exports = function (grunt) {
                 }
             }
         },
-        uglify: {
-            build: { /* Подзадача */
-                files: [{
-                    src: ['public/js/build.js'],
-                    dest: 'public/js/build.min.js'
-                }]
-            }
-        },
         concat: {
             build: { /* Подзадача */
                 options: { separator: ';\n' },
                 src: ['public/js/lib/almond.js','public/js/build/main.js'],
-                dest: 'public/js/build.min.js'
+                dest: 'public/js/build/build.js'
+            }
+        },
+        uglify: {
+            build: { /* Подзадача */
+                files: [{
+                    src: ['public/js/build/build.js'],
+                    dest: 'public/js/build/build.min.js'
+                }]
             }
         }
     });
