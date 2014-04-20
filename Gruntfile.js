@@ -28,6 +28,14 @@ module.exports = function (grunt) {
                     interrupt: true,
                     livereload: true
                 }
+            },
+            css: {
+                files: ['public/css/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    interrupt: true,
+                    livereload: true,
+                }
             }
         },
         express: {
@@ -58,7 +66,17 @@ module.exports = function (grunt) {
                 }
             }
         },
-
+        sass: {
+            css: { /* Подзадача */
+                files: [{
+                    expand: true,
+                    cwd: 'public/css', /* исходная директория */
+                    src: '*.scss', /* имена шаблонов */
+                    dest: 'public/css', /* результирующая директория */
+                    ext:  '.css'
+                }]
+            }
+        },
         requirejs: {
             build: { /* Подзадача */
                 options: {
@@ -91,6 +109,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');

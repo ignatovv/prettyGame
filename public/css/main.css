@@ -1,174 +1,148 @@
 html, body {
-    height: 100%;
-}
+  height: 100%; }
 
 body {
-    background-color: #000;
-    padding: 0;
-    margin: 0;
-}
+  background-color: #000;
+  padding: 0;
+  margin: 0; }
 
 .menu__left_border {
-    background-image: url("/images/menu_left_border.gif");
-    background-repeat: repeat-y;
-    background-position: right;
-}
+  background-image: url("/images/menu_left_border.gif");
+  background-repeat: repeat-y;
+  background-position: right; }
 
 .menu__right_border {
-    background-image: url("/images/menu_right_border.gif");
-    background-repeat: repeat-y;
-    background-position: left;
-}
+  background-image: url("/images/menu_right_border.gif");
+  background-repeat: repeat-y;
+  background-position: left; }
 
 .menu__main {
-    background-image: url("/images/menu_background.png");
-    background-repeat: repeat-y; 
-    background-position: center center;
-}
+  background-image: url("/images/menu_background.png");
+  background-repeat: repeat-y;
+  background-position: center center; }
 
 .menu__main__div {
-    width: 1050px;
-    text-align: center;
-}
+  width: 1050px;
+  text-align: center; }
 
 .menu__title {
-    color: #ddfefd;
-    font: 36px 'Courier New';
-    font-weight: bold;
-    padding-top: 40px;
-    padding-bottom: 30px;
-}
+  color: #ddfefd;
+  font: 36px 'Courier New';
+  font-weight: bold;
+  padding-top: 40px;
+  padding-bottom: 30px; }
 
 .menu__button {
-    width: 100%;
-    height: 107px;
-    color: #ddfefd;
-    font: 20px 'Courier New';
-    font-weight: bold;
-    background: url("/images/main_button_background.png") center center no-repeat;
-    display: block;
-    position: relative;
-}
+  width: 100%;
+  height: 107px;
+  color: #ddfefd;
+  font: 21px "Courier New";
+  font-weight: bold;
+  background: url("/images/main_button_background.png") center center no-repeat;
+  display: block;
+  position: relative; }
 
 .menu__button:hover {
-    background-image: url("/images/main_button_hover_background.png");
-}
+  background-image: url("/images/main_button_hover_background.png"); }
 
 .menu__button__span {
-    width: 100%;
-    position: absolute;
-    top: 44px;
-    left: 0px;
-    z-index: 1;
-}
+  width: 100%;
+  position: absolute;
+  top: 44px;
+  left: 0px;
+  z-index: 1; }
 
 .menu__overlay {
-    background-color: black;
-    color: white;
-    width: 1050px;
-    height: 680px;
-    position: absolute;
-    z-index: 2;
-}
+  background-color: black;
+  color: white;
+  width: 1050px;
+  height: 680px;
+  position: absolute;
+  z-index: 2; }
 
 .scoreboard__item {
-    color: #black;
-    font: 20px 'Courier New';
-}
+  color: black;
+  font: 21px "Courier New"; }
 
 .full_screen_view_container {
-    height: 100%;
-}
+  height: 100%; }
 
 .game {
-    text-align: center;
-}
+  text-align: center; }
 
 .game__overlay_container {
-    position: absolute;
-}
+  position: absolute; }
 
 .game__left_border {
-    background-image: url("/images/game_left_border.gif");
-    background-repeat: repeat-y;
-    background-position: right;
-}
+  background-image: url("/images/game_left_border.gif");
+  background-repeat: repeat-y;
+  background-position: right; }
 
 .game__right_border {
-    background-image: url("/images/game_right_border.gif");
-    background-repeat: repeat-y;
-    background-position: left;
-}
+  background-image: url("/images/game_right_border.gif");
+  background-repeat: repeat-y;
+  background-position: left; }
 
 .game__main {
-    background-image: url("/images/game_background.png");
-    background-repeat: repeat-y; 
-}
+  background-image: url("/images/game_background.png");
+  background-repeat: repeat-y; }
 
 .game__main__shadow_top {
-    background-image: url("/images/game_shadow_top.png");
-    background-repeat: repeat-x;
-    background-position: bottom;
-}
+  background-image: url("/images/game_shadow_top.png");
+  background-repeat: repeat-x;
+  background-position: bottom; }
 
 .game__main__shadow_bottom {
-
-    background-image: url("/images/game_shadow_bottom.png");
-    background-repeat: repeat-x; 
-    background-position: top;
-}
+  background-image: url("/images/game_shadow_bottom.png");
+  background-repeat: repeat-x;
+  background-position: top; }
 
 .game_button {
-    width: 218px;
-    height: 51px;
-    background-image: url("/images/game_button_background.png");
-    background-repeat: no-repeat;
-    text-align: center;
-}
+  width: 218px;
+  height: 51px;
+  background-image: url("/images/game_button_background.png");
+  background-repeat: no-repeat;
+  text-align: center; }
 
 .game_button a, .game_button a:visited, .game_button a:hover {
-    color: #ddfefd;
-    font: 20px 'Courier New';
-    font-weight: bold;
-    text-decoration: none;
-}
+  color: #ddfefd;
+  font: 21px "Courier New";
+  font-weight: bold;
+  text-decoration: none; }
 
 .gameover {
-    width: 320px;
-    height: 100px;
-    background: #23578f;
-    color: #ddfefd;
-    font: 20px 'Courier New';
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-left: -160px;
-    margin-top: -50px;
-    padding: 20px;
-    border-radius: 12px 0px 12px 0px;
-}
+  width: 320px;
+  height: 100px;
+  background: #23578f;
+  color: #ddfefd;
+  font: 21px "Courier New";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -160px;
+  margin-top: -50px;
+  padding: 20px;
+  border-radius: 12px 0px 12px 0px; }
 
 .gameover__title {
-    text-align: center;
-    font-weight: bold;;
-}
+  text-align: center;
+  font-weight: bold; }
 
 .gameover__score_submit {
-    text-align: center;
-}
+  text-align: center; }
+
 .notsupported {
-    text-align: center;
-}
+  text-align: center; }
+
 .notsupported__text {
-    font: 20px 'Courier New';
-    color: white;
-}
+  font: 21px "Courier New";
+  color: white; }
+
 .notsupported__link, .notsupported__link:visited, .notsupported__link:hover {
-    font: 20px 'Courier New';
-    font-weight: bold;
-    color: #01b0bb;
-    text-decoration: none;
-}
+  font: 21px "Courier New";
+  font-weight: bold;
+  color: #01b0bb;
+  text-decoration: none; }
+
 .notsupported__link:hover {
-    text-decoration: underline;
-}
+  text-decoration: underline; }
