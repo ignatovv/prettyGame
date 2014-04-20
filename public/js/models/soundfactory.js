@@ -6,7 +6,7 @@ define([
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 	var SoundFactory = Backbone.Model.extend({
-		ctx: new AudioContext(),
+		ctx: null,
 		soundBuffers: {},
 		musicSource: null,
 		soundsLoaded: 0,
@@ -21,6 +21,10 @@ define([
 			this.initializeSound('powerup.wav');
 			this.initializeSound('background.mp3');
 			this.on('change:status', this.onStatusChanged);
+			
+			if (window.AudioContext) {
+				this.ctx = new AudioContext();
+			}
 		},
 		initializeSound: function(filename) {
 			var request = new XMLHttpRequest();
@@ -46,6 +50,10 @@ define([
 		play: function(filename, delay) {
 			if (!this.soundBuffers[filename]) {
 				console.error('Sound ' + filename + ' was not loaded');
+				return null;
+			}
+
+			if (!this.get('status')) {
 				return null;
 			}
 
