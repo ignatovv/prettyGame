@@ -1,11 +1,29 @@
-var scores = [],
-	id = 0;
+var scores = [];
+var id = 0;
+var fs = require('fs');
 
-function sortScores(){
+function sortScores() {
 	scores.sort(function(a,b){
 		return b.score - a.score;
 	});
 }
+
+function updateFile() {
+	fs.writeFile('scores.json', JSON.stringify({ scores: scores, id: id }));
+}
+
+fs.readFile('scores.json', 'utf8', function (error, data) {
+	if (error) {
+		return;
+	}
+
+	var parsed = JSON.parse(data);
+
+	if (parsed) {
+		scores = parsed.scores;
+		id = parsed.id;
+	}
+});
 
 module.exports = {
 	getFull: function(req, res){
@@ -24,7 +42,7 @@ module.exports = {
 		res.end(s);
 	},
 
-	getOne: function(req, res){
+	getOne: function(req, res) {
 		var id = req.params.id,
 			founded;
 
@@ -71,6 +89,8 @@ module.exports = {
 		res.setHeader('Content-Type', 'application/javascript');
 		res.setHeader('Content-Length', Buffer.byteLength(s));
 		res.end(s);
+
+		updateFile();
 	},
 
 	del :function(req, res){
@@ -102,6 +122,8 @@ module.exports = {
 			res.writeHead(404, 'Not Found');
 			res.end();
 		}
+
+		updateFile();
 	},
 
 	put: function(req, res){
@@ -138,5 +160,7 @@ module.exports = {
 
 		res.writeHead(404, 'Not Found');
 		res.end();
+
+		updateFile();
 	}
 };

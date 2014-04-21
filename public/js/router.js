@@ -17,7 +17,7 @@ define([
 ){
 
     var Router = Backbone.Router.extend({
-    	isChome: false,
+    	isChrome: false,
         routes: {
             'scoreboard': 'scoreboardAction',
             'scoreboard?limit=:limit': 'scoreboardAction',
