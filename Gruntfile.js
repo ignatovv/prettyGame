@@ -28,6 +28,14 @@ module.exports = function (grunt) {
                     interrupt: true,
                     livereload: true
                 }
+            },
+            css: {
+                files: ['public/css/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    interrupt: true,
+                    livereload: true,
+                }
             }
         },
         express: {
@@ -58,7 +66,17 @@ module.exports = function (grunt) {
                 }
             }
         },
-
+        sass: {
+            css: { /* Подзадача */
+                files: [{
+                    expand: true,
+                    cwd: 'public/css', /* исходная директория */
+                    src: '*.scss', /* имена шаблонов */
+                    dest: 'public/css', /* результирующая директория */
+                    ext:  '.css'
+                }]
+            }
+        },
         requirejs: {
             build: { /* Подзадача */
                 options: {
@@ -71,19 +89,19 @@ module.exports = function (grunt) {
                 }
             }
         },
-        uglify: {
-            build: { /* Подзадача */
-                files: [{
-                    src: ['public/js/build.js'],
-                    dest: 'public/js/build.min.js'
-                }]
-            }
-        },
         concat: {
             build: { /* Подзадача */
                 options: { separator: ';\n' },
                 src: ['public/js/lib/almond.js','public/js/build/main.js'],
-                dest: 'public/js/build.min.js'
+                dest: 'public/js/build/build.js'
+            }
+        },
+        uglify: {
+            build: { /* Подзадача */
+                files: [{
+                    src: ['public/js/build/build.js'],
+                    dest: 'public/js/build/build.min.js'
+                }]
             }
         }
     });
@@ -91,6 +109,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-fest');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
