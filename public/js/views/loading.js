@@ -48,7 +48,7 @@ define([
             var total = gamelogic.soundFactory.soundsTotal;
 
             if (loadedBytes && totalBytes) {
-                current += loadedBytes / totalBytes;
+                current += 0.75 * loadedBytes / totalBytes;
             }
 
             var progress = 100 * current / total;
