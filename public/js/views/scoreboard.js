@@ -2,12 +2,14 @@ define([
     'backbone',
     'tmpl/scoreboard',
     'models/score',
-    'collections/scores'
+    'collections/scores',
+    'views/loading'
 ], function(
     Backbone,
     tmpl,
     Score,
-    scores
+    scores,
+    loadingView
 ){
 
     var View = Backbone.View.extend({
@@ -75,6 +77,10 @@ define([
             return this;
         },
         show: function(limit) {
+            if (loadingView.loading(this)) {
+                return;
+            }
+
             this.limit = limit;
 
             scores.on('sync', this.onSync, this);

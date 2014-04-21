@@ -1,0 +1,9 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+	<div class="loading">
+		<div class="loading__text">
+			Loading... Please, wait...
+		</div>
+		<div class="loading__text loading__progress">
+		</div>
+	</div>
+</fest:template>

@@ -35,6 +35,11 @@ define([
 
 			request.open('GET', url, true);
 			request.responseType = 'arraybuffer';
+			request.onprogress = function(e) {
+				if (e.lengthComputable) {
+					soundFactory.trigger('sound_progress_changed', e.loaded, e.total);
+				} 
+			};
 			request.onload = function() {
 				soundFactory.ctx.decodeAudioData(request.response, function(buffer) {
 					soundFactory.soundBuffers[filename] = buffer;
@@ -115,7 +120,7 @@ define([
 			localStorage['sound'] = (this.get('status')) ? 'on' : 'off';
 		},
 		onSoundLoaded: function() {
-			this.trigger('sound_loaded');
+			this.trigger('sound_loaded', this.soundsLoaded, this.soundsTotal);
 		},
 		isSoundsLoaded: function() {
 			return this.soundsLoaded == this.soundsTotal;

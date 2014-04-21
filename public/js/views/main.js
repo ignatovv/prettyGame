@@ -1,11 +1,13 @@
 define([
     'backbone',
     'tmpl/main',
-    'models/gamelogic'
+    'models/gamelogic',
+    'views/loading'
 ], function(
     Backbone,
     tmpl,
-    gamelogic
+    gamelogic,
+    loadingView
 ){
 
     var View = Backbone.View.extend({	
@@ -22,6 +24,10 @@ define([
             return this;
         },
         show: function() {
+            if (loadingView.loading(this)) {
+                return;
+            }
+
 			this.$el.show();
 			this.trigger('show', this);
         },

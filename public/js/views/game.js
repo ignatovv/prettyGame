@@ -5,6 +5,7 @@ define([
     'models/gamecanvas',
     'models/gamelogic',
     'views/gameover',
+    'views/loading',
     'anim'
 ], function(
     Backbone,
@@ -13,6 +14,7 @@ define([
     gamecanvas,
     gamelogic,
     gameover,
+    loadingView,
     anim
 ){
     var View = Backbone.View.extend({	
@@ -42,12 +44,16 @@ define([
             return this;
         },
         show: function () {
+            if (loadingView.loading(this)) {
+                return;
+            }
+
             $(document).on("keydown", this.buttonDown);
             $(document).on("keyup", this.buttonUp);
 
             this.nextFrame();
 			this.$el.show();
-			this.trigger('show', this);            
+			this.trigger('show', this);
 			
             gamelogic.startNewGame();
         },

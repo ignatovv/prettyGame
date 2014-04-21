@@ -5,7 +5,8 @@ define([
 	'views/main',
 	'views/game',
 	'views/scoreboard',
-	'views/notsupported'
+	'views/notsupported',
+	'views/loading'
 ], function(
 	Backbone,
 	underscore,
@@ -13,7 +14,8 @@ define([
 	mainView,
 	gameView,
 	scoreboardView,
-	notSupportedView
+	notSupportedView,
+	loadingView
 ){
 
     var Router = Backbone.Router.extend({
@@ -31,6 +33,7 @@ define([
 			viewManager.addView(gameView);
 			viewManager.addView(scoreboardView);
 			viewManager.addView(notSupportedView);
+			viewManager.addView(loadingView);
         },
         defaultActions: function () {
 			if (!this.isChrome) {
