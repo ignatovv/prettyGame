@@ -1,4 +1,18 @@
 $primary-font: 21px 'Courier New';
+$title-font: 36px 'Courier New';
+
+@mixin border-radius($top_left, $top_right, $bottom_right, $bottom_left) {
+    -webkit-border-radius: $top_left $top_right $bottom_right $bottom_left;
+    -moz-border-radius: $top_left $top_right $bottom_right $bottom_left;
+    -ms-border-radius: $top_left $top_right $bottom_right $bottom_left;
+    border-radius: $top_left $top_right $bottom_right $bottom_left;
+}
+
+@mixin background-tiled($image_name, $repeat, $position) {
+    background-image: url("/images/" + $image_name);
+    background-repeat: $repeat;
+    background-position: $position;
+}
 
 html, body {
     height: 100%;
@@ -11,21 +25,15 @@ body {
 }
 
 .menu__left_border {
-    background-image: url("/images/menu_left_border.gif");
-    background-repeat: repeat-y;
-    background-position: right;
+    @include background-tiled("menu_left_border.gif", repeat-y, right);
 }
 
 .menu__right_border {
-    background-image: url("/images/menu_right_border.gif");
-    background-repeat: repeat-y;
-    background-position: left;
+    @include background-tiled("menu_right_border.gif", repeat-y, left);
 }
 
 .menu__main {
-    background-image: url("/images/menu_background.png");
-    background-repeat: repeat-y; 
-    background-position: center center;
+    @include background-tiled("menu_background.png", repeat-y, center center);
 }
 
 .menu__main__div {
@@ -35,7 +43,7 @@ body {
 
 .menu__title {
     color: #ddfefd;
-    font: 36px 'Courier New';
+    font: $title-font;
     font-weight: bold;
     padding-top: 40px;
     padding-bottom: 30px;
@@ -47,7 +55,7 @@ body {
     color: #ddfefd;
     font: $primary-font;
     font-weight: bold;
-    background: url("/images/main_button_background.png") center center no-repeat;
+    @include background-tiled("main_button_background.png", no-repeat, center center);
     display: block;
     position: relative;
 }
@@ -91,92 +99,91 @@ body {
 }
 
 .game__left_border {
-    background-image: url("/images/game_left_border.gif");
-    background-repeat: repeat-y;
-    background-position: right;
+    @include background-tiled("game_left_border.gif", repeat-y, right);
 }
 
 .game__right_border {
-    background-image: url("/images/game_right_border.gif");
-    background-repeat: repeat-y;
-    background-position: left;
+    @include background-tiled("game_right_border.gif", repeat-y, left);
 }
 
 .game__main {
-    background-image: url("/images/game_background.png");
-    background-repeat: repeat-y; 
+    @include background-tiled("game_background.png", repeat-y, center center);
 }
 
 .game__main__shadow_top {
-    background-image: url("/images/game_shadow_top.png");
-    background-repeat: repeat-x;
-    background-position: bottom;
+    @include background-tiled("game_shadow_top.png", repeat-x, bottom);
 }
 
 .game__main__shadow_bottom {
-
-    background-image: url("/images/game_shadow_bottom.png");
-    background-repeat: repeat-x; 
-    background-position: top;
+    @include background-tiled("game_shadow_bottom.png", repeat-x, top);
 }
 
 .game_button {
     width: 218px;
     height: 51px;
-    background-image: url("/images/game_button_background.png");
-    background-repeat: no-repeat;
     text-align: center;
+    @include background-tiled("game_button_background.png", no-repeat-x, center);
 }
 
-.game_button a, .game_button a:visited, .game_button a:hover {
-    color: #ddfefd;
-    font: $primary-font;
-    font-weight: bold;
-    text-decoration: none;
+.game_button {
+    a, a:visited, a:hover {
+        color: #ddfefd;
+        font: $primary-font;
+        font-weight: bold;
+        text-decoration: none;
+    }
 }
 
 .gameover {
-    width: 320px;
-    height: 100px;
+    $width: 320px;
+    $height: 100px;
+    width: $width;
+    height: $height;
     background: #23578f;
     color: #ddfefd;
     font: $primary-font;
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-left: -160px;
-    margin-top: -50px;
+    margin-left: -1 * ($width / 2);
+    margin-top: -1 * ($height / 2);
     padding: 20px;
-    border-radius: 12px 0px 12px 0px;
+    @include border-radius(12px, 0, 12px, 0);
 }
 
 .gameover__title {
     text-align: center;
-    font-weight: bold;;
+    font-weight: bold;
 }
 
 .gameover__score_submit {
     text-align: center;
 }
+
 .notsupported {
     text-align: center;
 }
+
 .notsupported__text {
     font: $primary-font;
     color: white;
 }
+
 .notsupported__link, .notsupported__link:visited, .notsupported__link:hover {
     font: $primary-font;
     font-weight: bold;
     color: #01b0bb;
     text-decoration: none;
 }
+
 .notsupported__link:hover {
     text-decoration: underline;
 }
+
 .loading {
     text-align: center;
 }
+
 .loading__text {
     font: $primary-font;
     color: white;
