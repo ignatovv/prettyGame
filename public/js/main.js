@@ -6,7 +6,11 @@ require.config({
         underscore: "lib/underscore",
         backbone: "lib/backbone",
 		gyro: "lib/gyro.min",
-        anim: "lib/animation"
+        anim: "lib/animation",
+        Connector: "lib/Connector",
+        FnQuery: "lib/FnQuery",
+        "socket.io": "/socket.io/socket.io"
+
     },
     shim: {
         'backbone': {
@@ -21,6 +25,9 @@ require.config({
         },
         'anim': {
             exports: 'requestAnimationFrame'
+        },
+        "socket.io": {
+            exports: "io"
         }
     }
 });

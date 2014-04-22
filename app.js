@@ -37,6 +37,7 @@ app.configure('development', function(){
 		debug: true
 	}));
 });
+
 app.configure('production', function(){
 	app.engine('xml', require('artist').render({
 		cache: true,
@@ -48,6 +49,7 @@ var scores = require('./routes/scores');
 var routes = require('./routes/index');
 
 app.get('/', routes.index);
+app.get('/joystick', routes.joystick);
 
 app.get('/scores', scores.getFull);
 app.get('/scores/:id', scores.getOne);
@@ -56,6 +58,9 @@ app.del('/scores/:id', scores.del);
 app.put('/scores/:id', scores.put);
 
 var server = http.createServer(app);
+
+require('./server/server').init(server);
+
 server.listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
 });
