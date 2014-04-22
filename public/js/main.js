@@ -4,7 +4,10 @@ require.config({
     paths: {
         jquery: "lib/jquery",
         underscore: "lib/underscore",
-        backbone: "lib/backbone"
+        backbone: "lib/backbone",
+        Connector: "lib/Connector",
+        FnQuery: "lib/FnQuery",
+        "socket.io": "/socket.io/socket.io"
     },
     shim: {
         'backbone': {
@@ -13,6 +16,9 @@ require.config({
         },
         'underscore': {
             exports: '_'
+        },
+        "socket.io": {
+            exports: "io"
         }
     }
 });
