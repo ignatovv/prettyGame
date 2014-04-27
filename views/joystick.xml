@@ -9,7 +9,12 @@
 		<meta name="viewport" content="..." />
 	</head>
 	<body>
-		Hello world!
+		<form>
+			<input id="token" />
+			<button id="connect" type="submit">connect</button>
+		</form>
+		<div id="message"></div>
+		<script data-main="/js/controllermain" src="/js/lib/require.js"></script>
 	</body>
 </html>
 </fest:template>

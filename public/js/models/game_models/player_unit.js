@@ -86,6 +86,9 @@ define([
                 }
 
                 this.timeSinceLastShoot = 0;
+                if (!this.gamelogic.autoFire) {
+                    this.gamelogic.spacebarButtonPressed = false;
+                }
             }
         },
         getPowerup: function(){

@@ -49,6 +49,7 @@ define([
 		leftButtonPressed: false,
 		rightButtonPressed: false,
 		spacebarButtonPressed: false,
+		autoFire: true,
 		soundFactory: new SoundFactory(),
 		initialize: function () {
 			gyro.frequency = 15;			

@@ -4,15 +4,17 @@ define([
     'tmpl/game',
     'models/gamecanvas',
     'models/gamelogic',
+    'models/gameserver',
     'views/gameover',
     'views/loading',
-    'anim'
+    'anim',
 ], function(
     Backbone,
 	gyro,
     tmpl,
     gamecanvas,
     gamelogic,
+    gameserver,
     gameover,
     loadingView,
     anim
@@ -40,7 +42,6 @@ define([
         render: function () {
             this.$el.html(this.template());
             this.$el.find('.game__overlay_container').html(gameover.render().$el);
-            
             return this;
         },
         show: function () {
