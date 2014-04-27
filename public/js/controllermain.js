@@ -123,10 +123,10 @@ define([
     });
     window.addEventListener('deviceorientation', function(event) {
 
-        if (Math.abs(event.alpha) < 2) {
+        if (Math.abs(event.gamma) < 10) {
             msg = "STOP";
         }
-        else if (event.alpha < 45)
+        else if (event.gamma < 0)
             msg = "MOVE_LEFT";
         else 
             msg = "MOVE_RIGHT";
