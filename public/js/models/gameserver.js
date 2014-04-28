@@ -50,22 +50,33 @@ define([
 				}
 			});
 		},
-
 		handleMessage: function(message) {
+			var parsed = JSON.parse(message);
 
-            switch(message) {
-            	case "FIRE": gamelogic.spacebarButtonPressed = true; break;
-            	case "STOP_FIRE": gamelogic.spacebarButtonPressed = false; break;
-            	case "MOVE_RIGHT": gamelogic.rightButtonPressed = true; break;
-            	case "MOVE_LEFT": gamelogic.leftButtonPressed = true; break;
-            	case "STOP": 
-            		gamelogic.rightButtonPressed = false; 
-            		gamelogic.leftButtonPressed = false;
-            		break;
-            }
+			if (parsed) {
+				switch (parsed.action) {
+	            	case "fire":
+	            		gamelogic.spacebarButtonPressed = true;
+	            		break;
+	            	case "stop_fire":
+	            		gamelogic.spacebarButtonPressed = false;
+	            		break;
+        			case "tilt":
+        				gamelogic.tilt = parsed.value;
+	            		break;
+	            	case "MOVE_RIGHT":
+	            		gamelogic.rightButtonPressed = true;
+	            		break;
+	            	case "MOVE_LEFT":
+	            		gamelogic.leftButtonPressed = true;
+	            		break;
+	            	case "STOP": 
+	            		gamelogic.rightButtonPressed = false; 
+	            		gamelogic.leftButtonPressed = false;
+	            		break;
+	            }				
+			}
 		}
-
-
 	});
 
 	return new GameServer();

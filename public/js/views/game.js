@@ -1,6 +1,5 @@
 define([
     'backbone',
-	'gyro',
     'tmpl/game',
     'models/gamecanvas',
     'models/gamelogic',
@@ -10,7 +9,6 @@ define([
     'anim',
 ], function(
     Backbone,
-	gyro,
     tmpl,
     gamecanvas,
     gamelogic,
@@ -65,7 +63,6 @@ define([
 			gameover.hide();
             this.$el.hide();
 			
-			gamelogic.stopGyro();
             gamelogic.soundFactory.stopBackgroundMusic();
 		},
         buttonDown: function(e) {

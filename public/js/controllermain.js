@@ -99,43 +99,49 @@ define([
     });
 
     window.server = server;
-    var move = "STOP";
+
     var shoot = "STOP_FIRE";
+    var lastTiltUpdate;
 
     window.addEventListener('click', function (event) {
         if (shoot != 'FIRE') {
-            server.send('FIRE', null);
+            server.send(JSON.stringify({ action: 'fire' }));
             shoot = 'FIRE';
         }
-        server.send('FIRE', null);
+        server.send(JSON.stringify({ action: 'fire' }));
     });
     window.addEventListener('touchstart', function (event) {
         if (shoot != 'FIRE') {
-            server.send('FIRE', null);
+            server.send(JSON.stringify({ action: 'fire' }));
             shoot = 'FIRE';
         }
     });
     window.addEventListener('touchend', function (event) {
         if (shoot != 'STOP_FIRE') {
-            server.send('STOP_FIRE', null);
+            server.send(JSON.stringify({ action: 'stop_fire' }));
             shoot = 'STOP_FIRE';
         }
     });
-    window.addEventListener('deviceorientation', function(event) {
+    window.addEventListener('deviceorientation', function(e) {
+        var fps = 60;
 
-        if (Math.abs(event.gamma) < 10) {
-            msg = "STOP";
+        if (lastTiltUpdate && (new Date().getTime() - lastTiltUpdate) < 1000 / fps) {
+            return;
         }
-        else if (event.gamma < 0)
-            msg = "MOVE_LEFT";
-        else 
-            msg = "MOVE_RIGHT";
-        console.log("alpha", event.alpha);
-        if (move != msg) {
-            server.send(msg, null);
-            move = msg;
+
+        var angle;
+        var max_angle = 35;
+
+        if (window.orientation == -90) angle = (-1) * e.beta;
+        else if (window.orientation == 90) angle = e.beta;
+        else if (window.orientation == 0) angle = e.gamma;
+        else if (window.orientation == 180) angle = (-1) * e.gamma;
+
+        if (Math.abs(angle) > Math.abs(max_angle)) {
+            angle *= max_angle / Math.abs(angle);
         }
+
+        server.send(JSON.stringify({ action: 'tilt', value: angle / max_angle }));
+        lastTiltUpdate = new Date().getTime();
     });
-
-
 });

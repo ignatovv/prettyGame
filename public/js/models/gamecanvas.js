@@ -1,6 +1,5 @@
  define([
     'backbone',
-	'gyro',
 	'models/gamelogic',
 	'models/game_models/player_unit',
 	'models/game_models/boss_unit',
@@ -14,7 +13,6 @@
 	'collections/effects'
 ], function(
     Backbone,
-	gyro,
 	gamelogic,
 	PlayerUnit,
 	BossUnit,

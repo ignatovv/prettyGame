@@ -32,6 +32,8 @@ define([
             if (this.gamelogic.rightButtonPressed) {
                 this.x += 5;
             }
+
+            this.x += this.gamelogic.tilt * 15;
 			
             if (this.x + this.width > this.gamelogic.canvasWidth - 1) {
                 this.x = this.gamelogic.canvasWidth - this.width - 1;

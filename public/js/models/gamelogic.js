@@ -1,6 +1,5 @@
 define([
 	'backbone',
-	'gyro',
 	'models/game_models/boss_unit',
 	'models/game_models/player_unit',
 	'models/game_models/stone_unit',
@@ -15,7 +14,6 @@ define([
 	'collections/powerups'
 ], function(
 	Backbone,
-	gyro,
 	BossUnit,
 	PlayerUnit,
 	StoneUnit,
@@ -35,9 +33,6 @@ define([
 		playerUnit: null,
 		bossUnit: null,
 		scores:0,
-		max_accelerate: 15,
-		max_angle: 35,
-		min_angle: -35,
 		gamePaused: false,
 		gameOver: false,
 		tactsAfterGameOver: 0,
@@ -49,13 +44,12 @@ define([
 		leftButtonPressed: false,
 		rightButtonPressed: false,
 		spacebarButtonPressed: false,
+		tilt: 0,
 		autoFire: true,
 		soundFactory: new SoundFactory(),
 		initialize: function () {
-			gyro.frequency = 15;			
 		},
 		startNewGame: function() {
-			this.startGyro();
 			this.gamePaused = false;
 			this.gameOver = false;
 			this.tactsAfterGameOver = 40;
@@ -71,34 +65,6 @@ define([
 			slugs.reset();
 			powerups.reset();
 			effects.reset();
-		},
-		startGyro: function () {
-			var game = this;
-
-			gyro.startTracking(function(o) {
-				if (!o.x) {
-					gyro.stopTracking();
-					return;
-				}
-							
-				var tilt;
-				
-				if (window.orientation == -90) tilt = (-1) * o.beta;
-				else if (window.orientation == 90) tilt = o.beta;
-				else if (window.orientation == 0) tilt = o.gamma;
-				else if (window.orientation == 180) tilt = (-1) * o.gamma;
-
-				if (tilt > game.max_angle) tilt = game.max_angle;
-				else if (tilt < game.min_angle) tilt = game.min_angle;
-
-				game.playerX += (tilt / game.max_angle) * game.max_accelerate;
-
-				if (game.playerX < 0) game.playerX = 0;
-				else if (game.playerX > game.canvasWidth - game.rectWidth) game.playerX = game.canvasWidth - game.rectWidth;
-			});
-		},
-		stopGyro: function () {
-			gyro.stopTracking();
 		},
 		processGameFrame: function() {
 			if (this.gamePaused) {
@@ -159,7 +125,6 @@ define([
 			return Math.random() * (max - min) + min;
 		},
 		detectCollisions: function() {
-			
 			bombs.forEach(function(bomb) {
 				if ((this.playerUnit.hp > 0) && (this.intersects(bomb, this.playerUnit))) {
 					this.playerUnit.hit(bomb.power);

@@ -5,7 +5,6 @@ require.config({
         jquery: "lib/jquery",
         underscore: "lib/underscore",
         backbone: "lib/backbone",
-		gyro: "lib/gyro.min",
         anim: "lib/animation",
         Connector: "lib/Connector",
         FnQuery: "lib/FnQuery",
@@ -19,9 +18,6 @@ require.config({
         },
         'underscore': {
             exports: '_'
-        },
-		'gyro': {
-            exports: 'gyro'
         },
         'anim': {
             exports: 'requestAnimationFrame'
