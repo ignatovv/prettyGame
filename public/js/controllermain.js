@@ -28,8 +28,6 @@ define([
 ], function(
     Connector
 ){
-    var message = document.getElementById('message');
-    var input = document.getElementById('token');
     var start, init, reconnect;
 
     // Создаем связь с сервером
@@ -40,22 +38,23 @@ define([
     );
 
     // Инициализация
-    init = function(){
-        message.innerHTML = 'ready';
+    init = function() {
         // Если id нет
-        if (!localStorage.getItem('playerguid')){
+        if (!localStorage.getItem('playerguid')) {
+            $(".authorization").show();
+            $(".controller").hide();
             // Ждем ввода токена
-            input.parentNode.addEventListener('submit', function(e){
-                e.preventDefault();
-
+            $('#connect').on('click', function() {
                 // И отправляем его на сервер
-                server.bind({token: input.value}, function(data){
-                    if (data.status == 'success'){ //  В случае успеха
+                server.bind({ token: $('#token').val() }, function(data) {
+                    if (data.status == 'success') { //  В случае успеха
                         // Стартуем джостик
                         start(data.guid);
+                    } else if (data.status == 'undefined guid') {
+                        alert('Wrong token');
                     }
                 });
-            }, false);
+            });
 
         } else { // иначе
             // переподключаемся к уже созданной связке
@@ -66,13 +65,13 @@ define([
     // Переподключение
     // Используем сохранненный id связки
     reconnect = function(){
-        server.bind({guid: localStorage.getItem('playerguid')}, function(data){
+        server.bind({ guid: localStorage.getItem('playerguid') }, function(data) {
             // Если все ок
-            if (data.status == 'success'){
+            if (data.status == 'success') {
                 // Стартуем
                 start(data.guid);
             // Если связки уже нет
-            } else if (data.status == 'undefined guid'){
+            } else if (data.status == 'undefined guid') {
                 // Начинаем все заново
                 localStorage.removeItem('playerguid');
                 init();
@@ -85,12 +84,11 @@ define([
         console.log('start player');
         // Сохраняем id связки
         localStorage.setItem('playerguid', guid);
-        message.innerHTML = 'game';
+        $(".authorization").hide();
+        $(".controller").show();
     };
 
     server.on('reconnect', reconnect);
-
-    init();
 
     // Обмен сообщениями
     server.on('message', function(data, answer){
@@ -98,7 +96,7 @@ define([
         answer('answer');
     });
 
-    window.server = server;
+    init();
 
     var shoot = "STOP_FIRE";
     var lastTiltUpdate;

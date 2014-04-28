@@ -9,7 +9,6 @@ require.config({
         Connector: "lib/Connector",
         FnQuery: "lib/FnQuery",
         "socket.io": "/socket.io/socket.io"
-
     },
     shim: {
         'backbone': {
