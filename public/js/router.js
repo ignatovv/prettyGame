@@ -6,7 +6,8 @@ define([
 	'views/game',
 	'views/scoreboard',
 	'views/notsupported',
-	'views/loading'
+	'views/loading',
+	'modernizr'
 ], function(
 	Backbone,
 	underscore,
@@ -15,7 +16,8 @@ define([
 	gameView,
 	scoreboardView,
 	notSupportedView,
-	loadingView
+	loadingView,
+	Modernizr
 ){
 
     var Router = Backbone.Router.extend({
@@ -27,6 +29,13 @@ define([
             '*default': 'defaultActions'
         },
 		initialize: function () {
+			var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
+
+			if (isMobile) {
+				window.location = '/joystick';
+				return;
+			}
+
 			this.isChrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
 
 			viewManager.addView(mainView);
