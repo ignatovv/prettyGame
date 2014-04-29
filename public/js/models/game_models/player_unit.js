@@ -110,7 +110,9 @@ define([
         explode: function() {
             this.gamelogic.soundFactory.playExplosion();
             this.gamelogic.gameOver = true;
+            this.gamelogic.tactsAfterGameOver = 40;
             this.gamelogic.explode(this);
+            this.gamelogic.soundFactory.playGameOverSound();
         },
         contains: function(canvas_x, canvas_y) {
             var x = canvas_x - this.x - 2;

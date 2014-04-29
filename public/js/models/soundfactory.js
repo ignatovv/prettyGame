@@ -20,6 +20,10 @@ define([
 			this.initializeSound('hit.wav');
 			this.initializeSound('powerup.wav');
 			this.initializeSound('background.mp3');
+			this.initializeSound('boss_music.mp3');	
+			this.initializeSound('game_over.mp3');
+			this.initializeSound('ending.mp3');
+								
 			this.on('change:status', this.onStatusChanged);
 			
 			if (window.AudioContext) {
@@ -110,12 +114,27 @@ define([
 		playPowerUp: function() {
 			this.playSound('powerup.wav');
 		},
+		playGameOverSound: function() {
+			this.playSound('game_over.mp3');
+		},
+		playEndingMusic: function() {
+			this.playSound('ending.mp3');
+        },
+        stopEndingMusic: function() {
+            this.stopMusic('ending.mp3');
+        },
 		playBackgroundMusic: function() {
 			this.playMusic('background.mp3');
         },
         stopBackgroundMusic: function() {
             this.stopMusic('background.mp3');
         },
+		playBossMusic: function() {
+			this.playMusic('boss_music.mp3');
+        },
+        stopBossMusic: function() {
+            this.stopMusic('boss_music.mp3');
+        },        
         onStatusChanged: function() {
 			localStorage['sound'] = (this.get('status')) ? 'on' : 'off';
 		},

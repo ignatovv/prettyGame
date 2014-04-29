@@ -19,42 +19,54 @@ define([
     	movingRight: true,
         timeSinceLastBombDrop: 0,
         timeSinceLastBlast:0,
-        timer: 0,
-        hp: 10,
+        timer: 0,        
+        hp: 0,
+        max_hp: 99,
         blasts: 0,
         speed: 5,
+        basted: false,
     	initialize: function(gamelogic) {
     		BossUnit.__super__.initialize(gamelogic, this);
             this.image = BossUnit.image;
+            this.hp = this.max_hp;
     	},
-        unleash: function() {
-            this.gamelogic.bossUnleashed = true;
+        unleash: function() {            
             this.x = (this.gamelogic.canvasWidth - this.width) / 2;
             this.y = - this.height;            
         },
 		move: function() {	
 
+
             if (this.y < 0) {
-                if(this.gamelogic.timer % 2)
+                if(this.gamelogic.timer % 5 == 0)
                     ++this.y;
             }
-            else {
-    			this.x = (this.movingRight) ? this.x + this.speed : this.x - this.speed;
-    			
-                if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0) {
-                    this.movingRight = !this.movingRight;
-                }
+            else if(this.hp > 0) {
+                {
+        			this.x = (this.movingRight) ? this.x + this.speed : this.x - this.speed;
+        			
+                    if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0) {
+                        this.movingRight = !this.movingRight;
+                    }
 
-                this.throwBombIfNeeded();
+                    this.throwBombIfNeeded();
+                }
             }
+            else if (this.hp < 0 && !this.basted) {
+                this.gamelogic.soundFactory.stopBossMusic();
+                this.gamelogic.soundFactory.playEndingMusic();
+                this.gamelogic.tactsAfterGameOver = 400;
+                this.gamelogic.gameOver = true;
+                this.basted = true;  
+                this.gamelogic.soundFactory.playExplosion();          
+            }        
 		},
         hit: function(power) {
             this.hp = this.hp - power;
 
-            this.gamelogic.soundFactory.playHit();
-
-            if (this.hp <= 0) {
-                this.hp = 10;
+            this.gamelogic.soundFactory.playHit();            
+            if (this.hp % 10 == 0) {
+                --this.hp;
                 this.gamelogic.scores = this.gamelogic.scores + 10;
             
                 var blastUnit = new BlastUnit(this.gamelogic);

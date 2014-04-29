@@ -80,7 +80,7 @@
 				slug.draw(ctx);
 			});
 
-			if (gamelogic.bossUnleashed)
+			if (gamelogic.bossUnleashed && gamelogic.bossUnit.hp > 0)
 				gamelogic.bossUnit.draw(ctx);
 
 			effects.forEach(function(effect) {				
@@ -90,9 +90,8 @@
 			this.drawHitEffectIfNeeded(ctx);
 			this.drawScoreBar(ctx, gamelogic.scores, 10, gamelogic.canvasHeight - (25 + 10) * 2);
 			this.drawHpBar(ctx, "PLAYER", 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueGreenImage, gamelogic.playerUnit.hp / gamelogic.playerUnit.max_hp);
-			this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / 10);
-
-
+			if (gamelogic.bossUnleashed)
+				this.drawHpBar(ctx, "BOSS", gamelogic.canvasWidth - 250 - 10, gamelogic.canvasHeight - 25 - 10, this.hpBarValueRedImage, gamelogic.bossUnit.hp / gamelogic.bossUnit.max_hp);
 			return this;
         },
         drawHitEffectIfNeeded: function(ctx) {

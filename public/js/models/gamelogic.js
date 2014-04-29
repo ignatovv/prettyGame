@@ -52,7 +52,6 @@ define([
 		startNewGame: function() {
 			this.gamePaused = false;
 			this.gameOver = false;
-			this.tactsAfterGameOver = 40;
 			this.playerUnit = new PlayerUnit(this);
 			this.playerUnit.on('player_shot', this.onPlayerShot);
 			this.bossUnit = new BossUnit(this);
@@ -117,14 +116,31 @@ define([
 				stoneUnit.x = this.random(0, this.canvasWidth - stoneUnit.width);
 				stones.add(stoneUnit);			
 			}
+			if (this.timer % 20  == 0 && !this.bossUnleashed) {
+				var stoneUnit = new StoneUnit(this);
+
+				stoneUnit.x = this.random(0, this.canvasWidth - stoneUnit.width);
+				stones.add(stoneUnit);			
+			}
 			if (this.timer % 800 == 0 ) {
 				var powerup = new PowerupUnit(this);	
 				powerup.x = this.random(powerup.deviation_x_max, this.canvasWidth - powerup.width - powerup.deviation_x_max);
 				powerups.add(powerup);		
 			}
 
-			if (this.scores > 1 && !this.bossUnleashed) {
+			if (this.scores > 50  && !this.bossUnleashed) {	
+				this.bossUnleashed = true;			
 				this.bossUnit.unleash();				
+				this.soundFactory.stopBackgroundMusic();
+				this.soundFactory.playBossMusic();
+			}
+
+			if(this.bossUnit.basted && this.timer % 3 == 0) {
+			var explosionUnit = new ExplosionUnit(this);
+
+			explosionUnit.x = this.bossUnit.x + ( this.random(-this.bossUnit.width , this.bossUnit.width) + this.bossUnit.width - explosionUnit.width) / 2;
+			explosionUnit.y = this.bossUnit.y + this.random(0, this.bossUnit.height * 2 ) + (this.bossUnit.height - explosionUnit.height) / 2;			
+			effects.add(explosionUnit);
 			}
 		},
 		random: function(min, max) {
