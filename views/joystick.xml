@@ -9,36 +9,37 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="mobile-web-app-capable" content="yes" />
+		<link rel="stylesheet" type="text/css" href="css/controller.css" />
 	</head>
-	<body style="-moz-user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; background: black; height: 100%;">
-		<div class="authorization" style="text-align: center; display: none;">
-			<div style="color: #ddfefd; font: 26px Courier New;">
-				Enter game session token
+	<body>
+		<div class="authorization">
+			<div class="authorization__tip">
+				Game session token
 			</div>
 			<div>
-				<input id="token" maxlength="4" placeholder="Token..." style="width: 120px; height: 30px; color: white; font: 16pt Courier New; background: #333; border: 1px solid #666; text-align: center;" />
+				<input class="authorization__input" id="token" maxlength="4" placeholder="Token..." />
 			</div>
 			<div style="padding-top: 10px;">
-				<button id="connect" type="submit" style="width: 120px; height: 30px; color: white; font: 16pt Courier New; background: #333; border: 1px solid #666; text-align: center;">OK</button>
+				<button class="authorization__submit" id="connect" type="submit">OK</button>
 			</div>
 		</div>
 
-		<div class="controller" style="width: 100%; height: 100%; display: none;">
+		<div class="controller">
 			<table cellspacing="0" cellpadding="0" style="width: 100%; height: 100%;">
 				<tr>
-					<td style="vertical-align: middle; padding-left: 20px;">
+					<td class="controller__rotate_left">
 						<img src="/images/rotate_left.png" />
 					</td>
-					<td style="width: 100%; text-align: center; vertical-align: middle;">
-						<img class="tap_to_fire" src="/images/space.gif" style="width: 128px; height: 256px; background-image: url('/images/tap_to_fire.png'); " />
-						<div style="color: #ddfefd; font: 26px Courier New; margin-top: 50px;">
+					<td class="controller__tap_to_fire">
+						<img class="controller__tap_to_fire__image tap_to_fire" src="/images/space.gif" style="" />
+						<div class="controller__tap_to_fire__tip">
 							Rotate your device to move left or right
 						</div>
-						<div style="color: #ddfefd; font: 26px Courier New;">
+						<div class="controller__tap_to_fire__tip">
 							Tap the screen to fire
 						</div>
 					</td>
-					<td style="vertical-align: middle; padding-right: 20px;">
+					<td class="controller__rotate_right">
 						<img src="/images/rotate_right.png" />
 					</td>
 				</tr>
