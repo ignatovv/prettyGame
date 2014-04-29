@@ -30,7 +30,7 @@
 						<img src="/images/rotate_left.png" />
 					</td>
 					<td style="width: 100%; text-align: center; vertical-align: middle;">
-						<img src="/images/tap_to_fire.png" />
+						<img class="tap_to_fire" src="/images/space.gif" style="width: 128px; height: 256px; background-image: url('/images/tap_to_fire.png'); " />
 						<div style="color: #ddfefd; font: 26px Courier New; margin-top: 50px;">
 							Rotate your device to move left or right
 						</div>

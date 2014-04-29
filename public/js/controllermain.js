@@ -111,10 +111,11 @@ define([
         e.preventDefault();
         var touches = e.changedTouches;
 
-        for (var i=0; i < touches.length; i++) {
+        for (var i = 0; i < touches.length; ++i) {
             if (!firstFinderIdentifier) {
                 firstFinderIdentifier = touches[i].identifier;
                 server.send(JSON.stringify({ action: 'fire' }));
+                $('.tap_to_fire').css('background-position-y', '256px');
                 break;
             }
         }
@@ -127,10 +128,11 @@ define([
         e.preventDefault();
         var touches = e.changedTouches;
 
-        for (var i=0; i < touches.length; i++) {
+        for (var i = 0; i < touches.length; ++i) {
             if (firstFinderIdentifier == touches[i].identifier) {
                 firstFinderIdentifier = null;
                 server.send(JSON.stringify({ action: 'stop_fire' }));
+                $('.tap_to_fire').css('background-position-y', '0');
                 break;
             }
         }
