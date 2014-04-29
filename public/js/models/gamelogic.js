@@ -46,7 +46,6 @@ define([
 		spacebarButtonPressed: false,
 		tilt: 0,
 		autoFire: true,
-		bossUnleashed: false,
 		soundFactory: new SoundFactory(),
 		initialize: function () {
 		},
@@ -61,6 +60,7 @@ define([
 			this.scores = 1;
 			this.timer = 0;
 			this.soundFactory.playBackgroundMusic();
+			this.bossUnleashed = false;
 			bombs.reset();
 			stones.reset();
 			slugs.reset();
