@@ -117,7 +117,7 @@ define([
 			}
 			if (this.timer % 800 == 0 ) {
 				var powerup = new PowerupUnit(this);	
-				powerup.x = this.random(0, this.canvasWidth - powerup.width);
+				powerup.x = this.random(powerup.deviation_x_max, this.canvasWidth - powerup.width - powerup.deviation_x_max);
 				powerups.add(powerup);		
 			}
 		},		
