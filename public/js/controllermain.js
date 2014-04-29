@@ -101,7 +101,8 @@ define([
     init();
 
     var lastTiltUpdate;
-    var firstFinderIdentifier = null;
+    var lastTiltValue;
+    var firstFinderIdentifier;
 
     window.addEventListener('touchstart', function(e) {
         if (!connected) {
@@ -156,7 +157,14 @@ define([
             angle *= max_angle / Math.abs(angle);
         }
 
-        server.send(JSON.stringify({ action: 'tilt', value: angle / max_angle }));
+        var tilt = Math.round(100 * angle / max_angle) / 100;
+
+        if (lastTiltValue != null && tilt == lastTiltValue) {
+            return;
+        }
+
+        server.send(JSON.stringify({ action: 'tilt', value: tilt }));
         lastTiltUpdate = new Date().getTime();
+        lastTiltValue = tilt;
     });
 });
