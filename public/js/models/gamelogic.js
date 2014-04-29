@@ -46,6 +46,7 @@ define([
 		spacebarButtonPressed: false,
 		tilt: 0,
 		autoFire: true,
+		bossUnleashed: false,
 		soundFactory: new SoundFactory(),
 		initialize: function () {
 		},
@@ -86,7 +87,8 @@ define([
 		moveGameModels: function() {
 			if (this.playerUnit.hp > 0) 
 				this.playerUnit.move();
-			this.bossUnit.move();
+			if (this.bossUnleashed)
+				this.bossUnit.move();
 
 			bombs.forEach(function(bomb) {
 				bomb.move();
@@ -120,7 +122,11 @@ define([
 				powerup.x = this.random(powerup.deviation_x_max, this.canvasWidth - powerup.width - powerup.deviation_x_max);
 				powerups.add(powerup);		
 			}
-		},		
+
+			if (this.scores > 1 && !this.bossUnleashed) {
+				this.bossUnit.unleash();				
+			}
+		},
 		random: function(min, max) {
 			return Math.random() * (max - min) + min;
 		},
@@ -155,11 +161,13 @@ define([
 				}, this);				
 			}, this);			
 
+
 			slugs.forEach(function(slug) {
-				if(this.intersects(slug,this.bossUnit)) {
-					this.bossUnit.hit(slug.power);
-					slugs.remove(slug);
-				}
+				if (this.bossUnleashed)
+					if(this.intersects(slug,this.bossUnit)) {
+						this.bossUnit.hit(slug.power);
+						slugs.remove(slug);
+					}
 
 				powerups.forEach(function(powerup) {
 					if(this.intersects(powerup,slug)) {

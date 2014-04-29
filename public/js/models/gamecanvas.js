@@ -80,7 +80,8 @@
 				slug.draw(ctx);
 			});
 
-			gamelogic.bossUnit.draw(ctx);
+			if (gamelogic.bossUnleashed)
+				gamelogic.bossUnit.draw(ctx);
 
 			effects.forEach(function(effect) {				
 				effect.draw(ctx);

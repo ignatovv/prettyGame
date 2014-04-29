@@ -27,14 +27,26 @@ define([
     		BossUnit.__super__.initialize(gamelogic, this);
             this.image = BossUnit.image;
     	},
-		move: function() {		
-			this.x = (this.movingRight) ? this.x + this.speed : this.x - this.speed;
-			
-            if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0) {
-                this.movingRight = !this.movingRight;
-            }
+        unleash: function() {
+            this.gamelogic.bossUnleashed = true;
+            this.x = (this.gamelogic.canvasWidth - this.width) / 2;
+            this.y = - this.height;            
+        },
+		move: function() {	
 
-            this.throwBombIfNeeded();
+            if (this.y < 0) {
+                if(this.gamelogic.timer % 2)
+                    ++this.y;
+            }
+            else {
+    			this.x = (this.movingRight) ? this.x + this.speed : this.x - this.speed;
+    			
+                if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0) {
+                    this.movingRight = !this.movingRight;
+                }
+
+                this.throwBombIfNeeded();
+            }
 		},
         hit: function(power) {
             this.hp = this.hp - power;
