@@ -8,7 +8,8 @@ require.config({
         anim: "lib/animation",
         Connector: "lib/Connector",
         FnQuery: "lib/FnQuery",
-        "socket.io": "/socket.io/socket.io"
+        "socket.io": "/socket.io/socket.io",
+        Modernizr: "lib/modernizr"
     },
     shim: {
         'backbone': {
@@ -23,6 +24,9 @@ require.config({
         },
         "socket.io": {
             exports: "io"
+        },
+        'Modernizr': {
+            exports: "Modernizr"
         }
     }
 });

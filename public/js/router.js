@@ -1,6 +1,7 @@
 define([
 	'backbone',
 	'underscore',
+	'Modernizr',
 	'views/viewManager',
 	'views/main',
 	'views/game',
@@ -10,6 +11,7 @@ define([
 ], function(
 	Backbone,
 	underscore,
+	Modernizr,
 	viewManager,
 	mainView,
 	gameView,
@@ -19,7 +21,7 @@ define([
 ){
 
     var Router = Backbone.Router.extend({
-    	isChrome: false,
+    	isCapable: false,
         routes: {
             'scoreboard': 'scoreboardAction',
             'scoreboard?limit=:limit': 'scoreboardAction',
@@ -34,7 +36,7 @@ define([
 				return;
 			}
 
-			this.isChrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase());
+			this.isCapable = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) && Modernizr.canvas && Modernizr.websockets;
 
 			viewManager.addView(mainView);
 			viewManager.addView(gameView);
@@ -43,7 +45,7 @@ define([
 			viewManager.addView(loadingView);
         },
         defaultActions: function () {
-			if (!this.isChrome) {
+			if (!this.isCapable) {
 				notSupportedView.show();
 				return;
 			}
@@ -51,7 +53,7 @@ define([
 			mainView.show();
         },
         gameAction: function () {
-        	if (!this.isChrome) {
+        	if (!this.isCapable) {
 				notSupportedView.show();
 				return;
 			}
@@ -59,7 +61,7 @@ define([
             gameView.show();
         },
 		scoreboardAction: function (limit) {
-			if (!this.isChrome) {
+			if (!this.isCapable) {
 				notSupportedView.show();
 				return;
 			}
