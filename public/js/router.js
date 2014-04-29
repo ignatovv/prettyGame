@@ -6,8 +6,7 @@ define([
 	'views/game',
 	'views/scoreboard',
 	'views/notsupported',
-	'views/loading',
-	'modernizr'
+	'views/loading'
 ], function(
 	Backbone,
 	underscore,
@@ -16,8 +15,7 @@ define([
 	gameView,
 	scoreboardView,
 	notSupportedView,
-	loadingView,
-	Modernizr
+	loadingView
 ){
 
     var Router = Backbone.Router.extend({

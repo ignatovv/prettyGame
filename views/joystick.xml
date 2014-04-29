@@ -10,7 +10,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="mobile-web-app-capable" content="yes" />
 	</head>
-	<body style="-moz-user-select: none; -webkit-user-select: none; background: black; height: 100%;">
+	<body style="-moz-user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; background: black; height: 100%;">
 		<div class="authorization" style="text-align: center; display: none;">
 			<div style="color: #ddfefd; font: 26px Courier New;">
 				Enter game session token
@@ -23,25 +23,27 @@
 			</div>
 		</div>
 
-		<table class="controller" cellspacing="0" cellpadding="0" style="width: 100%; height: 100%; display: none;">
-			<tr>
-				<td style="vertical-align: middle; padding-left: 20px;">
-					<img src="/images/rotate_left.png" />
-				</td>
-				<td style="width: 100%; text-align: center; vertical-align: middle;">
-					<img src="/images/tap_to_fire.png" />
-					<div style="color: #ddfefd; font: 26px Courier New; margin-top: 50px;">
-						Rotate your device to move left or right
-					</div>
-					<div style="color: #ddfefd; font: 26px Courier New;">
-						Tap the screen to fire
-					</div>
-				</td>
-				<td style="vertical-align: middle; padding-right: 20px;">
-					<img src="/images/rotate_right.png" />
-				</td>
-			</tr>
-		</table>
+		<div class="controller" style="width: 100%; height: 100%; display: none;">
+			<table cellspacing="0" cellpadding="0" style="width: 100%; height: 100%;">
+				<tr>
+					<td style="vertical-align: middle; padding-left: 20px;">
+						<img src="/images/rotate_left.png" />
+					</td>
+					<td style="width: 100%; text-align: center; vertical-align: middle;">
+						<img src="/images/tap_to_fire.png" />
+						<div style="color: #ddfefd; font: 26px Courier New; margin-top: 50px;">
+							Rotate your device to move left or right
+						</div>
+						<div style="color: #ddfefd; font: 26px Courier New;">
+							Tap the screen to fire
+						</div>
+					</td>
+					<td style="vertical-align: middle; padding-right: 20px;">
+						<img src="/images/rotate_right.png" />
+					</td>
+				</tr>
+			</table>
+		</div>
 
 		<script data-main="/js/controllermain" src="/js/lib/require.js"></script>
 	</body>

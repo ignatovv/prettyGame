@@ -28,7 +28,7 @@ define([
 ], function(
     Connector
 ){
-    var start, init, reconnect;
+    var start, init, reconnect, connected;
 
     // Создаем связь с сервером
     var server = new Connector({
@@ -43,6 +43,7 @@ define([
         if (!localStorage.getItem('playerguid')) {
             $(".authorization").show();
             $(".controller").hide();
+            connected = false;
             // Ждем ввода токена
             $('#connect').on('click', function() {
                 // И отправляем его на сервер
@@ -86,6 +87,7 @@ define([
         localStorage.setItem('playerguid', guid);
         $(".authorization").hide();
         $(".controller").show();
+        connected = true;
     };
 
     server.on('reconnect', reconnect);
@@ -98,26 +100,39 @@ define([
 
     init();
 
-    var shoot = "STOP_FIRE";
     var lastTiltUpdate;
+    var firstFinderIdentifier = null;
 
-    window.addEventListener('click', function (event) {
-        if (shoot != 'FIRE') {
-            server.send(JSON.stringify({ action: 'fire' }));
-            shoot = 'FIRE';
+    window.addEventListener('touchstart', function(e) {
+        if (!connected) {
+            return;
         }
-        server.send(JSON.stringify({ action: 'fire' }));
-    });
-    window.addEventListener('touchstart', function (event) {
-        if (shoot != 'FIRE') {
-            server.send(JSON.stringify({ action: 'fire' }));
-            shoot = 'FIRE';
+
+        e.preventDefault();
+        var touches = e.changedTouches;
+
+        for (var i=0; i < touches.length; i++) {
+            if (!firstFinderIdentifier) {
+                firstFinderIdentifier = touches[i].identifier;
+                server.send(JSON.stringify({ action: 'fire' }));
+                break;
+            }
         }
     });
-    window.addEventListener('touchend', function (event) {
-        if (shoot != 'STOP_FIRE') {
-            server.send(JSON.stringify({ action: 'stop_fire' }));
-            shoot = 'STOP_FIRE';
+    window.addEventListener('touchend', function(e) {
+        if (!connected) {
+            return;
+        }
+
+        e.preventDefault();
+        var touches = e.changedTouches;
+
+        for (var i=0; i < touches.length; i++) {
+            if (firstFinderIdentifier == touches[i].identifier) {
+                firstFinderIdentifier = null;
+                server.send(JSON.stringify({ action: 'stop_fire' }));
+                break;
+            }
         }
     });
     window.addEventListener('deviceorientation', function(e) {
