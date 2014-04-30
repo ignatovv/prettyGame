@@ -63,8 +63,7 @@
             
             this.drawBackground(ctx);
 
-			if (gamelogic.playerUnit.hp > 0)
-				gamelogic.playerUnit.draw(ctx);
+			gamelogic.playerUnit.draw(ctx);
 
 			gamelogic.stones.forEach(function(stone) {				
 				stone.draw(ctx);
@@ -80,8 +79,7 @@
 				slug.draw(ctx);
 			});
 
-			if (gamelogic.bossUnleashed && gamelogic.bossUnit.hp > 0)
-				gamelogic.bossUnit.draw(ctx);
+			gamelogic.bossUnit.draw(ctx);
 
 			effects.forEach(function(effect) {				
 				effect.draw(ctx);

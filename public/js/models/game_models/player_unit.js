@@ -121,7 +121,11 @@ define([
             var height = 66;
             
             return y >= height * (1 - 2 * x / width) && y >= height * (2 * x / width - 1) && y <= 2 + height;
-        }
+        },
+        draw: function(ctx) {
+            if (this.hp > 0)
+            ctx.drawImage(this.image, this.width * this.currentFrame, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        }        
     }, {
         image: new Image(),
         loadImage: function() {

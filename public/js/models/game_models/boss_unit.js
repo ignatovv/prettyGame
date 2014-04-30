@@ -21,13 +21,16 @@ define([
         timeSinceLastBlast:0,
         timer: 0,        
         hp: 0,
-        max_hp: 99,
+        max_hp: 19,
         blasts: 0,
         speed: 5,
         basted: false,
+        damaged: false,
+        damagedImage: new Image(),
     	initialize: function(gamelogic) {
     		BossUnit.__super__.initialize(gamelogic, this);
             this.image = BossUnit.image;
+            this.damagedImage = BossUnit.damagedImage;
             this.hp = this.max_hp;
     	},
         unleash: function() {            
@@ -36,6 +39,8 @@ define([
         },
 		move: function() {	
 
+            if(this.damaged && this.gamelogic.timer % 3 == 0) 
+                this.damaged = false;
 
             if (this.y < 0) {
                 if(this.gamelogic.timer % 5 == 0)
@@ -62,21 +67,24 @@ define([
             }        
 		},
         hit: function(power) {
-            this.hp = this.hp - power;
+            this.damaged = true;
+            this.gamelogic.soundFactory.playHit(); 
 
-            this.gamelogic.soundFactory.playHit();            
-            if (this.hp % 10 == 0) {
-                --this.hp;
-                this.gamelogic.scores = this.gamelogic.scores + 10;
-            
-                var blastUnit = new BlastUnit(this.gamelogic);
-                blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;
-                blastUnit.y = this.y;
-                this.blasts = this.blasts + 4;
+            if(this.y >= 0) {
+                this.hp = this.hp - power;                       
+                if (this.hp % 10 == 0) {
+                    --this.hp;
+                    this.gamelogic.scores = this.gamelogic.scores + 10;
                 
-                this.gamelogic.soundFactory.playBlastShoot();
-                this.timeSinceLastBlast = 0;
-                this.trigger('bomb_dropped', blastUnit);   
+                    var blastUnit = new BlastUnit(this.gamelogic);
+                    blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;
+                    blastUnit.y = this.y;
+                    this.blasts = this.blasts + 4;
+                    
+                    this.gamelogic.soundFactory.playBlastShoot();
+                    this.timeSinceLastBlast = 0;
+                    this.trigger('bomb_dropped', blastUnit);   
+                }
             }
         },
         throwBombIfNeeded: function() {
@@ -108,12 +116,22 @@ define([
         },
         contains: function() {
             return true;
+        },
+        draw: function(ctx) {
+            if (this.gamelogic.bossUnleashed && this.hp > 0) {
+                if (!this.damaged)
+                    ctx.drawImage(this.image, this.width * this.currentFrame, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+                else
+                    ctx.drawImage(this.damagedImage, this.width * this.currentFrame, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+            }
         }
 
     }, {
         image: new Image(),
+        damagedImage: new Image(),
         loadImage: function() {
             this.image.src = "/images/boss.png";
+            this.damagedImage.src = "/images/boss_damaged.png";
         }
     });
 

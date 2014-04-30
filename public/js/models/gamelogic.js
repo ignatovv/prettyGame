@@ -128,7 +128,7 @@ define([
 				powerups.add(powerup);		
 			}
 
-			if (this.scores > 50  && !this.bossUnleashed) {	
+			if (this.scores > 5  && !this.bossUnleashed) {	
 				this.bossUnleashed = true;			
 				this.bossUnit.unleash();				
 				this.soundFactory.stopBackgroundMusic();
