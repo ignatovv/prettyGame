@@ -21,10 +21,10 @@ define([
         timeSinceLastBlast:0,
         timer: 0,        
         hp: 0,
-        max_hp: 19,
+        max_hp: 49,
         blasts: 0,
         speed: 5,
-        basted: false,
+        busted: false,
         damaged: false,
         damagedImage: new Image(),
     	initialize: function(gamelogic) {
@@ -57,12 +57,13 @@ define([
                     this.throwBombIfNeeded();
                 }
             }
-            else if (this.hp < 0 && !this.basted) {
+            else if (this.hp <= 0 && !this.busted) {
                 this.gamelogic.soundFactory.stopBossMusic();
                 this.gamelogic.soundFactory.playEndingMusic();
-                this.gamelogic.tactsAfterGameOver = 400;
+                this.gamelogic.tactsAfterGameOver = 200;
                 this.gamelogic.gameOver = true;
-                this.basted = true;  
+                this.busted = true;  
+                this.gamelogic.scores += 50;
                 this.gamelogic.soundFactory.playExplosion();          
             }        
 		},
@@ -71,10 +72,10 @@ define([
             this.gamelogic.soundFactory.playHit(); 
 
             if(this.y >= 0) {
-                this.hp = this.hp - power;                       
-                if (this.hp % 10 == 0) {
+                this.hp -= power;                       
+                if (this.hp % 10 == 0 && this.hp > 0) {
                     --this.hp;
-                    this.gamelogic.scores = this.gamelogic.scores + 10;
+                    this.gamelogic.scores += 10;
                 
                     var blastUnit = new BlastUnit(this.gamelogic);
                     blastUnit.x = this.x + this.width / 2 - blastUnit.width / 2;

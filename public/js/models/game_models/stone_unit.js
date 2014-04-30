@@ -11,22 +11,32 @@ define([
     stones,
     effects
 ){
-    var StoneUnit = GameModel.extend({    
-        y: -50,
+    var StoneUnit = GameModel.extend({            
         width: 48,
         height: 50,
+        y: 0,
         hp: 3,
         speed: 3,
         power: 2,
         initialize: function(gamelogic) {     
             StoneUnit.__super__.initialize(gamelogic, this);
-            this.image = StoneUnit.image;
+            this.image = StoneUnit.image;   
+            this.y = - this.height;         
         },
-        move: function() {            
-            this.y += this.speed;
+        move: function() {    
+            if(this.gamelogic.bossUnleashed) {        
+                this.y += this.speed;
 
-            if (this.y > this.gamelogic.canvasHeight) {           
-                stones.remove(this);
+                if (this.y > this.gamelogic.canvasHeight) {           
+                    stones.remove(this);
+                }
+            }
+            else {
+                this.y += this.speed * 2;
+
+                if (this.y > this.gamelogic.canvasHeight) {           
+                    stones.remove(this);
+                }
             }
         },
         hit: function(power) {

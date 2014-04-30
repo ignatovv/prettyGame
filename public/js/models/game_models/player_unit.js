@@ -95,8 +95,13 @@ define([
         },
         getPowerup: function(){
             this.gamelogic.soundFactory.playPowerUp();
-            this.powerups = "triple_shot";
-            this.powerup_timer = 200;
+            if (this.gamelogic.timer % 2) {
+                this.powerups = "triple_shot";
+                this.powerup_timer = 200;
+            }
+            else 
+                this.hp = this.max_hp;
+            
         },
         hit: function(power) {
             this.hp -= power;

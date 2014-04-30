@@ -10,6 +10,7 @@
 	'models/game_models/clever_bomb_unit',
 	'models/game_models/powerup_unit',	
 	'models/game_models/explosion_unit',
+	'models/game_models/enemy_unit',
 	'collections/effects'
 ], function(
     Backbone,
@@ -23,6 +24,7 @@
 	CleverBombUnit,
 	PowerupUnit,
 	ExplosionUnit,
+	EnemyUnit,
 	effects
 ){
     var Canvas = Backbone.Model.extend({	
@@ -55,6 +57,7 @@
         	CleverBombUnit.loadImage();
         	ExplosionUnit.loadImage();
         	PowerupUnit.loadImage();
+        	EnemyUnit.loadImage();
         },
         updateCanvas: function () {
             var ctx = $(".game_canvas").get(0).getContext("2d");
@@ -78,6 +81,15 @@
 			gamelogic.slugs.forEach(function(slug) {
 				slug.draw(ctx);
 			});
+
+			gamelogic.enemies.forEach(function(enemy) {
+				enemy.draw(ctx);
+			});
+
+			gamelogic.enemySlugs.forEach(function(slug) {
+				slug.draw(ctx);
+			});
+
 
 			gamelogic.bossUnit.draw(ctx);
 

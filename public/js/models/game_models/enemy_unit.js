@@ -1,32 +1,39 @@
+
 define([
 	'backbone',
 	'models/game_models/game_model',
 	'models/game_models/explosion_unit',
-	'collections/powerups',
+	'models/game_models/slug_unit',
+	'collections/enemies',
 	'collections/effects'
 ], function(
 	Backbone,
 	GameModel,
 	ExplosionUnit,
-	powerups,
+	SlugUnit,
+	enemies,
 	effects
 ){
-	var PowerupUnit = GameModel.extend({    
-		width: 42,
-		height: 41,    
-		frames: [5, 5, 5, 5, 5, 5, 5, 5],
-		hp: 2,
+	var EnemyUnit = GameModel.extend({    
+		width: 64,
+		height: 64,    
+		frames: [5, 5, 5, 5],
+		hp: 4,
 		speed_x_max: 5,
-		speed_y: 3,
+		speed_y: 0.5,
 		movingRight: true,
 		deviation_x: 0,
 		deviation_x_max: 125,
 		break_path: 50,
+		power: 3,
+		timeSinceLastShot: 0,
 		initialize: function(gamelogic) {
-			PowerupUnit.__super__.initialize(gamelogic, this);
-			this.image = PowerupUnit.image;
+			EnemyUnit.__super__.initialize(gamelogic, this);
+			this.image = EnemyUnit.image;
+			this.y = - this.height;
 		},
-		move: function() {            
+		move: function() {          
+			++this.timeSinceLastShot;
 			this.y += this.speed_y;
 			
 			var speed_x = this.speed_x();
@@ -44,8 +51,21 @@ define([
 			}
 			
 			if (this.y > this.gamelogic.canvasHeight) {  
-				powerups.remove(this);
+				enemies.remove(this);
 			}
+			this.shootIfNeeded();
+		},
+		shootIfNeeded: function() {
+			if (this.timeSinceLastShot % 40 == 0) {
+					var slugUnit = new SlugUnit(this.gamelogic);
+                    slugUnit.x = this.x + (this.width - slugUnit.width) / 2;
+                    slugUnit.y = this.y + this.height; 
+                    slugUnit.upward = false;               
+                    // slugUnit.speed_x = 5;
+
+                    this.gamelogic.soundFactory.playPlayerShoot();
+                   	this.gamelogic.addEnemySlug(slugUnit);
+			} 
 		},
 		speed_x: function() {
 			var path_left_to_reverse = this.deviation_x_max - Math.abs(this.deviation_x);
@@ -57,16 +77,17 @@ define([
 			}
 		},
 		hit: function(power) {
-			// this.hp = this.hp - power;
+			this.hp = this.hp - power;
 
-			// if (this.hp <= 0) {
-			// 	this.explode();
-			// }
+			if (this.hp <= 0) {
+				this.explode();
+			}
 		},
 		explode: function() {
 			this.gamelogic.soundFactory.playExplosion2();
-			powerups.remove(this);
+			enemies.remove(this);
 			this.gamelogic.explode(this);
+			this.gamelogic.scores += 4;
 		},
 		contains: function(canvas_x, canvas_y) {
 			return true;
@@ -74,9 +95,9 @@ define([
 	}, {
 		image: new Image(),
 		loadImage: function() {
-			this.image.src = "/images/crate.gif";
+			this.image.src = "/images/enemy_spaceship.gif";
 		}
 	});
 
-	return PowerupUnit;
+	return EnemyUnit;
 });

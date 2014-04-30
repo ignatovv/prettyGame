@@ -6,12 +6,15 @@ define([
 	'models/game_models/slug_unit',
 	'models/game_models/powerup_unit',
 	'models/game_models/explosion_unit',
+	'models/game_models/enemy_unit',
 	'models/soundfactory',
 	'collections/bombs',
 	'collections/stones',
 	'collections/slugs',
 	'collections/effects',
-	'collections/powerups'
+	'collections/powerups',
+	'collections/enemies',
+	'collections/enemy_slugs'
 ], function(
 	Backbone,
 	BossUnit,
@@ -20,12 +23,15 @@ define([
 	SlugUnit,
 	PowerupUnit,
 	ExplosionUnit,
+	EnemyUnit,
 	SoundFactory,
 	bombs,
 	stones,
 	slugs,
 	effects,
-	powerups
+	powerups,
+	enemies,
+	enemySlugs
 ){
 	var GameLogic = Backbone.Model.extend({	
 		canvasWidth: 1050,
@@ -40,6 +46,8 @@ define([
 		stones: stones,
 		slugs: slugs,
 		powerups: powerups,
+		enemies: enemies,
+		enemySlugs: enemySlugs,	
 		timer: 0,
 		leftButtonPressed: false,
 		rightButtonPressed: false,
@@ -65,6 +73,8 @@ define([
 			slugs.reset();
 			powerups.reset();
 			effects.reset();
+			enemies.reset();
+			enemySlugs.reset();
 		},
 		processGameFrame: function() {
 			if (this.gamePaused) {
@@ -91,7 +101,7 @@ define([
 
 			bombs.forEach(function(bomb) {
 				bomb.move();
-			}, this);
+			}, this);			
 
 			stones.forEach(function(stone) {
 				stone.move();
@@ -107,6 +117,14 @@ define([
 
 			effects.forEach(function(effect) {
 				effect.move();
+			}, this);
+
+			enemies.forEach(function(enemy) {
+				enemy.move();
+			}, this);
+
+			enemySlugs.forEach(function(slug) {
+				slug.move();
 			}, this);
 		},
 		processTimeEvents: function() {						
@@ -127,20 +145,25 @@ define([
 				powerup.x = this.random(powerup.deviation_x_max, this.canvasWidth - powerup.width - powerup.deviation_x_max);
 				powerups.add(powerup);		
 			}
+			if (this.timer % 300 == 0 ) {
+				var enemy = new EnemyUnit(this);	
+				// enemy.x = this.random(enemy.deviation_x_max, this.canvasWidth - enemy.width - enemy.deviation_x_max);
+				enemy.x = this.playerUnit.x;
+				enemies.add(enemy);		
+			}
 
-			if (this.scores > 5  && !this.bossUnleashed) {	
+			if (this.scores > 50  && !this.bossUnleashed) {	
 				this.bossUnleashed = true;			
 				this.bossUnit.unleash();				
 				this.soundFactory.stopBackgroundMusic();
 				this.soundFactory.playBossMusic();
 			}
 
-			if(this.bossUnit.basted && this.timer % 3 == 0) {
-			var explosionUnit = new ExplosionUnit(this);
-
-			explosionUnit.x = this.bossUnit.x + ( this.random(-this.bossUnit.width , this.bossUnit.width) + this.bossUnit.width - explosionUnit.width) / 2;
-			explosionUnit.y = this.bossUnit.y + this.random(0, this.bossUnit.height * 2 ) + (this.bossUnit.height - explosionUnit.height) / 2;			
-			effects.add(explosionUnit);
+			if(this.bossUnit.busted && this.timer % 3 == 0) {
+				var explosionUnit = new ExplosionUnit(this);
+				explosionUnit.x = this.bossUnit.x + ( this.random(-this.bossUnit.width , this.bossUnit.width) + this.bossUnit.width - explosionUnit.width) / 2;
+				explosionUnit.y = this.bossUnit.y + this.random(0, this.bossUnit.height * 2 ) + (this.bossUnit.height - explosionUnit.height) / 2;			
+				effects.add(explosionUnit);
 			}
 		},
 		random: function(min, max) {
@@ -175,11 +198,25 @@ define([
 						return;
 					}
 				}, this);				
-			}, this);			
+			}, this);		
 
+			enemies.forEach(function(enemy) {
+				if ((this.playerUnit.hp > 0) && (this.intersects(enemy, this.playerUnit))) {
+					this.playerUnit.hit(enemy.power);
+					enemy.explode();
+				}
+
+				slugs.forEach(function(slug) {
+					if(this.intersects(slug,enemy)) {	
+						enemy.hit(slug.power);
+						slugs.remove(slug);
+						return;
+					}
+				}, this);				
+			}, this);				
 
 			slugs.forEach(function(slug) {
-				if (this.bossUnleashed)
+				if (this.bossUnleashed && !this.bossUnit.busted)
 					if(this.intersects(slug,this.bossUnit)) {
 						this.bossUnit.hit(slug.power);
 						slugs.remove(slug);
@@ -200,6 +237,13 @@ define([
 					this.playerUnit.getPowerup();
 				}
 			},this);
+
+			enemySlugs.forEach(function(slug) {
+				if ((this.playerUnit.hp > 0) && (this.intersects(slug, this.playerUnit))) {
+					enemySlugs.remove(slug);
+					this.playerUnit.hit(slug.power);
+				}
+			}, this);
 
 		},
 		intersection: function(unit1, unit2) {
@@ -244,6 +288,9 @@ define([
 		},		
 		onBombDropped: function(bombUnit) {
 			bombs.add(bombUnit);
+		},
+		addEnemySlug: function(slug) {
+			enemySlugs.add(slug);
 		},
 		explode: function(unit) {
 			var explosionUnit = new ExplosionUnit(this);
