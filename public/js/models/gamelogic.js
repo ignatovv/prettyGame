@@ -145,10 +145,11 @@ define([
 				powerup.x = this.random(powerup.deviation_x_max, this.canvasWidth - powerup.width - powerup.deviation_x_max);
 				powerups.add(powerup);		
 			}
-			if (this.timer % 300 == 0 ) {
+			if (this.timer  % 200 == 0 ) {
 				var enemy = new EnemyUnit(this);	
 				// enemy.x = this.random(enemy.deviation_x_max, this.canvasWidth - enemy.width - enemy.deviation_x_max);
 				enemy.x = this.playerUnit.x;
+				enemy.deviation_x = this.random(0,enemy.deviation_x_max);
 				enemies.add(enemy);		
 			}
 

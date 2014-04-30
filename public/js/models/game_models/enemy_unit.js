@@ -34,20 +34,25 @@ define([
 		},
 		move: function() {          
 			++this.timeSinceLastShot;
-			this.y += this.speed_y;
-			
-			var speed_x = this.speed_x();
+			if(this.y < this.gamelogic.canvasHeight * 2 / 3) {
+				this.y += this.speed_y;
+				
+				var speed_x = this.speed_x();
 
-			if (this.movingRight) {
-				this.x += speed_x;
-				this.deviation_x += speed_x;
-			} else {
-				this.x -= speed_x;            
-				this.deviation_x -= speed_x;
+				if (this.movingRight) {
+					this.x += speed_x;
+					this.deviation_x += speed_x;
+				} else {
+					this.x -= speed_x;            
+					this.deviation_x -= speed_x;
+				}
+
+				if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0 || this.deviation_x_max - Math.abs(this.deviation_x) <= 1) {
+					this.movingRight = !this.movingRight;
+				}
 			}
-
-			if (this.x > this.gamelogic.canvasWidth - this.width || this.x < 0 || this.deviation_x_max - Math.abs(this.deviation_x) <= 1) {
-				this.movingRight = !this.movingRight;
+			else {
+				this.y += 3 * this.speed_y;
 			}
 			
 			if (this.y > this.gamelogic.canvasHeight) {  
