@@ -14,7 +14,8 @@ define([
 	'collections/effects',
 	'collections/powerups',
 	'collections/enemies',
-	'collections/enemy_slugs'
+	'collections/enemy_slugs',
+	'models/gameserver'
 ], function(
 	Backbone,
 	BossUnit,
@@ -31,7 +32,8 @@ define([
 	effects,
 	powerups,
 	enemies,
-	enemySlugs
+	enemySlugs,
+	GameServer
 ){
 	var GameLogic = Backbone.Model.extend({	
 		canvasWidth: 1050,
@@ -56,6 +58,7 @@ define([
 		autoFire: true,
 		soundFactory: new SoundFactory(),
 		initialize: function () {
+			this.gameServer = new GameServer(this);
 		},
 		startNewGame: function() {
 			this.gamePaused = false;

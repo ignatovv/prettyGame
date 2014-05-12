@@ -1,3 +1,4 @@
+$tip-font: 12px 'Courier New';
 $primary-font: 21px 'Courier New';
 $title-font: 36px 'Courier New';
 
@@ -79,6 +80,28 @@ body {
     height: 680px;
     position: absolute;
     z-index: 2;
+}
+
+.menu__top_tip {
+    position: relative;
+    display: none;
+}
+
+.menu__top_tip__block {
+    position: absolute;
+    top: -100px;
+    right: 50px;
+    width: 270px;
+    height: 70px;
+    background-image: url("/images/menu_token_background.png");
+    background-repeat: no-repeat;
+    font: $tip-font;
+    color: white;
+    padding-top: 4px;
+}
+
+.menu__token {
+    text-decoration: underline;
 }
 
 .scoreboard__item {

@@ -3,7 +3,6 @@ define([
     'tmpl/game',
     'models/gamecanvas',
     'models/gamelogic',
-    'models/gameserver',
     'views/gameover',
     'views/loading',
     'anim',
@@ -12,7 +11,6 @@ define([
     tmpl,
     gamecanvas,
     gamelogic,
-    gameserver,
     gameover,
     loadingView,
     anim

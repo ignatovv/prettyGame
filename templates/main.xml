@@ -4,6 +4,16 @@
             <td class="menu__left_border" width="50%"></td>
             <td class="menu__main">
                 <div class="menu__main__div">
+                    <div class="menu__top_tip">
+                        <div class="menu__top_tip__block">
+                            <div>
+                                OPEN THIS PAGE ON YOUR MOBILE DEVICE TO USE IT AS A CONTROLLER
+                            </div>
+                            <div>
+                                ACCESS TOKEN: <span class="menu__token"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="menu__title">
                         SPACECRAFT
                     </div>

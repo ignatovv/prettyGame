@@ -1,16 +1,16 @@
 define([
-    'Connector',
-    'models/gamelogic'
+    'Connector'
 ], function(
-    Connector,
-    gamelogic
+    Connector
 ){
 	var GameServer = Backbone.Model.extend({
 		server: new Connector({
 			server: ['getToken', 'bind'],
 			remote: '/console'
 		}),
-		initialize: function () {
+		initialize: function (gamelogic) {
+			this.gamelogic = gamelogic;
+
 			gs = this;
 			this.server.on('player-joined', function(data){
 				gs.start(data.guid);
@@ -26,10 +26,10 @@ define([
 			window.server = this.server;
 			this.init();
 		},
-		init: function(){
-			if (!localStorage.getItem('consoleguid')){
-				server.getToken(function(token){
-					console.log('token: ' + token);
+		init: function() {
+			if (!localStorage.getItem('consoleguid')) {
+				server.getToken(function(token) {
+					gs.gamelogic.trigger('token_generated', token);
 				});
 			} else {
 				this.reconnect();
@@ -42,7 +42,7 @@ define([
 		reconnect: function(){
 			gs = this;
 			server.bind({guid: localStorage.getItem('consoleguid')}, function(data){
-				if (data.status == 'success'){
+				if (data.status == 'success') {
 					gs.start(data.guid);
 				} else if (data.status == 'undefined guid'){
 					localStorage.removeItem('consoleguid');
@@ -56,28 +56,28 @@ define([
 			if (parsed) {
 				switch (parsed.action) {
 	            	case "fire":
-	            		gamelogic.spacebarButtonPressed = true;
+	            		this.gamelogic.spacebarButtonPressed = true;
 	            		break;
 	            	case "stop_fire":
-	            		gamelogic.spacebarButtonPressed = false;
+	            		this.gamelogic.spacebarButtonPressed = false;
 	            		break;
         			case "tilt":
-        				gamelogic.tilt = parsed.value;
+        				this.gamelogic.tilt = parsed.value;
 	            		break;
 	            	case "MOVE_RIGHT":
-	            		gamelogic.rightButtonPressed = true;
+	            		this.gamelogic.rightButtonPressed = true;
 	            		break;
 	            	case "MOVE_LEFT":
-	            		gamelogic.leftButtonPressed = true;
+	            		this.gamelogic.leftButtonPressed = true;
 	            		break;
 	            	case "STOP": 
-	            		gamelogic.rightButtonPressed = false; 
-	            		gamelogic.leftButtonPressed = false;
+	            		this.gamelogic.rightButtonPressed = false; 
+	            		this.gamelogic.leftButtonPressed = false;
 	            		break;
 	            }				
 			}
 		}
 	});
 
-	return new GameServer();
+	return GameServer;
 });

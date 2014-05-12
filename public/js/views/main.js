@@ -18,6 +18,7 @@ define([
 		},
         initialize: function () {
 			this.$el.hide();
+            gamelogic.on('token_generated', this.onTokenGenerated, this);
         },
         render: function () {
             this.$el.html(this.template());
@@ -36,6 +37,10 @@ define([
 		},
         switchSound: function() {
             gamelogic.soundFactory.set('status', !gamelogic.soundFactory.get('status'));
+        },
+        onTokenGenerated: function(token) {
+            this.$el.find(".menu__token").text(token);
+            this.$el.find(".menu__top_tip").show();
         }
     });
 
